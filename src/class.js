@@ -52,6 +52,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // 1.5. Global Student Name localStorage binding
+  const globalNameEl = document.getElementById('global-student-name');
+  if (globalNameEl) {
+    globalNameEl.value = localStorage.getItem('mycpi_student_name') || '';
+    globalNameEl.addEventListener('input', () => {
+      localStorage.setItem('mycpi_student_name', globalNameEl.value);
+    });
+  }
+
   // 2. Q&A Textareas localStorage binding
   const qItems = ['c-q1-answer', 'c-q2-answer', 'c-q3-answer', 'c-q4-answer'];
   qItems.forEach(id => {

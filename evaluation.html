@@ -35,7 +35,11 @@
             <h1>📊 My-CPI 수행평가 시뮬레이터</h1>
             <p class="subtitle"> 데이터 기반 사고력 신장</p>
           </div>
-          <a href="/" class="nav-link-btn no-print">🏫 수업 실습 페이지로 이동</a>
+          <div class="header-student-info" style="display: flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.15); padding: 0.5rem 0.8rem; border-radius: 6px; margin-left: auto;">
+              <span style="font-weight: 700; color: #fff; font-size: 0.9rem;">학번/성명:</span>
+              <input type="text" id="global-student-name" placeholder="학번 이름을 입력하세요" style="background: #fff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 0.3rem 0.6rem; font-size: 0.85rem; width: 160px; color: #1e293b;">
+          </div>
+          <a href="/" class="nav-link-btn no-print" style="margin-left: 1rem;">🏫 수업 실습 페이지로 이동</a>
         </div>
         <nav class="tab-navigation" role="tablist">
           <button class="tab-btn active" data-tab="perf1" role="tab" id="tab-perf1">
@@ -178,7 +182,7 @@
         <!-- ── 수행평가 영역 헤더 ── -->
         <div class="zone-header assessment">
           <span class="zone-badge assess-badge">🟡 수행평가 영역</span>
-          <span class="zone-desc">개별 활동지를 작성하세요. 작성 내용은 자동 저장됩니다.</span>
+          <span class="zone-desc">개별 활동지를 작성하세요. 여기서 작성한 모든 데이터와 답변은 <strong>[3차 타당성 검증 보고서]</strong>에 실시간으로 자동 기록 및 연동됩니다.</span>
           <span class="score-badge">배점 100점 · 반영비율 10%</span>
         </div>
 
@@ -401,7 +405,7 @@
         <!-- ── 수행평가 영역 헤더 ── -->
         <div class="zone-header assessment">
           <span class="zone-badge assess-badge">🟡 수행평가 영역</span>
-          <span class="zone-desc">개별 활동지를 작성하세요. 작성 내용은 자동 저장됩니다.</span>
+          <span class="zone-desc">개별 활동지를 작성하세요. 여기서 작성한 모든 데이터와 답변은 <strong>[3차 타당성 검증 보고서]</strong>에 실시간으로 자동 기록 및 연동됩니다.</span>
           <span class="score-badge">배점 100점 · 반영비율 10%</span>
         </div>
 
@@ -566,6 +570,10 @@
             <button type="button" id="btn-export-pdf" class="btn-primary">
               🖨️ 보고서 인쇄 / PDF 저장
             </button>
+            <button type="button" id="btn-submit-db" class="btn-primary" style="margin-top: 0.5rem; background-color: #10b981;">
+              💾 서버에 최종 제출하기
+            </button>
+            <div id="submit-status" style="margin-top: 0.5rem; font-size: 0.85rem; font-weight: bold; text-align: center; color: var(--slate-600);"></div>
           </aside>
 
           <!-- 우측: 최종 보고서 (수행평가 영역) -->

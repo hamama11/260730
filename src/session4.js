@@ -1,4 +1,5 @@
 import { cpiCategories } from './session1.js';
+import { submitStudentData, checkExistingSubmission, updateStudentData } from './firebase.js';
 
 const STORAGE_KEY = 'mycpi_s4_state';
 
@@ -13,7 +14,7 @@ const saved = loadState();
 
 export const session4State = {
   sd:          saved.sd,
-  studentName: saved.studentName,
+  studentName: localStorage.getItem('mycpi_student_name') || saved.studentName || '',
   q3Answer:    saved.q3Answer,
 };
 
@@ -45,14 +46,25 @@ export function initSession4(onStateChange) {
     updateScenarios();
   });
 
-  // 성명 입력
+  // 성명 입력 (헤더의 global-student-name과 보고서의 student-name 동기화)
   const nameInput = document.getElementById('student-name');
+  const globalNameEl = document.getElementById('global-student-name');
+
+  const updateStudentName = (val) => {
+    session4State.studentName = val;
+    localStorage.setItem('mycpi_student_name', val);
+    if (nameInput) nameInput.value = val;
+    if (globalNameEl) globalNameEl.value = val;
+    saveState();
+  };
+
   if (nameInput) {
     nameInput.value = session4State.studentName;
-    nameInput.addEventListener('input', e => {
-      session4State.studentName = e.target.value;
-      saveState();
-    });
+    nameInput.addEventListener('input', e => updateStudentName(e.target.value));
+  }
+  if (globalNameEl) {
+    globalNameEl.value = session4State.studentName;
+    globalNameEl.addEventListener('input', e => updateStudentName(e.target.value));
   }
 
   // Q3 답변
@@ -60,6 +72,76 @@ export function initSession4(onStateChange) {
 
   // 인쇄 버튼
   document.getElementById('btn-export-pdf')?.addEventListener('click', () => window.print());
+
+  // 최종 제출 버튼
+  const btnSubmitDb = document.getElementById('btn-submit-db');
+  const statusEl = document.getElementById('submit-status');
+  btnSubmitDb?.addEventListener('click', async () => {
+    if (!session4State.studentName || !session4State.studentName.trim()) {
+      alert("성명(이름)을 입력한 후 제출해 주세요.");
+      return;
+    }
+
+    try {
+      btnSubmitDb.disabled = true;
+      if (statusEl) {
+        statusEl.textContent = "⏳ 서버에 제출 중...";
+        statusEl.style.color = "#3b82f6";
+      }
+
+      // Collect all student data
+      const submissionData = {
+        studentName: session4State.studentName,
+        weights: _s1 ? _s1.weights : null,
+        myCpi: _s1 ? _s1.myCpi : 0,
+        officialCpi: _s1 ? _s1.officialCpi : 0,
+        simpleAverageCpi: _s1 ? _s1.simpleAverageCpi : 0,
+        outlierMethod: _s2 ? _s2.outlierMethod : 'none',
+        skewness: _s2 ? _s2.skewness : 0,
+        rate: _s3 ? _s3.rate : 3.4,
+        years: _s3 ? _s3.years : 20,
+        sd: session4State.sd,
+        answers: {
+          q1_1: localStorage.getItem('mycpi_q1-1-answer') || '',
+          q1_2: localStorage.getItem('mycpi_q1-2-answer') || '',
+          q2_1: localStorage.getItem('mycpi_q2-1-answer') || '',
+          q2_2: localStorage.getItem('mycpi_q2-2-answer') || '',
+          q3_final: session4State.q3Answer || ''
+        }
+      };
+
+      // Check for duplicate submission
+      const existingDocId = await checkExistingSubmission(session4State.studentName);
+      let docId;
+      if (existingDocId) {
+        const overwrite = confirm(`이미 '${session4State.studentName}' 이름으로 제출된 보고서가 존재합니다. 기존 제출 내용을 새로운 답변으로 덮어쓰시겠습니까?`);
+        if (!overwrite) {
+          btnSubmitDb.disabled = false;
+          if (statusEl) {
+            statusEl.textContent = "";
+          }
+          return;
+        }
+        docId = await updateStudentData(existingDocId, submissionData);
+      } else {
+        docId = await submitStudentData(submissionData);
+      }
+      
+      if (statusEl) {
+        statusEl.textContent = "✅ 제출 완료! (ID: " + docId.substring(0, 6) + ")";
+        statusEl.style.color = "#10b981";
+      }
+      alert("성공적으로 서버에 제출되었습니다!");
+    } catch (error) {
+      console.error(error);
+      btnSubmitDb.disabled = false;
+      if (statusEl) {
+        statusEl.textContent = "❌ 제출 실패. 다시 시도해 주세요.";
+        statusEl.style.color = "#ef4444";
+      }
+      alert("제출에 실패했습니다. Firebase Config 설정 및 네트워크 연결을 확인해 주세요.");
+    }
+  });
 
   // 오늘 날짜
   const dateEl = document.getElementById('report-date');

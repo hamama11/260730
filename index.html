@@ -38,7 +38,11 @@
                         <h1>🏫 My-CPI 수업 실습 페이지</h1>
                         <p class="subtitle">데이터 기반 사고력 신장을 위한 통계 수업 자료실</p>
                     </div>
-                    <a href="/evaluation.html" class="nav-link-btn">📝 수행평가 제출 페이지로 이동</a>
+                    <div class="header-student-info" style="display: flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.15); padding: 0.5rem 0.8rem; border-radius: 6px; margin-left: auto;">
+                        <span style="font-weight: 700; color: #fff; font-size: 0.9rem;">학번/성명:</span>
+                        <input type="text" id="global-student-name" placeholder="학번 이름을 입력하세요" style="background: #fff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 0.3rem 0.6rem; font-size: 0.85rem; width: 160px; color: #1e293b;">
+                    </div>
+                    <a href="/evaluation.html" class="nav-link-btn" style="margin-left: 1rem;">📝 수행평가 제출 페이지로 이동</a>
                 </div>
                 <nav class="tab-navigation" role="tablist">
                     <button class="tab-btn active" data-tab="class0" role="tab" id="tab-class0">
@@ -98,7 +102,7 @@
                             
                             <!-- 1단계: 품목 및 가중치 설정 -->
                             <div style="padding: 1.25rem; background: var(--slate-50); border-radius: 8px; border: 1px solid var(--slate-200); border-left: 4px solid var(--primary);">
-                                <strong style="font-size: 1rem; color: var(--navy); display: block; margin-bottom: 0.5rem;">1단계: 조사 대상 품목 및 가중치 설정 (Consumer Basket)</strong>
+                                <strong style="font-size: 1rem; color: var(--navy); display: block; margin-bottom: 0.5rem;">1단계: 조사 대상 품목 및 가중치 설정 (Consumer Basket) <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서</span><span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.25rem; background: #f3e8ff; color: #6b21a8; vertical-align: middle;">교과서 외 실습</span></strong>
                                 <p style="font-size: 0.85rem; color: var(--slate-600); margin-bottom: 1rem;">
                                     모든 상품의 가격을 조사할 수 없으므로 대표성이 있는 품목을 선정합니다. 가계 소비 지출에서 차지하는 비중을 가중치($w_i$, 1000분율)로 계산합니다. 아래 품목의 기준가격($P_0$)과 기준물량($Q_0$)을 조절하여 실시간 가중치 변화를 관찰하세요.
                                 </p>
@@ -160,7 +164,7 @@
  
                             <!-- 2단계: 기준연도 설정 -->
                             <div style="padding: 1.25rem; background: var(--slate-50); border-radius: 8px; border: 1px solid var(--slate-200); border-left: 4px solid var(--primary);">
-                                <strong style="font-size: 1rem; color: var(--navy); display: block; margin-bottom: 0.5rem;">2단계: 기준연도 설정 (Base Year)</strong>
+                                <strong style="font-size: 1rem; color: var(--navy); display: block; margin-bottom: 0.5rem;">2단계: 기준연도 설정 (Base Year) <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서</span></strong>
                                 <p style="font-size: 0.85rem; color: var(--slate-600); margin-bottom: 0.75rem;">
                                     비교의 기준이 되는 시점을 정합니다. 보통 5년 주기로 개편하며, 이때의 물가 수준을 100으로 고정합니다. (현재 한국의 기준연도는 2020년입니다.)
                                 </p>
@@ -171,7 +175,7 @@
  
                             <!-- 3단계: 가격 조사 -->
                             <div style="padding: 1.25rem; background: var(--slate-50); border-radius: 8px; border: 1px solid var(--slate-200); border-left: 4px solid var(--primary);">
-                                <strong style="font-size: 1rem; color: var(--navy); display: block; margin-bottom: 0.5rem;">3단계: 가격 조사 (Price Survey)</strong>
+                                <strong style="font-size: 1rem; color: var(--navy); display: block; margin-bottom: 0.5rem;">3단계: 가격 조사 (Price Survey) <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서</span></strong>
                                 <p style="font-size: 0.85rem; color: var(--slate-600); margin-bottom: 1rem;">
                                     정기적으로 전국 주요 도시의 상점에서 실제 거래되는 현재 가격($P_t$) 데이터를 수집합니다. 아래 슬라이더를 통해 각 품목의 현재 가격을 변동시켜 보세요.
                                 </p>
@@ -197,7 +201,7 @@
  
                             <!-- 4단계: 지수 산출 -->
                             <div style="padding: 1.25rem; background: var(--slate-50); border-radius: 8px; border: 1px solid var(--slate-200); border-left: 4px solid var(--primary);">
-                                <strong style="font-size: 1rem; color: var(--navy); display: block; margin-bottom: 0.5rem;">4단계: 지수 산출 (Index Calculation)</strong>
+                                <strong style="font-size: 1rem; color: var(--navy); display: block; margin-bottom: 0.5rem;">4단계: 지수 산출 (Index Calculation) <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서</span><span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.25rem; background: #f3e8ff; color: #6b21a8; vertical-align: middle;">교과서 외 수식</span></strong>
                                 <p style="font-size: 0.85rem; color: var(--slate-600); margin-bottom: 0.75rem;">
                                     기준량($Q_0$)을 가중치로 한 라스파이레스 공식을 사용하여 현재 시점의 종합 소비자물가지수(CPI)를 실시간 계산합니다.
                                 </p>
@@ -215,7 +219,7 @@
  
                             <!-- 5단계 및 유의사항 -->
                             <div style="padding: 1.25rem; background: var(--slate-50); border-radius: 8px; border: 1px solid var(--slate-200); border-left: 4px solid var(--primary);">
-                                <strong style="font-size: 1rem; color: var(--navy); display: block; margin-bottom: 0.5rem;">5단계: 분석 및 공표 (Analysis &amp; Publication)</strong>
+                                <strong style="font-size: 1rem; color: var(--navy); display: block; margin-bottom: 0.5rem;">5단계: 분석 및 공표 (Analysis &amp; Publication) <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서</span></strong>
                                 <p style="font-size: 0.85rem; color: var(--slate-600); margin-bottom: 0.75rem;">
                                     산출된 데이터를 전월 대비(MoM), 전년 동월 대비(YoY) 등으로 분석하여 매월 초에 발표합니다. 이 지표는 통화 정책, 임금 협상, 연금 조정 등의 기초 자료로 활용됩니다.
                                 </p>
@@ -258,7 +262,7 @@
                 <div class="card concept-card" style="margin-bottom: 1.5rem;">
                     <div class="concept-header">
                         <span class="concept-badge">💡 도입</span>
-                        <h3>생각 열기 (3분 워밍업)</h3>
+                        <h3>생각 열기 (3분 워밍업) <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서</span></h3>
                     </div>
                     <div class="concept-body">
                         <p><strong>교과서 연계 단원:</strong> Ⅰ-2-01. 자료의 종류 (구간척도로서의 물가지수), Ⅱ-1-02. 자료의 분포 (평균의 함정)<br>
@@ -283,7 +287,7 @@
                 <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--info);">
                     <div class="concept-header">
                         <span class="concept-badge" style="background:#e0f2fe; color:#0369a1;">🧮 핵심 수식</span>
-                        <h3>가중평균 물가지수 산출 수식</h3>
+                        <h3>가중평균 물가지수 산출 수식 <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #f3e8ff; color: #6b21a8; vertical-align: middle;">교과서 외</span></h3>
                     </div>
                     <div class="concept-body" style="text-align: center; padding: 1.25rem; background: var(--slate-50); border-radius: 8px;">
                         <p style="font-size: 1.15rem; margin-bottom: 0.6rem; color: var(--navy);">
@@ -302,7 +306,7 @@
                 <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--primary);">
                     <div class="concept-header">
                         <span class="concept-badge practice">⚙️ 전개 (실습)</span>
-                        <h3>개념 탐구 및 My-CPI 산출 (35분)</h3>
+                        <h3>개념 탐구 및 My-CPI 산출 (35분) <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #f3e8ff; color: #6b21a8; vertical-align: middle;">교과서 외</span></h3>
                     </div>
                     <p class="card-desc">학생들은 자신의 실제 한 달 소비 지출 장부를 작성하여 식비, 문화생활비, 학업비 등으로 항목을 분류하고 가중치($w_i$)를 직접 조절하여 <strong>My-CPI(나만의 물가지수)</strong>를 계산합니다.</p>
 
@@ -393,7 +397,7 @@
                 <div class="card concept-card" style="margin-bottom: 1.5rem;">
                     <div class="concept-header">
                         <span class="concept-badge">💡 도입</span>
-                        <h3>생각 열기 (3분 워밍업)</h3>
+                        <h3>생각 열기 (3분 워밍업) <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서</span></h3>
                     </div>
                     <div class="concept-body">
                         <p><strong>교과서 연계 단원:</strong> Ⅱ-1-02. 자료의 분포 (대푯값의 선택), Ⅱ-1-03. 상자그림 (특이점 판별식)<br>
@@ -410,7 +414,7 @@
                 <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--info);">
                     <div class="concept-header">
                         <span class="concept-badge" style="background:#e0f2fe; color:#0369a1;">🧮 핵심 수식</span>
-                        <h3>이상치 판별식 및 왜곡도 공식</h3>
+                        <h3>이상치 판별식 및 왜곡도 공식 <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서 (이상치)</span><span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.25rem; background: #f3e8ff; color: #6b21a8; vertical-align: middle;">교과서 외 (왜곡도)</span></h3>
                     </div>
                     <div class="concept-body" style="text-align: center; padding: 1.25rem; background: var(--slate-50); border-radius: 8px;">
                         <p style="font-size: 1.15rem; margin-bottom: 0.6rem; color: var(--navy);">
@@ -432,7 +436,7 @@
                 <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--primary);">
                     <div class="concept-header">
                         <span class="concept-badge practice">⚙️ 전개 (실습)</span>
-                        <h3>상자그림을 통한 이상치 필터링 및 대푯값 결정 (35분)</h3>
+                        <h3>상자그림을 통한 이상치 필터링 및 대푯값 결정 (35분) <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서 (상자그림/대표값)</span><span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.25rem; background: #f3e8ff; color: #6b21a8; vertical-align: middle;">교과서 외 (왜곡도 필터)</span></h3>
                     </div>
                     <p class="card-desc">학급 전체 학생의 지출 데이터를 구글 폼으로 익명 수집하였다고 가정하고, 이상치 제거 방식에 따른 대푯값(평균, 중앙값, 최빈값)의 변화를 실습합니다.</p>
 
@@ -520,7 +524,7 @@
                 <div class="card concept-card" style="margin-bottom: 1.5rem;">
                     <div class="concept-header">
                         <span class="concept-badge">💡 도입</span>
-                        <h3>생각 열기 (3분 워밍업)</h3>
+                        <h3>생각 열기 (3분 워밍업) <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서</span></h3>
                     </div>
                     <div class="concept-body">
                         <p><strong>교과서 연계 단원:</strong> Ⅱ-2-01. 상관관계 (산점도와 추세선), Ⅱ-2-02. 상관계수<br>
@@ -537,7 +541,7 @@
                 <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--info);">
                     <div class="concept-header">
                         <span class="concept-badge" style="background:#e0f2fe; color:#0369a1;">🧮 핵심 수식</span>
-                        <h3>선형 분석과 비선형 복리 공식</h3>
+                        <h3>선형 분석과 비선형 복리 공식 <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서 (선형)</span><span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.25rem; background: #f3e8ff; color: #6b21a8; vertical-align: middle;">교과서 외 (비선형 복리)</span></h3>
                     </div>
                     <div class="concept-body" style="text-align: center; padding: 1.25rem; background: var(--slate-50); border-radius: 8px;">
                         <p style="font-size: 1.15rem; margin-bottom: 0.6rem; color: var(--navy);">
@@ -559,7 +563,7 @@
                 <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--primary);">
                     <div class="concept-header">
                         <span class="concept-badge practice">⚙️ 전개 (실습)</span>
-                        <h3>미래 물가상승 시뮬레이터로 My-CPI 상승률(r)과 기간(n) 변수 시뮬레이션</h3>
+                        <h3>미래 물가상승 시뮬레이터로 My-CPI 상승률(r)과 기간(n) 변수 시뮬레이션 <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #f3e8ff; color: #6b21a8; vertical-align: middle;">교과서 외</span></h3>
                     </div>
                     <p class="card-desc">연간 My-CPI 상승률(r)과 기간(n) 변수를 시뮬레이션하여 선형 및 비선형 감쇄 곡선을 직접 분석합니다.</p>
 
@@ -654,7 +658,7 @@
                 <div class="card concept-card" style="margin-bottom: 1.5rem;">
                     <div class="concept-header">
                         <span class="concept-badge">💡 도입</span>
-                        <h3>생각 열기 (3분 워밍업)</h3>
+                        <h3>생각 열기 (3분 워밍업) <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서</span></h3>
                     </div>
                     <div class="concept-body">
                         <p><strong>교과서 연계 단원:</strong> Ⅲ-1-01. 빅데이터와 의사 결정, Ⅰ-1-02. 변이성과 통계적 문제해결<br>
@@ -671,7 +675,7 @@
                 <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--info);">
                     <div class="concept-header">
                         <span class="concept-badge" style="background:#e0f2fe; color:#0369a1;">🧮 핵심 수식</span>
-                        <h3>신뢰범위 시나리오 식</h3>
+                        <h3>신뢰범위 시나리오 식 <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #f3e8ff; color: #6b21a8; vertical-align: middle;">교과서 외</span></h3>
                     </div>
                     <div class="concept-body" style="text-align: center; padding: 1.25rem; background: var(--slate-50); border-radius: 8px;">
                         <p style="font-size: 1.15rem; margin-bottom: 0.6rem; color: var(--danger);">
@@ -690,7 +694,7 @@
                 <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--primary);">
                     <div class="concept-header">
                         <span class="concept-badge practice">⚙️ 전개 (실습)</span>
-                        <h3>Q1~Q3 통합 My-CPI 최종 타당성 검증 보고서 서술</h3>
+                        <h3>Q1~Q3 통합 My-CPI 최종 타당성 검증 보고서 서술 <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서 (PPDAC)</span><span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.25rem; background: #f3e8ff; color: #6b21a8; vertical-align: middle;">교과서 외 (시나리오)</span></h3>
                     </div>
                     <p class="card-desc">미래 물가 변동폭의 불확실성(σ)을 조절하며 20년 뒤 예상되는 자산 가치 범위를 시나리오별로 검증해 보세요.</p>
 
