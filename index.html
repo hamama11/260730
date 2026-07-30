@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="My-CPI 데이터 분석 시뮬레이터 - 가중구조, 왜곡도, 비선형 추세, 타당성 검증 수행평가 도구" />
+  <title>My-CPI 수행평가 시뮬레이터</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"
+    crossorigin />
+
+  <!-- LaTeX 수식 렌더링을 위한 MathJax CDN 로드 -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+
+<body>
+  <div id="app">
+
+    <!-- ===== HEADER ===== -->
+    <header class="app-header">
+      <div class="header-inner">
+        <div class="header-hero">
+          <img src="/hero.png" alt="My-CPI 데이터 분석 시뮬레이터" class="header-hero-img">
+          <div class="header-title">
+            <h1>📊 My-CPI 수행평가 시뮬레이터</h1>
+            <p class="subtitle"> 데이터 기반 사고력 신장</p>
+          </div>
+          <a href="/class.html" class="nav-link-btn no-print">🏫 수업 실습 페이지로 이동</a>
+        </div>
+        <nav class="tab-navigation" role="tablist">
+          <button class="tab-btn active" data-tab="perf1" role="tab" id="tab-perf1">
+            <span class="tab-badge">1차</span>가중구조 &amp; 왜곡도 분석
+          </button>
+          <button class="tab-btn" data-tab="perf2" role="tab" id="tab-perf2">
+            <span class="tab-badge">2차</span>비선형 추세 &amp; 구매력 분석
+          </button>
+          <button class="tab-btn" data-tab="perf3" role="tab" id="tab-perf3">
+            <span class="tab-badge accent">3차</span>타당성 검증 보고서
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ===== MAIN ===== -->
+    <main class="app-main">
+
+      <!-- ================================================
+             1차 수행평가: 가중구조 및 왜곡도 분석
+             수업: 가중치 슬라이더 + 이상치 히스토그램
+             평가: 활동지 1-1, 1-2 / Q1-1, Q1-2
+        ================================================ -->
+      <section id="perf1" class="tab-content active" role="tabpanel" aria-labelledby="tab-perf1">
+
+        <!-- 섹션 소개 -->
+        <div class="section-intro">
+          <img src="/icon1.png" alt="가중 구조 CPI 아이콘" class="section-intro-img">
+          <div class="section-intro-body">
+            <h2>1차 수행평가: 가중구조 및 왜곡도 분석</h2>
+            <p>소비자물가지수(CPI)의 가중 구조를 이해하고, 자신의 실제 지출 비율을 반영한 <strong>My-CPI</strong>를 직접 산출합니다.
+              이후 학급 용돈 데이터의 분포를 분석하여 <strong>이상치(Outlier)</strong>와 <strong>왜곡도(Skewness)</strong>에 따라 올바른 대표값을 선택하는 방법을
+              탐구합니다.</p>
+            <div class="tag-row">
+              <span class="tag">가중평균</span>
+              <span class="tag">소비자물가지수</span>
+              <span class="tag">왜곡도(Skewness)</span>
+              <span class="tag">이상치(Outlier)</span>
+              <span class="tag">대표값 정합성</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 수업 영역 헤더 ── -->
+        <div class="zone-header instruction">
+          <span class="zone-badge instr-badge">🔵 수업 진행 영역</span>
+          <span class="zone-desc">교사 안내에 따라 슬라이더를 조작하며 결과를 관찰하세요.</span>
+        </div>
+
+        <!-- 수업: My-CPI 가중치 시뮬레이터 -->
+        <div class="grid-2">
+          <div class="card">
+            <h2 class="card-title">⚖️ 나의 지출 가중치(w<sub>i</sub>) 설정</h2>
+            <p class="card-desc">실제 소비 패턴을 반영하여 카테고리별 가중치를 조정하세요.<br>합계가 <strong>100%</strong>가 되어야 My-CPI가 산출됩니다.</p>
+
+            <div id="p1-weight-inputs">
+              <!-- JS가 동적으로 렌더링 -->
+            </div>
+
+            <div class="weight-status-bar">
+              <div class="ws-row">
+                <span>가중치 합계:</span>
+                <strong id="weight-total">0%</strong>
+              </div>
+              <div class="progress-container">
+                <div id="weight-progress" class="progress-bar"></div>
+              </div>
+              <span id="weight-warning" class="warning-text hidden">⚠️ 합계를 100%로 맞춰주세요.</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2 class="card-title">📊 가중치 구조 비교 (국가 vs 나)</h2>
+            <div class="chart-wrap">
+              <canvas id="p1-chart-weight" aria-label="가중치 비교 막대그래프"></canvas>
+            </div>
+            <div class="cpi-cards">
+              <div class="cpi-card">
+                <span class="cpi-label">공식 CPI</span>
+                <span class="cpi-val" id="official-cpi-val">—</span>
+              </div>
+              <div class="cpi-card highlight">
+                <span class="cpi-label">My-CPI</span>
+                <span class="cpi-val" id="my-cpi-val">—</span>
+              </div>
+              <div class="cpi-card">
+                <span class="cpi-label">단순 평균</span>
+                <span class="cpi-val" id="simple-cpi-val">—</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 수업: 왜곡도 & 이상치 시뮬레이터 -->
+        <div class="grid-2" style="margin-top:1.5rem;">
+          <div class="card">
+            <h2 class="card-title">📋 학급 용돈 데이터 분석 (n=50)</h2>
+            <p class="card-desc">구글 폼으로 수집된 가상 학급 데이터입니다. 이상치 처리 방식을 바꿔가며 대표값 변화를 관찰하세요.</p>
+
+            <div class="outlier-controls">
+              <p class="oc-label">🔧 이상치(Outlier) 처리 방식 선택</p>
+              <div class="radio-group">
+                <label class="radio-item">
+                  <input type="radio" name="outlier-method" value="none" checked>
+                  <span>처리 없음 (원본 데이터)</span>
+                </label>
+                <label class="radio-item">
+                  <input type="radio" name="outlier-method" value="iqr">
+                  <span>IQR 방식 (Q₁ − 1.5×IQR ~ Q₃ + 1.5×IQR 외 제거)</span>
+                </label>
+                <label class="radio-item">
+                  <input type="radio" name="outlier-method" value="sd">
+                  <span>Z-Score 방식 (±2σ 초과 제거)</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="stat-grid">
+              <div class="stat-item"><span>평균 (Mean)</span><strong id="stat-mean">—</strong></div>
+              <div class="stat-item"><span>중앙값 (Median)</span><strong id="stat-median">—</strong></div>
+              <div class="stat-item"><span>최빈값 (Mode)</span><strong id="stat-mode">—</strong></div>
+              <div class="stat-item"><span>왜곡도 (Skewness)</span><strong id="stat-skewness">—</strong></div>
+              <div class="stat-item"><span>Q₁ (1사분위수)</span><strong id="stat-q1">—</strong></div>
+              <div class="stat-item"><span>Q₃ (3사분위수)</span><strong id="stat-q3">—</strong></div>
+              <div class="stat-item"><span>IQR (사분범위)</span><strong id="stat-iqr">—</strong></div>
+              <div class="stat-item"><span>1.5×IQR</span><strong id="stat-iqr15">—</strong></div>
+              <div class="stat-item"><span>유효 데이터 수</span><strong id="stat-count">—</strong></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2 class="card-title">📈 데이터 분포 히스토그램</h2>
+            <div class="chart-wrap">
+              <canvas id="p1-chart-dist" aria-label="용돈 분포 히스토그램"></canvas>
+            </div>
+            <p class="chart-note">🔴 빨간선: 평균 &nbsp;|&nbsp; 🔵 파란선: 중앙값 &nbsp;|&nbsp; 🟢 초록선: 최빈값</p>
+          </div>
+        </div>
+
+        <!-- ── 수행평가 영역 헤더 ── -->
+        <div class="zone-header assessment">
+          <span class="zone-badge assess-badge">🟡 수행평가 영역</span>
+          <span class="zone-desc">개별 활동지를 작성하세요. 작성 내용은 자동 저장됩니다.</span>
+          <span class="score-badge">배점 100점 · 반영비율 10%</span>
+        </div>
+
+        <!-- 활동지 1-1: 가중치 기록표 -->
+        <div class="card assess-card">
+          <div class="activity-header">
+            <span class="activity-num">활동 1-1</span>
+            <h3>나의 지출 가중치(w<sub>i</sub>) 기록표</h3>
+          </div>
+          <p class="activity-desc">시뮬레이터에서 설정한 값이 자동으로 채워집니다. 국가 가중치와의 <strong>차이(편차)</strong>를 직접 계산하여 기록하세요.</p>
+          <div class="table-scroll">
+            <table class="activity-table" id="act1-1-table">
+              <thead>
+                <tr>
+                  <th>소비 카테고리</th>
+                  <th>국가 가중치 (a<sub>i</sub>)</th>
+                  <th>나의 가중치 (w<sub>i</sub>)</th>
+                  <th>편차 (w<sub>i</sub> − a<sub>i</sub>)</th>
+                  <th>품목 물가상승률 (p<sub>i</sub>)</th>
+                  <th>w<sub>i</sub>×p<sub>i</sub> 기여분</th>
+                </tr>
+              </thead>
+              <tbody id="act1-1-tbody">
+                <!-- JS 동적 렌더링 -->
+              </tbody>
+              <tfoot>
+                <tr class="table-foot">
+                  <td><strong>합계 / My-CPI</strong></td>
+                  <td>100.0%</td>
+                  <td id="act1-1-total-w">—</td>
+                  <td>—</td>
+                  <td>—</td>
+                  <td id="act1-1-mycpi">—</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+        <!-- 활동지 1-2: 이상치 기준 계산표 -->
+        <div class="card assess-card">
+          <div class="activity-header">
+            <span class="activity-num">활동 1-2</span>
+            <h3>학급 데이터 이상치 기준 계산표</h3>
+          </div>
+          <p class="activity-desc">상자수염그림(Box Plot)에서 파악한 수치를 기록하고, IQR 방식의 이상치 기준값을 직접 계산하세요.</p>
+          <div class="table-scroll">
+            <table class="activity-table" id="act1-2-table">
+              <thead>
+                <tr>
+                  <th>통계 항목</th>
+                  <th>원본 데이터 값</th>
+                  <th>IQR 제거 후 값</th>
+                  <th>Z-Score 제거 후 값</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>평균 (Mean)</td>
+                  <td id="r-mean-raw" class="auto-fill">—</td>
+                  <td id="r-mean-iqr" class="auto-fill">—</td>
+                  <td id="r-mean-sd" class="auto-fill">—</td>
+                </tr>
+                <tr>
+                  <td>중앙값 (Median)</td>
+                  <td id="r-med-raw" class="auto-fill">—</td>
+                  <td id="r-med-iqr" class="auto-fill">—</td>
+                  <td id="r-med-sd" class="auto-fill">—</td>
+                </tr>
+                <tr>
+                  <td>왜곡도 (Skewness)</td>
+                  <td id="r-skew-raw" class="auto-fill">—</td>
+                  <td id="r-skew-iqr" class="auto-fill">—</td>
+                  <td id="r-skew-sd" class="auto-fill">—</td>
+                </tr>
+                <tr>
+                  <td>Q₁ (1사분위수)</td>
+                  <td id="r-q1" class="auto-fill" colspan="3">—</td>
+                </tr>
+                <tr>
+                  <td>Q₃ (3사분위수)</td>
+                  <td id="r-q3" class="auto-fill" colspan="3">—</td>
+                </tr>
+                <tr>
+                  <td>IQR = Q₃ − Q₁</td>
+                  <td id="r-iqr" class="auto-fill" colspan="3">—</td>
+                </tr>
+                <tr>
+                  <td>이상치 하한 = Q₁ − 1.5×IQR</td>
+                  <td id="r-lower" class="auto-fill" colspan="3">—</td>
+                </tr>
+                <tr>
+                  <td>이상치 상한 = Q₃ + 1.5×IQR</td>
+                  <td id="r-upper" class="auto-fill" colspan="3">—</td>
+                </tr>
+                <tr>
+                  <td>유효 데이터 수</td>
+                  <td id="r-n-raw" class="auto-fill">50명</td>
+                  <td id="r-n-iqr" class="auto-fill">—</td>
+                  <td id="r-n-sd" class="auto-fill">—</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 서·논술형 Q1-1 -->
+        <div class="card assess-card question-card">
+          <div class="activity-header">
+            <span class="activity-num q-badge">Q1-1</span>
+            <h3>국가 CPI와 My-CPI의 수리적 격차 원인 논술</h3>
+          </div>
+          <div class="question-box">
+            <p>위 활동지 1-1의 편차(w<sub>i</sub> − a<sub>i</sub>) 수치를 근거로, 가중평균 구조에서 개인의 지출 가중치가 어떻게 CPI 격차를 발생시키는지 수리적으로
+              서술하시오. 단순평균과의 차이도 포함하여 논술하시오.</p>
+          </div>
+          <textarea id="q1-1-answer" class="answer-box"
+            placeholder="예) 나의 w_교육 = 25%로 국가 a_교육 = 12%보다 13%p 높아, 교육 물가상승률 2.1%가 더 크게 반영되어 My-CPI가 국가 CPI보다 높게 산출된다…"
+            rows="7"></textarea>
+          <div class="char-count"><span id="q1-1-chars">0</span>자 작성됨</div>
+        </div>
+
+        <!-- 서·논술형 Q1-2 -->
+        <div class="card assess-card question-card">
+          <div class="activity-header">
+            <span class="activity-num q-badge">Q1-2</span>
+            <h3>이상치 근거에 따른 대표값 선택의 정합성 논술</h3>
+          </div>
+          <div class="question-box">
+            <p>활동지 1-2에서 산출된 이상치 기준값과 왜곡도(Skewness)를 근거로, 이 집단의 용돈 분포를 대표하기에 가장 정합성이 높은 대표값(평균 vs 중앙값 vs 최빈값)을 선택하고 그
+              타당성을 수리적으로 논술하시오.</p>
+          </div>
+          <textarea id="q1-2-answer" class="answer-box"
+            placeholder="예) 왜곡도가 +2.31로 강한 우편향을 보이며, IQR 기준 이상치가 6명 존재한다. 따라서 이상치에 민감한 평균보다 중앙값이 집단을 더 잘 대표한다…"
+            rows="7"></textarea>
+          <div class="char-count"><span id="q1-2-chars">0</span>자 작성됨</div>
+        </div>
+
+      </section>
+
+      <!-- ================================================
+             2차 수행평가: 비선형 추세 및 구매력 분석
+             수업: r·n 슬라이더 + 복리/단리 비교 곡선
+             평가: 활동지 2-1 / Q2-1, Q2-2
+        ================================================ -->
+      <section id="perf2" class="tab-content" role="tabpanel" aria-labelledby="tab-perf2">
+
+        <!-- 섹션 소개 -->
+        <div class="section-intro">
+          <img src="/icon3.png" alt="비선형 구매력 감쇄 아이콘" class="section-intro-img">
+          <div class="section-intro-body">
+            <h2>2차 수행평가: 비선형 추세 및 구매력 분석</h2>
+            <p>물가상승률(<strong>r</strong>)과 기간(<strong>n</strong>)을 변수로 하는 복리 공식 $\frac{100}{(1+r)^n}$ 을 시뮬레이션합니다.
+              선형(단리) 감쇄 직선과 비선형(복리) 감쇄 곡선을 직접 비교하며, 장기적 구매력 손실의 수리적 구조를 탐구합니다.</p>
+            <div class="tag-row">
+              <span class="tag">복리(Compound)</span>
+              <span class="tag">비선형 시계열</span>
+              <span class="tag">실질 구매력</span>
+              <span class="tag">조건부 가정</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="zone-header instruction">
+          <span class="zone-badge instr-badge">🔵 수업 진행 영역</span>
+          <span class="zone-desc">슬라이더를 조작하며 선형·비선형 감쇄 곡선의 차이를 관찰하세요.</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h2 class="card-title">💸 미래 구매력 시뮬레이터</h2>
+            <p class="card-desc">
+              My-CPI 상승률(<strong>r</strong>)과 예측 기간(<strong>n</strong>)을 조절하며<br>
+              100만원의 실질 가치 변화를 관찰합니다.<br>
+              <em>r 기본값은 1차 시뮬레이터에서 산출된 My-CPI 값으로 자동 연동됩니다.</em>
+            </p>
+
+            <div class="input-group">
+              <label for="sim-rate">📈 연간 My-CPI 상승률 (r, %)</label>
+              <div class="range-row">
+                <input type="range" id="sim-rate" min="0" max="20" step="0.1" value="3.4" class="slider">
+                <input type="number" id="sim-rate-num" min="0" max="20" step="0.1" value="3.4" class="num-input">
+                <span class="unit">%</span>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label for="sim-years">📅 예측 기간 (n, 년)</label>
+              <div class="range-row">
+                <input type="range" id="sim-years" min="1" max="50" value="20" class="slider">
+                <input type="number" id="sim-years-num" min="1" max="50" value="20" class="num-input">
+                <span class="unit">년</span>
+              </div>
+            </div>
+
+            <div class="metric-row">
+              <div class="metric-card">
+                <span>누적 물가상승률</span>
+                <strong id="accumulated-inflation">—</strong>
+              </div>
+              <div class="metric-card danger">
+                <span>실질 가치 (100만원 기준)</span>
+                <strong id="real-purchasing-power">—</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2 class="card-title">📈 실질 가치 감쇄 비교 곡선</h2>
+            <div class="chart-wrap">
+              <canvas id="p2-chart-power" aria-label="실질 구매력 감쇄 선형/비선형 비교 차트"></canvas>
+            </div>
+            <p class="chart-note">
+              🔴 빨간 실선: 복리(비선형) 감쇄 — 100/(1+r)<sup>n</sup><br>
+              ⬜ 회색 점선: 단리(선형) 감쇄 — 100/(1+r·n)
+            </p>
+          </div>
+        </div>
+
+        <!-- ── 수행평가 영역 헤더 ── -->
+        <div class="zone-header assessment">
+          <span class="zone-badge assess-badge">🟡 수행평가 영역</span>
+          <span class="zone-desc">개별 활동지를 작성하세요. 작성 내용은 자동 저장됩니다.</span>
+          <span class="score-badge">배점 100점 · 반영비율 10%</span>
+        </div>
+
+        <!-- 활동지 2-1: 연도별 구매력 기록표 -->
+        <div class="card assess-card">
+          <div class="activity-header">
+            <span class="activity-num">활동 2-1</span>
+            <h3>시점별 실질 구매력 기록표</h3>
+          </div>
+          <p class="activity-desc">시뮬레이터에서 r을 설정한 후, 아래 표의 값이 자동으로 채워집니다. <strong>복리 감쇄와 단리 감쇄의 차이</strong>를 계산란에 직접
+            기입하세요.</p>
+          <div class="table-scroll">
+            <table class="activity-table">
+              <thead>
+                <tr>
+                  <th>경과 기간 (n)</th>
+                  <th>복리 감쇄 값<br><small>100/(1+r)<sup>n</sup> 만원</small></th>
+                  <th>단리 감쇄 값<br><small>100/(1+r·n) 만원</small></th>
+                  <th>차이 (복리-단리)</th>
+                  <th>복리 누적 상승률</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1년</td>
+                  <td id="pp-comp-1" class="auto-fill">—</td>
+                  <td id="pp-simp-1" class="auto-fill">—</td>
+                  <td id="pp-diff-1" class="auto-fill">—</td>
+                  <td id="pp-acc-1" class="auto-fill">—</td>
+                </tr>
+                <tr>
+                  <td>5년</td>
+                  <td id="pp-comp-5" class="auto-fill">—</td>
+                  <td id="pp-simp-5" class="auto-fill">—</td>
+                  <td id="pp-diff-5" class="auto-fill">—</td>
+                  <td id="pp-acc-5" class="auto-fill">—</td>
+                </tr>
+                <tr>
+                  <td>10년</td>
+                  <td id="pp-comp-10" class="auto-fill">—</td>
+                  <td id="pp-simp-10" class="auto-fill">—</td>
+                  <td id="pp-diff-10" class="auto-fill">—</td>
+                  <td id="pp-acc-10" class="auto-fill">—</td>
+                </tr>
+                <tr>
+                  <td>20년</td>
+                  <td id="pp-comp-20" class="auto-fill">—</td>
+                  <td id="pp-simp-20" class="auto-fill">—</td>
+                  <td id="pp-diff-20" class="auto-fill">—</td>
+                  <td id="pp-acc-20" class="auto-fill">—</td>
+                </tr>
+                <tr>
+                  <td id="pp-n-custom">n년 (설정값)</td>
+                  <td id="pp-comp-n" class="auto-fill">—</td>
+                  <td id="pp-simp-n" class="auto-fill">—</td>
+                  <td id="pp-diff-n" class="auto-fill">—</td>
+                  <td id="pp-acc-n" class="auto-fill">—</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 서·논술형 Q2-1 -->
+        <div class="card assess-card question-card">
+          <div class="activity-header">
+            <span class="activity-num q-badge">Q2-1</span>
+            <h3>구매력 감소 그래프가 비선형(곡선) 형태인 수리적 이유 서술</h3>
+          </div>
+          <div class="question-box">
+            <p>활동지 2-1의 표를 근거로, 복리 감쇄 곡선이 단리 감쇄 직선보다 더 급격하게 하락하는 수리적 이유를 설명하시오. 지수 함수의 성질(누적 곱)을 활용하여 서술하시오.</p>
+          </div>
+          <textarea id="q2-1-answer" class="answer-box"
+            placeholder="예) 단리는 매기간 동일한 비율(r)을 원금에만 적용하지만, 복리는 전기 물가 수준에 r을 반복 곱하는 구조이므로 (1+r)^n이 n이 커질수록 기하급수적으로 증가한다…"
+            rows="7"></textarea>
+          <div class="char-count"><span id="q2-1-chars">0</span>자 작성됨</div>
+        </div>
+
+        <!-- 서·논술형 Q2-2 -->
+        <div class="card assess-card question-card">
+          <div class="activity-header">
+            <span class="activity-num q-badge">Q2-2</span>
+            <h3>r값 및 소비 가중치(w<sub>i</sub>)의 장기 고정 가정에 대한 통계적 한계 비판</h3>
+          </div>
+          <div class="question-box">
+            <p>본 시뮬레이터는 r과 w<sub>i</sub>가 n년 동안 일정하다는 <strong>조건부 가정(Ceteris Paribus)</strong>을 전제합니다. 현실에서 이 가정이 성립하기
+              어려운 이유를 통계적·경제적 관점에서 비판하시오.</p>
+          </div>
+          <textarea id="q2-2-answer" class="answer-box"
+            placeholder="예) 소득 변화, 생애주기별 소비 구조 변화, 신기술 등장에 따른 소비 카테고리 변화 등으로 w_i는 시간에 따라 동적으로 변화한다. 따라서 현재 시점의 가중치를 20년간 고정하면…"
+            rows="7"></textarea>
+          <div class="char-count"><span id="q2-2-chars">0</span>자 작성됨</div>
+        </div>
+
+      </section>
+
+      <!-- ================================================
+             3차 수행평가: My-CPI 타당성 검증 보고서
+             수업: 불확실성 σ 시나리오 시뮬레이터
+             평가: 최종 보고서 (Q3 포함)
+        ================================================ -->
+      <section id="perf3" class="tab-content" role="tabpanel" aria-labelledby="tab-perf3">
+
+        <!-- 섹션 소개 -->
+        <div class="section-intro no-print">
+          <img src="/icon2.png" alt="데이터 불확실성 분석 아이콘" class="section-intro-img">
+          <div class="section-intro-body">
+            <h2>3차 수행평가: My-CPI 타당성 최종 검증 보고서</h2>
+            <p>1·2차 수행평가에서 산출한 모든 수치(가중치, 이상치 기준, 비선형 감쇄량)를 종합합니다.
+              물가 예측의 <strong>통계적 불확실성(σ)</strong>을 설정하고 낙관·비관 시나리오를 비교하여,
+              나의 My-CPI 분석의 타당성과 한계를 4단계 프레임워크로 최종 논술합니다.</p>
+            <div class="tag-row">
+              <span class="tag">불확실성(Uncertainty)</span>
+              <span class="tag">통계적 추론</span>
+              <span class="tag">종합 타당성 검증</span>
+              <span class="tag">95% 신뢰구간</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="report-layout">
+
+          <!-- 좌측: 불확실성 시뮬레이터 (수업 영역) -->
+          <aside class="card sidebar-card no-print">
+            <div class="zone-header instruction compact">
+              <span class="zone-badge instr-badge">🔵 수업 진행</span>
+            </div>
+            <h2 class="card-title">🎲 불확실성 시나리오 설정</h2>
+            <p class="card-desc">물가 상승률의 표준편차(σ)를 조절하여 미래 시나리오의 범위를 확인하세요.</p>
+
+            <div class="input-group">
+              <label for="uncertainty-sd">📊 물가 상승률 표준편차 (σ)</label>
+              <div class="range-row">
+                <input type="range" id="uncertainty-sd" min="0.1" max="5.0" step="0.1" value="1.5" class="slider">
+                <input type="number" id="uncertainty-sd-num" min="0.1" max="5.0" step="0.1" value="1.5"
+                  class="num-input">
+                <span class="unit">%</span>
+              </div>
+            </div>
+
+            <div class="scenario-stack">
+              <h3 class="scenario-title">🔮 20년 뒤 화폐 가치 시나리오</h3>
+              <div class="scenario-item optimistic">
+                <div class="scen-label">🟢 낙관적 (r − 1.96σ)</div>
+                <strong id="scen-opt">—</strong>
+              </div>
+              <div class="scenario-item expected">
+                <div class="scen-label">🔵 기본 예상 (r)</div>
+                <strong id="scen-exp">—</strong>
+              </div>
+              <div class="scenario-item pessimistic">
+                <div class="scen-label">🔴 비관적 (r + 1.96σ)</div>
+                <strong id="scen-pes">—</strong>
+              </div>
+            </div>
+
+            <div class="zone-header assessment compact" style="margin-top:1.5rem;">
+              <span class="zone-badge assess-badge">🟡 수행평가</span>
+              <span class="score-badge" style="margin-left:auto;">배점 100점 · 20%</span>
+            </div>
+            <p class="card-desc" style="margin-top:0.75rem;">우측 보고서 양식을 완성하세요.<br>1·2차 수행평가 수치가 자동 연동됩니다.</p>
+            <button type="button" id="btn-export-pdf" class="btn-primary">
+              🖨️ 보고서 인쇄 / PDF 저장
+            </button>
+          </aside>
+
+          <!-- 우측: 최종 보고서 (수행평가 영역) -->
+          <div class="card report-card print-area">
+
+            <div class="report-top">
+              <div>
+                <h2 class="report-title">My-CPI 타당성 최종 검증 보고서</h2>
+                <p class="report-sub">서울대학교 마이크로디그리형 연수 · 3차 수행평가</p>
+              </div>
+              <div class="report-meta-box">
+                <div>작성일: <strong id="report-date">—</strong></div>
+                <div>성명: <input type="text" id="student-name" class="inline-input" placeholder="이름을 입력하세요"></div>
+              </div>
+            </div>
+
+            <!-- 보고서 섹션 1 -->
+            <div class="report-section">
+              <h3 class="rs-title">① 나의 My-CPI 가중 구조 설계 요약 <span class="auto-tag">자동 연동</span></h3>
+              <div class="table-scroll">
+                <table class="report-table">
+                  <thead>
+                    <tr>
+                      <th>카테고리</th>
+                      <th>국가 a<sub>i</sub></th>
+                      <th>나의 w<sub>i</sub></th>
+                      <th>편차</th>
+                      <th>p<sub>i</sub></th>
+                      <th>w<sub>i</sub>×p<sub>i</sub></th>
+                    </tr>
+                  </thead>
+                  <tbody id="report-weight-tbody">
+                    <tr>
+                      <td colspan="6" class="empty-cell">1차 시뮬레이터 데이터 로딩 중...</td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr class="table-foot">
+                      <td><strong>합계 / My-CPI</strong></td>
+                      <td>100.0%</td>
+                      <td id="rep-total-w">—</td>
+                      <td>—</td>
+                      <td>—</td>
+                      <td id="rep-my-cpi">—</td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="report-summary-row">
+                <span>공식 CPI <strong id="rep-official-cpi">—</strong></span>
+                <span>My-CPI <strong id="rep-my-cpi-2" class="highlight-text">—</strong></span>
+                <span>단순 평균 CPI <strong id="rep-simple-cpi">—</strong></span>
+              </div>
+            </div>
+
+            <!-- 보고서 섹션 2 -->
+            <div class="report-section">
+              <h3 class="rs-title">② 학급 데이터 이상치·대표값 분석 요약 <span class="auto-tag">자동 연동</span></h3>
+              <div class="report-stat-row">
+                <div class="rs-item"><span>원본 평균</span><strong id="rep-raw-mean">—</strong></div>
+                <div class="rs-item"><span>원본 중앙값</span><strong id="rep-raw-median">—</strong></div>
+                <div class="rs-item"><span>원본 왜곡도</span><strong id="rep-raw-skew">—</strong></div>
+                <div class="rs-item"><span>IQR 제거 후 평균</span><strong id="rep-iqr-mean">—</strong></div>
+                <div class="rs-item"><span>IQR 제거 후 중앙값</span><strong id="rep-iqr-median">—</strong></div>
+                <div class="rs-item"><span>이상치 기준 상한</span><strong id="rep-iqr-upper">—</strong></div>
+              </div>
+            </div>
+
+            <!-- 보고서 섹션 3 -->
+            <div class="report-section">
+              <h3 class="rs-title">③ 비선형 구매력 감쇄 시뮬레이션 요약 <span class="auto-tag">자동 연동</span></h3>
+              <div class="report-stat-row">
+                <div class="rs-item"><span>적용 r</span><strong id="rep-sim-rate">—</strong></div>
+                <div class="rs-item"><span>설정 n</span><strong id="rep-sim-years">—</strong></div>
+                <div class="rs-item"><span>20년 뒤 실질 가치</span><strong id="rep-real-20">—</strong></div>
+                <div class="rs-item"><span>낙관 시나리오</span><strong id="rep-opt">—</strong></div>
+                <div class="rs-item"><span>비관 시나리오</span><strong id="rep-pes">—</strong></div>
+                <div class="rs-item"><span>불확실성 σ</span><strong id="rep-sigma">—</strong></div>
+              </div>
+            </div>
+
+            <!-- 보고서 섹션 4 — Q 답변 연계 -->
+            <div class="report-section">
+              <h3 class="rs-title">④ 종합 연계 분석 — 수행평가 답변 요약 <span class="auto-tag">자동 연동</span></h3>
+
+              <div class="qa-block">
+                <div class="qa-label">Q1-1. 국가 CPI vs My-CPI 수리적 격차 원인</div>
+                <div class="qa-preview" id="rep-q1-1">1차 수행평가 Q1-1 답변이 여기에 표시됩니다.</div>
+              </div>
+              <div class="qa-block">
+                <div class="qa-label">Q1-2. 이상치 근거에 따른 대표값 정합성 판단</div>
+                <div class="qa-preview" id="rep-q1-2">1차 수행평가 Q1-2 답변이 여기에 표시됩니다.</div>
+              </div>
+              <div class="qa-block">
+                <div class="qa-label">Q2-1. 비선형 감쇄 그래프의 수리적 이유</div>
+                <div class="qa-preview" id="rep-q2-1">2차 수행평가 Q2-1 답변이 여기에 표시됩니다.</div>
+              </div>
+              <div class="qa-block">
+                <div class="qa-label">Q2-2. r값 장기 고정 가정의 통계적 한계</div>
+                <div class="qa-preview" id="rep-q2-2">2차 수행평가 Q2-2 답변이 여기에 표시됩니다.</div>
+              </div>
+            </div>
+
+            <!-- 보고서 섹션 5 — Q3 최종 논술 (수행평가 작성) -->
+            <div class="report-section assess-section">
+              <h3 class="rs-title assess-title">⑤ Q3. My-CPI 타당성 최종 검증 결론 <span class="assess-tag">직접 작성</span></h3>
+              <div class="question-box">
+                <p>①~④의 분석 수치(가중치 편차, 이상치 기준, 비선형 감쇄량, 불확실성 범위)를 <strong>모두 연계</strong>하여, 아래 4단계 프레임워크에 따라 나의 My-CPI
+                  분석의 타당성과 한계를 종합 서술하시오.</p>
+                <ol class="framework-list">
+                  <li><strong>[가중 구조]</strong> 나의 w<sub>i</sub>가 국가 a<sub>i</sub>와 어떻게 다르며, 그로 인해 My-CPI 격차가 얼마나 발생했는가?
+                  </li>
+                  <li><strong>[이상치·대표값]</strong> 학급 데이터의 왜곡도와 이상치 분석이 집단 대표값 선택에 주는 시사점은?</li>
+                  <li><strong>[비선형 추세]</strong> 복리 감쇄 구조가 장기 구매력에 미치는 실질적 영향과 r 고정 가정의 한계는?</li>
+                  <li><strong>[불확실성 성찰]</strong> σ 범위를 고려할 때 나의 My-CPI 분석이 갖는 통계적 불확실성의 범위와 의의는?</li>
+                </ol>
+              </div>
+              <textarea id="q3-answer" class="answer-box large" placeholder="4단계 프레임워크에 따라 종합 논술을 작성하세요…"
+                rows="14"></textarea>
+              <div class="char-count"><span id="q3-chars">0</span>자 작성됨</div>
+              <div class="qa-preview print-only" id="rep-q3">입력한 답변이 여기에 표시됩니다.</div>
+            </div>
+
+          </div><!-- /report-card -->
+        </div><!-- /report-layout -->
+
+      </section>
+
+    </main>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
