@@ -2,701 +2,748 @@
 <html lang="ko">
 
 <head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="My-CPI 데이터 분석 시뮬레이터 - 가중구조, 왜곡도, 비선형 추세, 타당성 검증 수행평가 도구" />
-  <title>My-CPI 수행평가 시뮬레이터</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"
-    crossorigin />
-
-  <!-- LaTeX 수식 렌더링을 위한 MathJax CDN 로드 -->
-  <script>
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        processEscapes: true
-      }
-    };
-  </script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="My-CPI 데이터 분석 수업 실습 - 0~4차시 개념 학습 및 시뮬레이터 도구" />
+    <title>My-CPI 수업 실습 대시보드</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" crossorigin />
+    
+    <!-- LaTeX 수식 렌더링을 위한 MathJax CDN 로드 -->
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']],
+          processEscapes: true
+        },
+        options: {
+          ignoreHtmlClass: 'tex2jax_ignore',
+          processHtmlClass: 'tex2jax_process'
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
 
 <body>
-  <div id="app">
+    <div id="app" class="tex2jax_process">
 
-    <!-- ===== HEADER ===== -->
-    <header class="app-header">
-      <div class="header-inner">
-        <div class="header-hero">
-          <img src="/hero.png" alt="My-CPI 데이터 분석 시뮬레이터" class="header-hero-img">
-          <div class="header-title">
-            <h1>📊 My-CPI 수행평가 시뮬레이터</h1>
-            <p class="subtitle"> 데이터 기반 사고력 신장</p>
-          </div>
-          <a href="/class.html" class="nav-link-btn no-print">🏫 수업 실습 페이지로 이동</a>
-        </div>
-        <nav class="tab-navigation" role="tablist">
-          <button class="tab-btn active" data-tab="perf1" role="tab" id="tab-perf1">
-            <span class="tab-badge">1차</span>가중구조 &amp; 왜곡도 분석
-          </button>
-          <button class="tab-btn" data-tab="perf2" role="tab" id="tab-perf2">
-            <span class="tab-badge">2차</span>비선형 추세 &amp; 구매력 분석
-          </button>
-          <button class="tab-btn" data-tab="perf3" role="tab" id="tab-perf3">
-            <span class="tab-badge accent">3차</span>타당성 검증 보고서
-          </button>
-        </nav>
-      </div>
-    </header>
-
-    <!-- ===== MAIN ===== -->
-    <main class="app-main">
-
-      <!-- ================================================
-             1차 수행평가: 가중구조 및 왜곡도 분석
-             수업: 가중치 슬라이더 + 이상치 히스토그램
-             평가: 활동지 1-1, 1-2 / Q1-1, Q1-2
-        ================================================ -->
-      <section id="perf1" class="tab-content active" role="tabpanel" aria-labelledby="tab-perf1">
-
-        <!-- 섹션 소개 -->
-        <div class="section-intro">
-          <img src="/icon1.png" alt="가중 구조 CPI 아이콘" class="section-intro-img">
-          <div class="section-intro-body">
-            <h2>1차 수행평가: 가중구조 및 왜곡도 분석</h2>
-            <p>소비자물가지수(CPI)의 가중 구조를 이해하고, 자신의 실제 지출 비율을 반영한 <strong>My-CPI</strong>를 직접 산출합니다.
-              이후 학급 용돈 데이터의 분포를 분석하여 <strong>이상치(Outlier)</strong>와 <strong>왜곡도(Skewness)</strong>에 따라 올바른 대표값을 선택하는 방법을
-              탐구합니다.</p>
-            <div class="tag-row">
-              <span class="tag">가중평균</span>
-              <span class="tag">소비자물가지수</span>
-              <span class="tag">왜곡도(Skewness)</span>
-              <span class="tag">이상치(Outlier)</span>
-              <span class="tag">대표값 정합성</span>
+        <!-- ===== HEADER ===== -->
+        <header class="app-header">
+            <div class="header-inner">
+                <div class="header-hero">
+                    <img src="/hero.png" alt="My-CPI 데이터 분석 수업" class="header-hero-img">
+                    <div class="header-title">
+                        <h1>🏫 My-CPI 수업 실습 페이지</h1>
+                        <p class="subtitle">데이터 기반 사고력 신장을 위한 통계 수업 자료실</p>
+                    </div>
+                    <a href="/evaluation.html" class="nav-link-btn">📝 수행평가 제출 페이지로 이동</a>
+                </div>
+                <nav class="tab-navigation" role="tablist">
+                    <button class="tab-btn active" data-tab="class0" role="tab" id="tab-class0">
+                        <span class="tab-badge">0차시</span>자료의 종류
+                    </button>
+                    <button class="tab-btn" data-tab="class1" role="tab" id="tab-class1">
+                        <span class="tab-badge">1차시</span>가중 구조 학습
+                    </button>
+                    <button class="tab-btn" data-tab="class2" role="tab" id="tab-class2">
+                        <span class="tab-badge">2차시</span>왜곡도 &amp; 대표값
+                    </button>
+                    <button class="tab-btn" data-tab="class3" role="tab" id="tab-class3">
+                        <span class="tab-badge">3차시</span>비선형 복리성
+                    </button>
+                    <button class="tab-btn" data-tab="class4" role="tab" id="tab-class4">
+                        <span class="tab-badge">4차시</span>최종 타당성 검증
+                    </button>
+                </nav>
             </div>
-          </div>
-        </div>
+        </header>
 
-        <!-- ── 수업 영역 헤더 ── -->
-        <div class="zone-header instruction">
-          <span class="zone-badge instr-badge">🔵 수업 진행 영역</span>
-          <span class="zone-desc">교사 안내에 따라 슬라이더를 조작하며 결과를 관찰하세요.</span>
-        </div>
+        <!-- ===== MAIN ===== -->
+        <main class="app-main">
 
-        <!-- 수업: My-CPI 가중치 시뮬레이터 -->
-        <div class="grid-2">
-          <div class="card">
-            <h2 class="card-title">⚖️ 나의 지출 가중치(w<sub>i</sub>) 설정</h2>
-            <p class="card-desc">실제 소비 패턴을 반영하여 카테고리별 가중치를 조정하세요.<br>합계가 <strong>100%</strong>가 되어야 My-CPI가 산출됩니다.</p>
+            <!-- ================================================
+             0차시: 자료의 종류 실습자료
+            ================================================ -->
+            <section id="class0" class="tab-content active" role="tabpanel" aria-labelledby="tab-class0">
+                <div class="section-intro">
+                    <img src="/icon2.png" alt="자료의 종류 아이콘" class="section-intro-img">
+                    <div class="section-intro-body">
+                        <h2>[0차시] 데이터의 종류에 대한 이해와 실습</h2>
+                        <p>우리가 일상에서 마주하는 다양한 데이터의 수학적 성격을 분류하고, 물가지수(CPI)가 어떤 척도적 성격을 가지는지 이해합니다.</p>
+                        <div class="tag-row">
+                            <span class="tag">질적 데이터</span>
+                            <span class="tag">양적 데이터</span>
+                            <span class="tag">명목·서열척도</span>
+                            <span class="tag">등간·비율척도</span>
+                        </div>
+                    </div>
+                </div>
 
-            <div id="p1-weight-inputs">
-              <!-- JS가 동적으로 렌더링 -->
-            </div>
+                <!-- 소비자물가지수(CPI) 단계별 통합 가이드 & 실습 -->
+                <div class="card concept-card" style="margin-bottom: 1.5rem;">
+                    <div class="concept-header">
+                        <span class="concept-badge" style="background:#e0f2fe; color:#0369a1;">📊 프로세스 실습</span>
+                        <h3>소비자물가지수(CPI) 단계별 산출 학습 및 실습</h3>
+                    </div>
+                    <div class="concept-body" style="font-size: 0.92rem; line-height: 1.75; color: var(--slate-800);">
+                        <p style="margin-bottom: 1.5rem;">소비자물가지수는 가계의 평균적인 구매력을 측정하기 위해 아래의 5가지 단계를 거쳐 산출됩니다. 각 단계의 설명과 연결된 입력값을 조작하며 수리적 변화를 실시간으로 관찰해 보세요.</p>
+                        
+                        <div style="display:flex; flex-direction:column; gap:1.75rem;">
+                            
+                            <!-- 1단계: 품목 및 가중치 설정 -->
+                            <div style="padding: 1.25rem; background: var(--slate-50); border-radius: 8px; border: 1px solid var(--slate-200); border-left: 4px solid var(--primary);">
+                                <strong style="font-size: 1rem; color: var(--navy); display: block; margin-bottom: 0.5rem;">1단계: 조사 대상 품목 및 가중치 설정 (Consumer Basket)</strong>
+                                <p style="font-size: 0.85rem; color: var(--slate-600); margin-bottom: 1rem;">
+                                    모든 상품의 가격을 조사할 수 없으므로 대표성이 있는 품목을 선정합니다. 가계 소비 지출에서 차지하는 비중을 가중치($w_i$, 1000분율)로 계산합니다. 아래 품목의 기준가격($P_0$)과 기준물량($Q_0$)을 조절하여 실시간 가중치 변화를 관찰하세요.
+                                </p>
+                                
+                                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                                    <!-- A: 쌀 -->
+                                    <div style="background:#fff; padding: 0.75rem; border-radius: 6px; border: 1px solid var(--slate-200);">
+                                        <span style="font-weight: 700; color: var(--primary); font-size: 0.85rem;">🌾 품목 A: 쌀 (10kg)</span>
+                                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.4rem; margin-top:0.4rem;">
+                                            <div>
+                                                <label style="font-size:0.7rem; color:var(--slate-500); display:block;">기준가격 ($P_0$)</label>
+                                                <input type="number" id="c0-p0-rice" class="num-input" style="width:100%; font-size:0.8rem; padding:0.3rem;" value="30000">
+                                            </div>
+                                            <div>
+                                                <label style="font-size:0.7rem; color:var(--slate-500); display:block;">기준물량 ($Q_0$)</label>
+                                                <input type="number" id="c0-q0-rice" class="num-input" style="width:100%; font-size:0.8rem; padding:0.3rem;" value="2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- B: 전기요금 -->
+                                    <div style="background:#fff; padding: 0.75rem; border-radius: 6px; border: 1px solid var(--slate-200);">
+                                        <span style="font-weight: 700; color: var(--primary); font-size: 0.85rem;">⚡ 품목 B: 전기요금 (1kWh)</span>
+                                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.4rem; margin-top:0.4rem;">
+                                            <div>
+                                                <label style="font-size:0.7rem; color:var(--slate-500); display:block;">기준가격 ($P_0$)</label>
+                                                <input type="number" id="c0-p0-elec" class="num-input" style="width:100%; font-size:0.8rem; padding:0.3rem;" value="150">
+                                            </div>
+                                            <div>
+                                                <label style="font-size:0.7rem; color:var(--slate-500); display:block;">기준물량 ($Q_0$)</label>
+                                                <input type="number" id="c0-q0-elec" class="num-input" style="width:100%; font-size:0.8rem; padding:0.3rem;" value="300">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- C: 영화관람료 -->
+                                    <div style="background:#fff; padding: 0.75rem; border-radius: 6px; border: 1px solid var(--slate-200);">
+                                        <span style="font-weight: 700; color: var(--primary); font-size: 0.85rem;">🎬 품목 C: 영화관람료 (1회)</span>
+                                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.4rem; margin-top:0.4rem;">
+                                            <div>
+                                                <label style="font-size:0.7rem; color:var(--slate-500); display:block;">기준가격 ($P_0$)</label>
+                                                <input type="number" id="c0-p0-movie" class="num-input" style="width:100%; font-size:0.8rem; padding:0.3rem;" value="12000">
+                                            </div>
+                                            <div>
+                                                <label style="font-size:0.7rem; color:var(--slate-500); display:block;">기준물량 ($Q_0$)</label>
+                                                <input type="number" id="c0-q0-movie" class="num-input" style="width:100%; font-size:0.8rem; padding:0.3rem;" value="3">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+ 
+                                <div style="background:var(--white); padding: 0.75rem; border-radius:6px; border: 1px solid var(--slate-200); font-size:0.82rem;">
+                                    <strong>📋 실시간 자동 계산 품목 가중치 ($w_i$, 1000분율)</strong>
+                                    <ul style="padding-left:1.2rem; margin-top:0.25rem; color:var(--slate-600); display:flex; gap:1.5rem; flex-wrap:wrap; list-style-type:circle;">
+                                        <li>쌀 가중치: <strong id="c0-weight-rice-val" style="color:var(--navy);">—</strong> / 1,000</li>
+                                        <li>전기요금 가중치: <strong id="c0-weight-elec-val" style="color:var(--navy);">—</strong> / 1,000</li>
+                                        <li>영화관람료 가중치: <strong id="c0-weight-movie-val" style="color:var(--navy);">—</strong> / 1,000</li>
+                                    </ul>
+                                </div>
+                            </div>
+ 
+                            <!-- 2단계: 기준연도 설정 -->
+                            <div style="padding: 1.25rem; background: var(--slate-50); border-radius: 8px; border: 1px solid var(--slate-200); border-left: 4px solid var(--primary);">
+                                <strong style="font-size: 1rem; color: var(--navy); display: block; margin-bottom: 0.5rem;">2단계: 기준연도 설정 (Base Year)</strong>
+                                <p style="font-size: 0.85rem; color: var(--slate-600); margin-bottom: 0.75rem;">
+                                    비교의 기준이 되는 시점을 정합니다. 보통 5년 주기로 개편하며, 이때의 물가 수준을 100으로 고정합니다. (현재 한국의 기준연도는 2020년입니다.)
+                                </p>
+                                <div style="background:#ede9fe; color:#5b21b6; padding:0.6rem 0.8rem; border-radius:6px; display:inline-block; font-size:0.85rem; font-weight:700;">
+                                    🎯 기준시점 총액 ($\sum P_0 Q_0$): <span id="c0-calc-sum0">—</span> (이 시점의 물가지수를 100으로 약속함)
+                                </div>
+                            </div>
+ 
+                            <!-- 3단계: 가격 조사 -->
+                            <div style="padding: 1.25rem; background: var(--slate-50); border-radius: 8px; border: 1px solid var(--slate-200); border-left: 4px solid var(--primary);">
+                                <strong style="font-size: 1rem; color: var(--navy); display: block; margin-bottom: 0.5rem;">3단계: 가격 조사 (Price Survey)</strong>
+                                <p style="font-size: 0.85rem; color: var(--slate-600); margin-bottom: 1rem;">
+                                    정기적으로 전국 주요 도시의 상점에서 실제 거래되는 현재 가격($P_t$) 데이터를 수집합니다. 아래 슬라이더를 통해 각 품목의 현재 가격을 변동시켜 보세요.
+                                </p>
+                                
+                                <div style="display:flex; flex-direction:column; gap:0.75rem;">
+                                    <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+                                        <span style="min-width:120px; font-weight:700; font-size:0.85rem; color:var(--slate-800);">🌾 쌀 현재가 ($P_{t,쌀}$):</span>
+                                        <input type="range" id="c0-pt-rice" style="flex:1; min-width:150px;" class="slider" min="10000" max="60000" step="1000" value="33000">
+                                        <span style="min-width:90px; text-align:right;"><strong id="c0-pt-rice-val" style="color:var(--primary);">33,000</strong> 원</span>
+                                    </div>
+                                    <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+                                        <span style="min-width:120px; font-weight:700; font-size:0.85rem; color:var(--slate-800);">⚡ 전기요금 현재가 ($P_{t,전기}$):</span>
+                                        <input type="range" id="c0-pt-elec" style="flex:1; min-width:150px;" class="slider" min="50" max="300" step="5" value="180">
+                                        <span style="min-width:90px; text-align:right;"><strong id="c0-pt-elec-val" style="color:var(--primary);">180</strong> 원</span>
+                                    </div>
+                                    <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+                                        <span style="min-width:120px; font-weight:700; font-size:0.85rem; color:var(--slate-800);">🎬 영화료 현재가 ($P_{t,영화}$):</span>
+                                        <input type="range" id="c0-pt-movie" style="flex:1; min-width:150px;" class="slider" min="5000" max="25000" step="500" value="14000">
+                                        <span style="min-width:90px; text-align:right;"><strong id="c0-pt-movie-val" style="color:var(--primary);">14,000</strong> 원</span>
+                                    </div>
+                                </div>
+                            </div>
+ 
+                            <!-- 4단계: 지수 산출 -->
+                            <div style="padding: 1.25rem; background: var(--slate-50); border-radius: 8px; border: 1px solid var(--slate-200); border-left: 4px solid var(--primary);">
+                                <strong style="font-size: 1rem; color: var(--navy); display: block; margin-bottom: 0.5rem;">4단계: 지수 산출 (Index Calculation)</strong>
+                                <p style="font-size: 0.85rem; color: var(--slate-600); margin-bottom: 0.75rem;">
+                                    기준량($Q_0$)을 가중치로 한 라스파이레스 공식을 사용하여 현재 시점의 종합 소비자물가지수(CPI)를 실시간 계산합니다.
+                                </p>
+                                <p style="font-size: 0.82rem; font-family: monospace; text-align:center; padding:0.5rem; background:#fff; border-radius:4px; border:1px solid var(--slate-200); margin-bottom:0.75rem;">
+                                    $$CPI = \frac{\sum (P_t \times Q_0)}{\sum (P_0 \times Q_0)} \times 100$$
+                                </p>
+                                
+                                <div style="background:var(--white); padding: 0.8rem; border-radius: 6px; border: 1px solid var(--slate-200); font-size:0.85rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:0.75rem;">
+                                    <div>현재시점 총액 ($\sum P_t Q_0$): <strong id="c0-calc-sumt" style="color:var(--navy);">—</strong></div>
+                                    <div style="background:#f5f3ff; padding:0.3rem 0.6rem; border-radius:4px;">
+                                        <strong>최종 소비자물가지수 (CPI):</strong> <span id="c0-calc-cpi" style="font-size:1.05rem; color:var(--primary); font-weight:800;">—</span>
+                                    </div>
+                                </div>
+                            </div>
+ 
+                            <!-- 5단계 및 유의사항 -->
+                            <div style="padding: 1.25rem; background: var(--slate-50); border-radius: 8px; border: 1px solid var(--slate-200); border-left: 4px solid var(--primary);">
+                                <strong style="font-size: 1rem; color: var(--navy); display: block; margin-bottom: 0.5rem;">5단계: 분석 및 공표 (Analysis &amp; Publication)</strong>
+                                <p style="font-size: 0.85rem; color: var(--slate-600); margin-bottom: 0.75rem;">
+                                    산출된 데이터를 전월 대비(MoM), 전년 동월 대비(YoY) 등으로 분석하여 매월 초에 발표합니다. 이 지표는 통화 정책, 임금 협상, 연금 조정 등의 기초 자료로 활용됩니다.
+                                </p>
+                                
+                                <div style="background:#fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 0.75rem; font-size:0.82rem; color:#92400e; line-height:1.65;">
+                                    <strong>💡 통계적 유의사항 요약</strong><br>
+                                    - <strong>체감물가 격차</strong>: CPI는 가계 평균 지출을 기준하므로, 특정 품목 소비가 많은 개인의 실질 체감 물가(My-CPI)와 다릅니다.<br>
+                                    - <strong>품목 교체</strong>: 기술 발전 등에 따라 공중전화 같은 품목은 제외하고 OTT 이용료 등 현실성 있는 대상을 수시로 개편합니다.
+                                </div>
+                            </div>
+ 
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-            <div class="weight-status-bar">
-              <div class="ws-row">
-                <span>가중치 합계:</span>
-                <strong id="weight-total">0%</strong>
-              </div>
-              <div class="progress-container">
-                <div id="weight-progress" class="progress-bar"></div>
-              </div>
-              <span id="weight-warning" class="warning-text hidden">⚠️ 합계를 100%로 맞춰주세요.</span>
-            </div>
-          </div>
+            <!-- ================================================
+             1차시: 데이터의 가중 구조 (Weighted Structure) 학습
+            ================================================ -->
+            <section id="class1" class="tab-content" role="tabpanel" aria-labelledby="tab-class1">
+                <div class="section-intro">
+                    <img src="/icon1.png" alt="가중 구조 CPI 아이콘" class="section-intro-img">
+                    <div class="section-intro-body">
+                        <h2>[1차시] 데이터의 가중 구조 (Weighted Structure) 학습</h2>
+                        <p>"여러 하위 항목이 단순 합산되는 것이 아니라, 각 항목이 서로 다른 가중치(중요도)를 가지고 결합된 데이터입니다."</p>
+                        <div class="tag-row">
+                            <span class="tag">구간척도로서의 물가지수</span>
+                            <span class="tag">평균의 함정</span>
+                            <span class="tag">가중평균</span>
+                            <span class="tag">국가 CPI vs My-CPI</span>
+                        </div>
+                    </div>
+                </div>
 
-          <div class="card">
-            <h2 class="card-title">📊 가중치 구조 비교 (국가 vs 나)</h2>
-            <div class="chart-wrap">
-              <canvas id="p1-chart-weight" aria-label="가중치 비교 막대그래프"></canvas>
-            </div>
-            <div class="cpi-cards">
-              <div class="cpi-card">
-                <span class="cpi-label">공식 CPI</span>
-                <span class="cpi-val" id="official-cpi-val">—</span>
-              </div>
-              <div class="cpi-card highlight">
-                <span class="cpi-label">My-CPI</span>
-                <span class="cpi-val" id="my-cpi-val">—</span>
-              </div>
-              <div class="cpi-card">
-                <span class="cpi-label">단순 평균</span>
-                <span class="cpi-val" id="simple-cpi-val">—</span>
-              </div>
-            </div>
-          </div>
-        </div>
+                <!-- [도입] -->
+                <div class="card concept-card" style="margin-bottom: 1.5rem;">
+                    <div class="concept-header">
+                        <span class="concept-badge">💡 도입</span>
+                        <h3>생각 열기 (3분 워밍업)</h3>
+                    </div>
+                    <div class="concept-body">
+                        <p><strong>교과서 연계 단원:</strong> Ⅰ-2-01. 자료의 종류 (구간척도로서의 물가지수), Ⅱ-1-02. 자료의 분포 (평균의 함정)<br>
+                        <strong>탐구 질문:</strong> "이 수치는 단순히 모두 더한 것인가, 항목별 중요도가 다른 가중 합성 데이터인가?"</p>
+                        <hr style="margin: 0.8rem 0; border: none; border-top: 1px solid var(--slate-200);">
+                        <p><strong>발문:</strong> "기상청에서 발표하는 오늘의 체감온도나, 교육부의 학교 만족도 점수는 과연 단순평균일까요? 만약 급식, 시설, 교우관계의 중요성이 학생마다 다른데 모두 똑같이 $1/n$로 더해서 계산한다면 그 통계는 우리의 현실을 반영한다고 볼 수 있을까요?"</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.88rem; color: var(--slate-600);">
+                            <strong>핵심 판별:</strong> 단순평균과 가중평균의 수학적 차이를 인식하고, 일상 속 수치들이 서로 다른 비중을 가진 가중 구조(Weighted Structure) 데이터임을 분별합니다.
+                        </p>
+                        
+                        <!-- 읽기 자료 및 링크 -->
+                        <div style="margin-top: 1rem; padding: 0.8rem; background: var(--slate-50); border-radius: 6px; border: 1px solid var(--slate-200);">
+                            <strong style="display:block; margin-bottom: 0.3rem; font-size: 0.85rem; color: var(--primary);">📖 통계청 KOSIS 공식 자료 학습 링크</strong>
+                            <a href="https://kosis.kr/statHtml/statHtml.do?sso=ok&returnurl=https%3A%2F%2Fkosis.kr%3A443%2FstatHtml%2FstatHtml.do%3Fmode%3D%26conn_path%3Di3%26list_id%3D%26dbUser%3DNSI.%26tblId%3DDT_1J22001%26vw_cd%3DMT_ZTITLE%26itm_id%3D%26language%3Dko%26pub%3D%26orgId%3D101%26" target="_blank" class="unit" style="color:var(--primary); font-weight:700; text-decoration:underline; font-size:0.85rem;">
+                                🔗 통계청 KOSIS 소비자물가지수 품목별 가중치 데이터 조회하기
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
-        <!-- 수업: 왜곡도 & 이상치 시뮬레이터 -->
-        <div class="grid-2" style="margin-top:1.5rem;">
-          <div class="card">
-            <h2 class="card-title">📋 학급 용돈 데이터 분석 (n=50)</h2>
-            <p class="card-desc">구글 폼으로 수집된 가상 학급 데이터입니다. 이상치 처리 방식을 바꿔가며 대표값 변화를 관찰하세요.</p>
+                <!-- 수식 추가 (LaTeX 적용) -->
+                <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--info);">
+                    <div class="concept-header">
+                        <span class="concept-badge" style="background:#e0f2fe; color:#0369a1;">🧮 핵심 수식</span>
+                        <h3>가중평균 물가지수 산출 수식</h3>
+                    </div>
+                    <div class="concept-body" style="text-align: center; padding: 1.25rem; background: var(--slate-50); border-radius: 8px;">
+                        <p style="font-size: 1.15rem; margin-bottom: 0.6rem; color: var(--navy);">
+                            $$\text{단순평균: } \bar{x} = \frac{x_1 + x_2 + \cdots + x_n}{n}$$
+                        </p>
+                        <p style="font-size: 1.15rem; margin-bottom: 0.6rem; color: var(--navy);">
+                            $$\text{가중평균: } \bar{x}_w = \frac{w_1x_1 + w_2x_2 + \cdots + w_nx_n}{w_1 + w_2 + \cdots + w_n} = \frac{\sum_{i=1}^{n} w_i x_i}{\sum_{i=1}^{n} w_i}$$
+                        </p>
+                        <p style="font-size: 0.85rem; color: var(--slate-600);">
+                            (여기서 $w_i$는 품목별 가중치(비중), $x_i$는 품목별 물가상승률)
+                        </p>
+                    </div>
+                </div>
 
-            <div class="outlier-controls">
-              <p class="oc-label">🔧 이상치(Outlier) 처리 방식 선택</p>
-              <div class="radio-group">
-                <label class="radio-item">
-                  <input type="radio" name="outlier-method" value="none" checked>
-                  <span>처리 없음 (원본 데이터)</span>
-                </label>
-                <label class="radio-item">
-                  <input type="radio" name="outlier-method" value="iqr">
-                  <span>IQR 방식 (Q₁ − 1.5×IQR ~ Q₃ + 1.5×IQR 외 제거)</span>
-                </label>
-                <label class="radio-item">
-                  <input type="radio" name="outlier-method" value="sd">
-                  <span>Z-Score 방식 (±2σ 초과 제거)</span>
-                </label>
-              </div>
-            </div>
+                <!-- [전개] -->
+                <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--primary);">
+                    <div class="concept-header">
+                        <span class="concept-badge practice">⚙️ 전개 (실습)</span>
+                        <h3>개념 탐구 및 My-CPI 산출 (35분)</h3>
+                    </div>
+                    <p class="card-desc">학생들은 자신의 실제 한 달 소비 지출 장부를 작성하여 식비, 문화생활비, 학업비 등으로 항목을 분류하고 가중치($w_i$)를 직접 조절하여 <strong>My-CPI(나만의 물가지수)</strong>를 계산합니다.</p>
 
-            <div class="stat-grid">
-              <div class="stat-item"><span>평균 (Mean)</span><strong id="stat-mean">—</strong></div>
-              <div class="stat-item"><span>중앙값 (Median)</span><strong id="stat-median">—</strong></div>
-              <div class="stat-item"><span>최빈값 (Mode)</span><strong id="stat-mode">—</strong></div>
-              <div class="stat-item"><span>왜곡도 (Skewness)</span><strong id="stat-skewness">—</strong></div>
-              <div class="stat-item"><span>Q₁ (1사분위수)</span><strong id="stat-q1">—</strong></div>
-              <div class="stat-item"><span>Q₃ (3사분위수)</span><strong id="stat-q3">—</strong></div>
-              <div class="stat-item"><span>IQR (사분범위)</span><strong id="stat-iqr">—</strong></div>
-              <div class="stat-item"><span>1.5×IQR</span><strong id="stat-iqr15">—</strong></div>
-              <div class="stat-item"><span>유효 데이터 수</span><strong id="stat-count">—</strong></div>
-            </div>
-          </div>
+                    <div class="grid-2">
+                        <div>
+                            <h4 style="margin-bottom:1rem;color:var(--navy);">⚖️ 나의 실제 지출 가중치($w_i$) 설정</h4>
+                            <div id="c1-weight-inputs">
+                                <!-- JS 동적 렌더링 -->
+                            </div>
+                            <div class="weight-status-bar">
+                                <div class="ws-row">
+                                    <span>가중치 합계:</span>
+                                    <strong id="c1-weight-total">0%</strong>
+                                </div>
+                                <div class="progress-container">
+                                    <div id="c1-weight-progress" class="progress-bar"></div>
+                                </div>
+                                <span id="c1-weight-warning" class="warning-text hidden">⚠️ 합계를 100%로 맞춰주세요.</span>
+                            </div>
+                            <button type="button" id="btn-rand-weights" class="btn-primary" style="margin-top: 1rem; width: auto; background-color: var(--navy);">
+                                🎲 랜덤 가중치 설정
+                            </button>
+                        </div>
+                        <div>
+                            <h4 style="margin-bottom:1rem;color:var(--navy);">📊 가중치 구조 비교 차트</h4>
+                            <div class="chart-wrap">
+                                <canvas id="c1-chart-weight"></canvas>
+                            </div>
+                            <div class="cpi-cards">
+                                <div class="cpi-card">
+                                    <span class="cpi-label">공식 국가 CPI</span>
+                                    <span class="cpi-val" id="c1-official-val">—</span>
+                                </div>
+                                <div class="cpi-card highlight">
+                                    <span class="cpi-label">나의 My-CPI</span>
+                                    <span class="cpi-val" id="c1-my-val">—</span>
+                                </div>
+                                <div class="cpi-card">
+                                    <span class="cpi-label">단순 평균</span>
+                                    <span class="cpi-val" id="c1-simple-val">—</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-          <div class="card">
-            <h2 class="card-title">📈 데이터 분포 히스토그램</h2>
-            <div class="chart-wrap">
-              <canvas id="p1-chart-dist" aria-label="용돈 분포 히스토그램"></canvas>
-            </div>
-            <p class="chart-note">🔴 빨간선: 평균 &nbsp;|&nbsp; 🔵 파란선: 중앙값 &nbsp;|&nbsp; 🟢 초록선: 최빈값</p>
-          </div>
-        </div>
+                <!-- [정리] -->
+                <div class="card concept-card question-card">
+                    <div class="concept-header">
+                        <span class="concept-badge summary">📝 정리</span>
+                        <h3>Q1. 국가 CPI vs My-CPI의 수리적 타당성 설명</h3>
+                    </div>
+                    <div class="question-box">
+                        <p><strong>정리:</strong> 소비 패턴 데이터는 개인의 성향과 사생활이 고스란히 담긴 민감 정보입니다. 학급 데이터를 취합하기 전에 개인정보의 <strong>'익명성 보장(Anonymization)'</strong>과 데이터 윤리의 필요성을 인지합시다.</p>
+                        <hr style="margin: 0.8rem 0; border: none; border-top: 1px solid var(--slate-200);">
+                        <p><strong>Q1 활동지 서술:</strong> 공식 국가 가중치와 내가 설계한 가중치의 편차를 비교해 보고, My-CPI가 나의 실제 경제적 현실을 얼마나 더 타당하게 대변하는지 수리적으로 정당화하여 기술하시오.</p>
+                    </div>
+                    <textarea id="c-q1-answer" class="answer-box" placeholder="자신의 생각을 기록하세요..." rows="6"></textarea>
+                    <div class="char-count"><span id="c-q1-chars">0</span>자 작성됨</div>
+                </div>
 
-        <!-- ── 수행평가 영역 헤더 ── -->
-        <div class="zone-header assessment">
-          <span class="zone-badge assess-badge">🟡 수행평가 영역</span>
-          <span class="zone-desc">개별 활동지를 작성하세요. 작성 내용은 자동 저장됩니다.</span>
-          <span class="score-badge">배점 100점 · 반영비율 10%</span>
-        </div>
+            </section>
 
-        <!-- 활동지 1-1: 가중치 기록표 -->
-        <div class="card assess-card">
-          <div class="activity-header">
-            <span class="activity-num">활동 1-1</span>
-            <h3>나의 지출 가중치(w<sub>i</sub>) 기록표</h3>
-          </div>
-          <p class="activity-desc">시뮬레이터에서 설정한 값이 자동으로 채워집니다. 국가 가중치와의 <strong>차이(편차)</strong>를 직접 계산하여 기록하세요.</p>
-          <div class="table-scroll">
-            <table class="activity-table" id="act1-1-table">
-              <thead>
-                <tr>
-                  <th>소비 카테고리</th>
-                  <th>국가 가중치 (a<sub>i</sub>)</th>
-                  <th>나의 가중치 (w<sub>i</sub>)</th>
-                  <th>편차 (w<sub>i</sub> − a<sub>i</sub>)</th>
-                  <th>품목 물가상승률 (p<sub>i</sub>)</th>
-                  <th>w<sub>i</sub>×p<sub>i</sub> 기여분</th>
-                </tr>
-              </thead>
-              <tbody id="act1-1-tbody">
-                <!-- JS 동적 렌더링 -->
-              </tbody>
-              <tfoot>
-                <tr class="table-foot">
-                  <td><strong>합계 / My-CPI</strong></td>
-                  <td>100.0%</td>
-                  <td id="act1-1-total-w">—</td>
-                  <td>—</td>
-                  <td>—</td>
-                  <td id="act1-1-mycpi">—</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-        </div>
+            <!-- ================================================
+             2차시: 데이터의 왜곡도 (Skewness & Outlier)와 대푯값 정합성
+            ================================================ -->
+            <section id="class2" class="tab-content" role="tabpanel" aria-labelledby="tab-class2">
 
-        <!-- 활동지 1-2: 이상치 기준 계산표 -->
-        <div class="card assess-card">
-          <div class="activity-header">
-            <span class="activity-num">활동 1-2</span>
-            <h3>학급 데이터 이상치 기준 계산표</h3>
-          </div>
-          <p class="activity-desc">상자수염그림(Box Plot)에서 파악한 수치를 기록하고, IQR 방식의 이상치 기준값을 직접 계산하세요.</p>
-          <div class="table-scroll">
-            <table class="activity-table" id="act1-2-table">
-              <thead>
-                <tr>
-                  <th>통계 항목</th>
-                  <th>원본 데이터 값</th>
-                  <th>IQR 제거 후 값</th>
-                  <th>Z-Score 제거 후 값</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>평균 (Mean)</td>
-                  <td id="r-mean-raw" class="auto-fill">—</td>
-                  <td id="r-mean-iqr" class="auto-fill">—</td>
-                  <td id="r-mean-sd" class="auto-fill">—</td>
-                </tr>
-                <tr>
-                  <td>중앙값 (Median)</td>
-                  <td id="r-med-raw" class="auto-fill">—</td>
-                  <td id="r-med-iqr" class="auto-fill">—</td>
-                  <td id="r-med-sd" class="auto-fill">—</td>
-                </tr>
-                <tr>
-                  <td>왜곡도 (Skewness)</td>
-                  <td id="r-skew-raw" class="auto-fill">—</td>
-                  <td id="r-skew-iqr" class="auto-fill">—</td>
-                  <td id="r-skew-sd" class="auto-fill">—</td>
-                </tr>
-                <tr>
-                  <td>Q₁ (1사분위수)</td>
-                  <td id="r-q1" class="auto-fill" colspan="3">—</td>
-                </tr>
-                <tr>
-                  <td>Q₃ (3사분위수)</td>
-                  <td id="r-q3" class="auto-fill" colspan="3">—</td>
-                </tr>
-                <tr>
-                  <td>IQR = Q₃ − Q₁</td>
-                  <td id="r-iqr" class="auto-fill" colspan="3">—</td>
-                </tr>
-                <tr>
-                  <td>이상치 하한 = Q₁ − 1.5×IQR</td>
-                  <td id="r-lower" class="auto-fill" colspan="3">—</td>
-                </tr>
-                <tr>
-                  <td>이상치 상한 = Q₃ + 1.5×IQR</td>
-                  <td id="r-upper" class="auto-fill" colspan="3">—</td>
-                </tr>
-                <tr>
-                  <td>유효 데이터 수</td>
-                  <td id="r-n-raw" class="auto-fill">50명</td>
-                  <td id="r-n-iqr" class="auto-fill">—</td>
-                  <td id="r-n-sd" class="auto-fill">—</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+                <div class="section-intro">
+                    <img src="/icon2.png" alt="데이터 왜곡도 아이콘" class="section-intro-img">
+                    <div class="section-intro-body">
+                        <h2>[2차시] 데이터의 왜곡도 (Skewness &amp; Outlier)와 대푯값 정합성</h2>
+                        <p>"대다수의 데이터는 한쪽에 치우쳐 밀집해 있고, 극단적 값(이상치)이 존재하여 단순 평균치 계산이 착시를 유발하는 분포입니다."</p>
+                        <div class="tag-row">
+                            <span class="tag">대푯값의 선택</span>
+                            <span class="tag">상자그림 (특이점 판별식)</span>
+                            <span class="tag">왜곡도(Skewness)</span>
+                            <span class="tag">이상치(Outlier)</span>
+                        </div>
+                    </div>
+                </div>
 
-        <!-- 서·논술형 Q1-1 -->
-        <div class="card assess-card question-card">
-          <div class="activity-header">
-            <span class="activity-num q-badge">Q1-1</span>
-            <h3>국가 CPI와 My-CPI의 수리적 격차 원인 논술</h3>
-          </div>
-          <div class="question-box">
-            <p>위 활동지 1-1의 편차(w<sub>i</sub> − a<sub>i</sub>) 수치를 근거로, 가중평균 구조에서 개인의 지출 가중치가 어떻게 CPI 격차를 발생시키는지 수리적으로
-              서술하시오. 단순평균과의 차이도 포함하여 논술하시오.</p>
-          </div>
-          <textarea id="q1-1-answer" class="answer-box"
-            placeholder="예) 나의 w_교육 = 25%로 국가 a_교육 = 12%보다 13%p 높아, 교육 물가상승률 2.1%가 더 크게 반영되어 My-CPI가 국가 CPI보다 높게 산출된다…"
-            rows="7"></textarea>
-          <div class="char-count"><span id="q1-1-chars">0</span>자 작성됨</div>
-        </div>
+                <!-- [도입] -->
+                <div class="card concept-card" style="margin-bottom: 1.5rem;">
+                    <div class="concept-header">
+                        <span class="concept-badge">💡 도입</span>
+                        <h3>생각 열기 (3분 워밍업)</h3>
+                    </div>
+                    <div class="concept-body">
+                        <p><strong>교과서 연계 단원:</strong> Ⅱ-1-02. 자료의 분포 (대푯값의 선택), Ⅱ-1-03. 상자그림 (특이점 판별식)<br>
+                        <strong>탐구 질문:</strong> "자료의 분포가 대칭인가, 한쪽으로 치우쳐 평균이 집단의 진짜 모습을 왜곡하는가?"</p>
+                        <hr style="margin: 0.8rem 0; border: none; border-top: 1px solid var(--slate-200);">
+                        <p><strong>발문:</strong> "우리 반 학생들의 한 달 용돈 평균을 냈더니 10만 원이 나왔습니다. 그런데 정작 70%가 넘는 학생들은 한 달에 3만 원밖에 안 쓴다고 합니다. 왜 이런 괴리가 발생했을까요? 평균이라는 수치가 집단의 진짜 모습을 감추는 함정은 무엇일까요?"</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.88rem; color: var(--slate-600);">
+                            <strong>핵심 판별:</strong> 소수의 극단치로 인해 좌우 균형이 깨진 **비대칭 편향 분포(Skewed Distribution)**의 성격을 판별합니다.
+                        </p>
+                    </div>
+                </div>
 
-        <!-- 서·논술형 Q1-2 -->
-        <div class="card assess-card question-card">
-          <div class="activity-header">
-            <span class="activity-num q-badge">Q1-2</span>
-            <h3>이상치 근거에 따른 대표값 선택의 정합성 논술</h3>
-          </div>
-          <div class="question-box">
-            <p>활동지 1-2에서 산출된 이상치 기준값과 왜곡도(Skewness)를 근거로, 이 집단의 용돈 분포를 대표하기에 가장 정합성이 높은 대표값(평균 vs 중앙값 vs 최빈값)을 선택하고 그
-              타당성을 수리적으로 논술하시오.</p>
-          </div>
-          <textarea id="q1-2-answer" class="answer-box"
-            placeholder="예) 왜곡도가 +2.31로 강한 우편향을 보이며, IQR 기준 이상치가 6명 존재한다. 따라서 이상치에 민감한 평균보다 중앙값이 집단을 더 잘 대표한다…"
-            rows="7"></textarea>
-          <div class="char-count"><span id="q1-2-chars">0</span>자 작성됨</div>
-        </div>
+                <!-- 2차시 수식 추가 (LaTeX 적용) -->
+                <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--info);">
+                    <div class="concept-header">
+                        <span class="concept-badge" style="background:#e0f2fe; color:#0369a1;">🧮 핵심 수식</span>
+                        <h3>이상치 판별식 및 왜곡도 공식</h3>
+                    </div>
+                    <div class="concept-body" style="text-align: center; padding: 1.25rem; background: var(--slate-50); border-radius: 8px;">
+                        <p style="font-size: 1.15rem; margin-bottom: 0.6rem; color: var(--navy);">
+                            $$\text{사분위수범위: } IQR = Q_3 - Q_1$$
+                        </p>
+                        <p style="font-size: 1.15rem; margin-bottom: 0.6rem; color: var(--navy);">
+                            $$\text{이상치 판별 한계선: } [Q_1 - 1.5 \times IQR \quad , \quad Q_3 + 1.5 \times IQR]$$
+                        </p>
+                        <p style="font-size: 1.15rem; margin-bottom: 0.6rem; color: var(--navy);">
+                            $$\text{왜곡도(Skewness): } g_1 = \frac{\frac{1}{N} \sum_{i=1}^{N} (x_i - \bar{x})^3}{s^3}$$
+                        </p>
+                        <p style="font-size: 0.85rem; color: var(--slate-600);">
+                            ($Q_1$, $Q_3$는 제1, 제3사분위수, $\bar{x}$는 평균, $s$는 표준편차, $g_1 > 0$이면 오른쪽으로 꼬리가 긴 분포)
+                        </p>
+                    </div>
+                </div>
 
-      </section>
+                <!-- [전개] -->
+                <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--primary);">
+                    <div class="concept-header">
+                        <span class="concept-badge practice">⚙️ 전개 (실습)</span>
+                        <h3>상자그림을 통한 이상치 필터링 및 대푯값 결정 (35분)</h3>
+                    </div>
+                    <p class="card-desc">학급 전체 학생의 지출 데이터를 구글 폼으로 익명 수집하였다고 가정하고, 이상치 제거 방식에 따른 대푯값(평균, 중앙값, 최빈값)의 변화를 실습합니다.</p>
 
-      <!-- ================================================
-             2차 수행평가: 비선형 추세 및 구매력 분석
-             수업: r·n 슬라이더 + 복리/단리 비교 곡선
-             평가: 활동지 2-1 / Q2-1, Q2-2
-        ================================================ -->
-      <section id="perf2" class="tab-content" role="tabpanel" aria-labelledby="tab-perf2">
+                    <div class="grid-2">
+                        <div>
+                            <div class="outlier-controls">
+                                <p class="oc-label">🔧 이상치 처리 방식 실습</p>
+                                <div class="radio-group">
+                                    <label class="radio-item">
+                                        <input type="radio" name="class-outlier-method" value="none" checked>
+                                        <span>처리 없음 (원본 데이터)</span>
+                                    </label>
+                                    <label class="radio-item">
+                                        <input type="radio" name="class-outlier-method" value="iqr">
+                                        <span>IQR 방식 제거 (Q₁ - 1.5×IQR ~ Q₃ + 1.5×IQR 외)</span>
+                                    </label>
+                                    <label class="radio-item">
+                                        <input type="radio" name="class-outlier-method" value="sd">
+                                        <span>Z-Score 방식 제거 (±2σ 초과 제거)</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="stat-grid">
+                                <div class="stat-item"><span>평균 (Mean)</span><strong id="c2-stat-mean">—</strong></div>
+                                <div class="stat-item"><span>중앙값 (Median)</span><strong id="c2-stat-median">—</strong></div>
+                                <div class="stat-item"><span>최빈값 (Mode)</span><strong id="c2-stat-mode">—</strong></div>
+                                <div class="stat-item"><span>왜곡도 (Skewness)</span><strong id="c2-stat-skewness">—</strong></div>
+                                <div class="stat-item"><span>유효 샘플 수</span><strong id="c2-stat-count">—</strong></div>
+                            </div>
+                            <button type="button" id="btn-rand-data" class="btn-primary" style="margin-top: 1rem; width: auto; background-color: var(--navy);">
+                                🎲 가상 데이터 랜덤 생성
+                            </button>
+                        </div>
+                        <div>
+                            <h4 style="margin-bottom:1rem;color:var(--navy);">📈 분포와 대표값들의 위치</h4>
+                            <div class="chart-wrap">
+                                <canvas id="c2-chart-dist"></canvas>
+                            </div>
+                            <p class="chart-note">🔴 평균 | 🔵 중앙값 | 🟢 최빈값</p>
+                        </div>
+                    </div>
+                </div>
 
-        <!-- 섹션 소개 -->
-        <div class="section-intro">
-          <img src="/icon3.png" alt="비선형 구매력 감쇄 아이콘" class="section-intro-img">
-          <div class="section-intro-body">
-            <h2>2차 수행평가: 비선형 추세 및 구매력 분석</h2>
-            <p>물가상승률(<strong>r</strong>)과 기간(<strong>n</strong>)을 변수로 하는 복리 공식 $\frac{100}{(1+r)^n}$ 을 시뮬레이션합니다.
-              선형(단리) 감쇄 직선과 비선형(복리) 감쇄 곡선을 직접 비교하며, 장기적 구매력 손실의 수리적 구조를 탐구합니다.</p>
-            <div class="tag-row">
-              <span class="tag">복리(Compound)</span>
-              <span class="tag">비선형 시계열</span>
-              <span class="tag">실질 구매력</span>
-              <span class="tag">조건부 가정</span>
-            </div>
-          </div>
-        </div>
+                <!-- [정리] -->
+                <div class="card concept-card question-card">
+                    <div class="concept-header">
+                        <span class="concept-badge summary">📝 정리</span>
+                        <h3>Q2. 대표값 선택의 타당성 판단</h3>
+                    </div>
+                    <div class="question-box">
+                        <p><strong>정리:</strong> 소득 격차나 주택 가격 통계에서 중앙값 대신 단순 평균만을 사용할 경우 발생하는 통계의 착시 현상과 이를 무비판적으로 신뢰했을 때의 오류를 성찰해 봅시다.</p>
+                        <hr style="margin: 0.8rem 0; border: none; border-top: 1px solid var(--slate-200);">
+                        <p><strong>Q2 활동지 서술:</strong> 학급 전체 소비 분포의 비대칭성(왜곡도)과 수리적 이상치 유무를 데이터 근거로 제시하고, 집단을 대표하기에 평균과 중앙값 중 어떤 것이 통계학적으로 더 타당한지 서술하시오.</p>
+                    </div>
+                    <textarea id="c-q2-answer" class="answer-box" placeholder="자신의 생각을 기록하세요..." rows="6"></textarea>
+                    <div class="char-count"><span id="c-q2-chars">0</span>자 작성됨</div>
+                </div>
 
-        <div class="zone-header instruction">
-          <span class="zone-badge instr-badge">🔵 수업 진행 영역</span>
-          <span class="zone-desc">슬라이더를 조작하며 선형·비선형 감쇄 곡선의 차이를 관찰하세요.</span>
-        </div>
+            </section>
 
-        <div class="grid-2">
-          <div class="card">
-            <h2 class="card-title">💸 미래 구매력 시뮬레이터</h2>
-            <p class="card-desc">
-              My-CPI 상승률(<strong>r</strong>)과 예측 기간(<strong>n</strong>)을 조절하며<br>
-              100만원의 실질 가치 변화를 관찰합니다.<br>
-              <em>r 기본값은 1차 시뮬레이터에서 산출된 My-CPI 값으로 자동 연동됩니다.</em>
-            </p>
+            <!-- ================================================
+             3차시: 비선형 복리성 (Non-linearity & Compounding) 데이터
+            ================================================ -->
+            <section id="class3" class="tab-content" role="tabpanel" aria-labelledby="tab-class3">
 
-            <div class="input-group">
-              <label for="sim-rate">📈 연간 My-CPI 상승률 (r, %)</label>
-              <div class="range-row">
-                <input type="range" id="sim-rate" min="0" max="20" step="0.1" value="3.4" class="slider">
-                <input type="number" id="sim-rate-num" min="0" max="20" step="0.1" value="3.4" class="num-input">
-                <span class="unit">%</span>
-              </div>
-            </div>
+                <div class="section-intro">
+                    <img src="/icon3.png" alt="비선형 시계열 아이콘" class="section-intro-img">
+                    <div class="section-intro-body">
+                        <h2>[3차시] 비선형 복리성 (Non-linearity &amp; Compounding) 데이터</h2>
+                        <p>"변수의 변화가 단순 합산(선형)으로 축적되는 것이 아니라, 곱셈과 지수적 형태(비선형)로 누적·증폭되는 데이터입니다."</p>
+                        <div class="tag-row">
+                            <span class="tag">산점도와 추세선</span>
+                            <span class="tag">상관계수</span>
+                            <span class="tag">비선형 복리성 모델</span>
+                            <span class="tag">실질 구매력 감소</span>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="input-group">
-              <label for="sim-years">📅 예측 기간 (n, 년)</label>
-              <div class="range-row">
-                <input type="range" id="sim-years" min="1" max="50" value="20" class="slider">
-                <input type="number" id="sim-years-num" min="1" max="50" value="20" class="num-input">
-                <span class="unit">년</span>
-              </div>
-            </div>
+                <!-- [도입] -->
+                <div class="card concept-card" style="margin-bottom: 1.5rem;">
+                    <div class="concept-header">
+                        <span class="concept-badge">💡 도입</span>
+                        <h3>생각 열기 (3분 워밍업)</h3>
+                    </div>
+                    <div class="concept-body">
+                        <p><strong>교과서 연계 단원:</strong> Ⅱ-2-01. 상관관계 (산점도와 추세선), Ⅱ-2-02. 상관계수<br>
+                        <strong>탐구 질문:</strong> "1%p의 물가 및 이율 차이가 시간에 따라 똑같이 증가하는가, 기하급수적으로 폭발하는가?"</p>
+                        <hr style="margin: 0.8rem 0; border: none; border-top: 1px solid var(--slate-200);">
+                        <p><strong>발문:</strong> "매년 내 My-CPI(개인 물가)가 3%씩 복리로 상승한다고 가정해 봅시다. 10년 뒤 내 용돈의 가치(구매력)는 과연 30%가 줄어드는 것일까요, 아니면 그보다 훨씬 더 많이 떨어지게 될까요? 이 변화는 직선 모양일까요, 곡선 모양일까요?"</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.88rem; color: var(--slate-600);">
+                            <strong>핵심 판별:</strong> 시간 경과와 누적 성장에 따른 비선형성(Non-linearity) 및 복리 효과(Exponential Compounding)를 판별합니다.
+                        </p>
+                    </div>
+                </div>
 
-            <div class="metric-row">
-              <div class="metric-card">
-                <span>누적 물가상승률</span>
-                <strong id="accumulated-inflation">—</strong>
-              </div>
-              <div class="metric-card danger">
-                <span>실질 가치 (100만원 기준)</span>
-                <strong id="real-purchasing-power">—</strong>
-              </div>
-            </div>
-          </div>
+                <!-- 3차시 수식 추가 (LaTeX 적용) -->
+                <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--info);">
+                    <div class="concept-header">
+                        <span class="concept-badge" style="background:#e0f2fe; color:#0369a1;">🧮 핵심 수식</span>
+                        <h3>선형 분석과 비선형 복리 공식</h3>
+                    </div>
+                    <div class="concept-body" style="text-align: center; padding: 1.25rem; background: var(--slate-50); border-radius: 8px;">
+                        <p style="font-size: 1.15rem; margin-bottom: 0.6rem; color: var(--navy);">
+                            $$\text{비선형 복리 감쇄: } FV = PV \times (1 + r)^{-n} = \frac{100}{(1+r)^n}$$
+                        </p>
+                        <p style="font-size: 1.15rem; margin-bottom: 0.6rem; color: var(--navy);">
+                            $$\text{선형 단리 감쇄: } FV_{\text{simp}} = \frac{100}{1 + r \times n}$$
+                        </p>
+                        <p style="font-size: 1.15rem; margin-bottom: 0.6rem; color: var(--navy);">
+                            $$\text{선형 회귀 추세식: } y = ax + b$$
+                        </p>
+                        <p style="font-size: 0.85rem; color: var(--slate-600);">
+                            ($r$은 물가상승률(소수점), $n$은 경과 연도. 기간이 길어질수록 곡선(지수)과 직선(선형)의 괴리가 폭발적으로 증가합니다.)
+                        </p>
+                    </div>
+                </div>
 
-          <div class="card">
-            <h2 class="card-title">📈 실질 가치 감쇄 비교 곡선</h2>
-            <div class="chart-wrap">
-              <canvas id="p2-chart-power" aria-label="실질 구매력 감쇄 선형/비선형 비교 차트"></canvas>
-            </div>
-            <p class="chart-note">
-              🔴 빨간 실선: 복리(비선형) 감쇄 — 100/(1+r)<sup>n</sup><br>
-              ⬜ 회색 점선: 단리(선형) 감쇄 — 100/(1+r·n)
-            </p>
-          </div>
-        </div>
+                <!-- [전개] -->
+                <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--primary);">
+                    <div class="concept-header">
+                        <span class="concept-badge practice">⚙️ 전개 (실습)</span>
+                        <h3>미래 물가상승 시뮬레이터로 My-CPI 상승률(r)과 기간(n) 변수 시뮬레이션</h3>
+                    </div>
+                    <p class="card-desc">연간 My-CPI 상승률(r)과 기간(n) 변수를 시뮬레이션하여 선형 및 비선형 감쇄 곡선을 직접 분석합니다.</p>
 
-        <!-- ── 수행평가 영역 헤더 ── -->
-        <div class="zone-header assessment">
-          <span class="zone-badge assess-badge">🟡 수행평가 영역</span>
-          <span class="zone-desc">개별 활동지를 작성하세요. 작성 내용은 자동 저장됩니다.</span>
-          <span class="score-badge">배점 100점 · 반영비율 10%</span>
-        </div>
+                    <div class="grid-2">
+                        <div>
+                            <div class="input-group">
+                                <label for="c3-rate">📈 연간 My-CPI 상승률 (r, %)</label>
+                                <div class="range-row">
+                                    <input type="range" id="c3-rate" min="0" max="20" step="0.1" value="3.4"
+                                        class="slider">
+                                    <input type="number" id="c3-rate-num" min="0" max="20" step="0.1" value="3.4"
+                                        class="num-input">
+                                    <span class="unit">%</span>
+                                </div>
+                            </div>
 
-        <!-- 활동지 2-1: 연도별 구매력 기록표 -->
-        <div class="card assess-card">
-          <div class="activity-header">
-            <span class="activity-num">활동 2-1</span>
-            <h3>시점별 실질 구매력 기록표</h3>
-          </div>
-          <p class="activity-desc">시뮬레이터에서 r을 설정한 후, 아래 표의 값이 자동으로 채워집니다. <strong>복리 감쇄와 단리 감쇄의 차이</strong>를 계산란에 직접
-            기입하세요.</p>
-          <div class="table-scroll">
-            <table class="activity-table">
-              <thead>
-                <tr>
-                  <th>경과 기간 (n)</th>
-                  <th>복리 감쇄 값<br><small>100/(1+r)<sup>n</sup> 만원</small></th>
-                  <th>단리 감쇄 값<br><small>100/(1+r·n) 만원</small></th>
-                  <th>차이 (복리-단리)</th>
-                  <th>복리 누적 상승률</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1년</td>
-                  <td id="pp-comp-1" class="auto-fill">—</td>
-                  <td id="pp-simp-1" class="auto-fill">—</td>
-                  <td id="pp-diff-1" class="auto-fill">—</td>
-                  <td id="pp-acc-1" class="auto-fill">—</td>
-                </tr>
-                <tr>
-                  <td>5년</td>
-                  <td id="pp-comp-5" class="auto-fill">—</td>
-                  <td id="pp-simp-5" class="auto-fill">—</td>
-                  <td id="pp-diff-5" class="auto-fill">—</td>
-                  <td id="pp-acc-5" class="auto-fill">—</td>
-                </tr>
-                <tr>
-                  <td>10년</td>
-                  <td id="pp-comp-10" class="auto-fill">—</td>
-                  <td id="pp-simp-10" class="auto-fill">—</td>
-                  <td id="pp-diff-10" class="auto-fill">—</td>
-                  <td id="pp-acc-10" class="auto-fill">—</td>
-                </tr>
-                <tr>
-                  <td>20년</td>
-                  <td id="pp-comp-20" class="auto-fill">—</td>
-                  <td id="pp-simp-20" class="auto-fill">—</td>
-                  <td id="pp-diff-20" class="auto-fill">—</td>
-                  <td id="pp-acc-20" class="auto-fill">—</td>
-                </tr>
-                <tr>
-                  <td id="pp-n-custom">n년 (설정값)</td>
-                  <td id="pp-comp-n" class="auto-fill">—</td>
-                  <td id="pp-simp-n" class="auto-fill">—</td>
-                  <td id="pp-diff-n" class="auto-fill">—</td>
-                  <td id="pp-acc-n" class="auto-fill">—</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+                            <div class="input-group">
+                                <label for="c3-years">📅 예측 기간 (n, 년)</label>
+                                <div class="range-row">
+                                    <input type="range" id="c3-years" min="1" max="50" value="20" class="slider">
+                                    <input type="number" id="c3-years-num" min="1" max="50" value="20"
+                                        class="num-input">
+                                    <span class="unit">년</span>
+                                </div>
+                            </div>
 
-        <!-- 서·논술형 Q2-1 -->
-        <div class="card assess-card question-card">
-          <div class="activity-header">
-            <span class="activity-num q-badge">Q2-1</span>
-            <h3>구매력 감소 그래프가 비선형(곡선) 형태인 수리적 이유 서술</h3>
-          </div>
-          <div class="question-box">
-            <p>활동지 2-1의 표를 근거로, 복리 감쇄 곡선이 단리 감쇄 직선보다 더 급격하게 하락하는 수리적 이유를 설명하시오. 지수 함수의 성질(누적 곱)을 활용하여 서술하시오.</p>
-          </div>
-          <textarea id="q2-1-answer" class="answer-box"
-            placeholder="예) 단리는 매기간 동일한 비율(r)을 원금에만 적용하지만, 복리는 전기 물가 수준에 r을 반복 곱하는 구조이므로 (1+r)^n이 n이 커질수록 기하급수적으로 증가한다…"
-            rows="7"></textarea>
-          <div class="char-count"><span id="q2-1-chars">0</span>자 작성됨</div>
-        </div>
+                            <div class="metric-row">
+                                <div class="metric-card">
+                                    <span>누적 복리 상승률</span>
+                                    <strong id="c3-accumulated-inflation">—</strong>
+                                </div>
+                                <div class="metric-card danger">
+                                    <span>실질 가치 (100만원 환산)</span>
+                                    <strong id="c3-real-purchasing-power">—</strong>
+                                </div>
+                            </div>
+                            <button type="button" id="btn-rand-years" class="btn-primary" style="margin-top: 1rem; width: auto; background-color: var(--navy);">
+                                🎲 랜덤 시뮬레이션 설정
+                            </button>
+                        </div>
+                        <div>
+                            <h4 style="margin-bottom:1rem;color:var(--navy);">📈 실질 가치 감소 추세 곡선</h4>
+                            <div class="chart-wrap">
+                                <canvas id="c3-chart-power"></canvas>
+                            </div>
+                            <p class="chart-note">🔴 복리(비선형) 감쇄 | ⬜ 단리(선형) 감쇄</p>
+                        </div>
+                    </div>
+                </div>
 
-        <!-- 서·논술형 Q2-2 -->
-        <div class="card assess-card question-card">
-          <div class="activity-header">
-            <span class="activity-num q-badge">Q2-2</span>
-            <h3>r값 및 소비 가중치(w<sub>i</sub>)의 장기 고정 가정에 대한 통계적 한계 비판</h3>
-          </div>
-          <div class="question-box">
-            <p>본 시뮬레이터는 r과 w<sub>i</sub>가 n년 동안 일정하다는 <strong>조건부 가정(Ceteris Paribus)</strong>을 전제합니다. 현실에서 이 가정이 성립하기
-              어려운 이유를 통계적·경제적 관점에서 비판하시오.</p>
-          </div>
-          <textarea id="q2-2-answer" class="answer-box"
-            placeholder="예) 소득 변화, 생애주기별 소비 구조 변화, 신기술 등장에 따른 소비 카테고리 변화 등으로 w_i는 시간에 따라 동적으로 변화한다. 따라서 현재 시점의 가중치를 20년간 고정하면…"
-            rows="7"></textarea>
-          <div class="char-count"><span id="q2-2-chars">0</span>자 작성됨</div>
-        </div>
+                <!-- [정리] -->
+                <div class="card concept-card question-card">
+                    <div class="concept-header">
+                        <span class="concept-badge summary">📝 정리</span>
+                        <h3>Q3. 비선형 성격이 장기 구매력 추세에 미치는 영향</h3>
+                    </div>
+                    <div class="question-box">
+                        <p><strong>정리:</strong> 장기 미래 시뮬레이션의 기초 가정(예: 물가 3% 고정 등)이 얼마나 믿을 만한지, 국가통계포털(KOSIS)이나 한국은행 경제통계시스템(ECOS) 등 공식 2차 자료의 출처 신뢰성과 정확성을 크로스체크하는 원리를 숙지합시다.</p>
+                        <hr style="margin: 0.8rem 0; border: none; border-top: 1px solid var(--slate-200);">
+                        <p><strong>Q3 활동지 서술:</strong> 데이터의 비선형(복리) 성격이 장기 가치 변화 예측에 미치는 정량적 영향을 상관계수와 실제 시뮬레이션 곡선을 대조하여 타당성을 입증해 서술하시오.</p>
+                    </div>
+                    <textarea id="c-q3-answer" class="answer-box" placeholder="자신의 생각을 기록하세요..." rows="6"></textarea>
+                    <div class="char-count"><span id="c-q3-chars">0</span>자 작성됨</div>
+                </div>
 
-      </section>
+            </section>
 
-      <!-- ================================================
-             3차 수행평가: My-CPI 타당성 검증 보고서
-             수업: 불확실성 σ 시나리오 시뮬레이터
-             평가: 최종 보고서 (Q3 포함)
-        ================================================ -->
-      <section id="perf3" class="tab-content" role="tabpanel" aria-labelledby="tab-perf3">
+            <!-- ================================================
+             4차시: 불확실성 데이터 기반 My-CPI 최종 타당성 검증
+            ================================================ -->
+            <section id="class4" class="tab-content" role="tabpanel" aria-labelledby="tab-class4">
 
-        <!-- 섹션 소개 -->
-        <div class="section-intro no-print">
-          <img src="/icon2.png" alt="데이터 불확실성 분석 아이콘" class="section-intro-img">
-          <div class="section-intro-body">
-            <h2>3차 수행평가: My-CPI 타당성 최종 검증 보고서</h2>
-            <p>1·2차 수행평가에서 산출한 모든 수치(가중치, 이상치 기준, 비선형 감쇄량)를 종합합니다.
-              물가 예측의 <strong>통계적 불확실성(σ)</strong>을 설정하고 낙관·비관 시나리오를 비교하여,
-              나의 My-CPI 분석의 타당성과 한계를 4단계 프레임워크로 최종 논술합니다.</p>
-            <div class="tag-row">
-              <span class="tag">불확실성(Uncertainty)</span>
-              <span class="tag">통계적 추론</span>
-              <span class="tag">종합 타당성 검증</span>
-              <span class="tag">95% 신뢰구간</span>
-            </div>
-          </div>
-        </div>
+                <div class="section-intro">
+                    <img src="/icon2.png" alt="불확실성 관리 아이콘" class="section-intro-img">
+                    <div class="section-intro-body">
+                        <h2>[4차시] 불확실성 데이터 기반 My-CPI 최종 타당성 검증</h2>
+                        <p>"미래를 분석하는 데이터는 단일한 확정값이 아니라, 조건부 가정의 한계와 변동성에 따라 범위를 갖는 시나리오 데이터입니다."</p>
+                        <div class="tag-row">
+                            <span class="tag">빅데이터와 의사 결정</span>
+                            <span class="tag">변이성과 통계적 문제해결</span>
+                            <span class="tag">통계적 불확실성</span>
+                            <span class="tag">시나리오 시뮬레이션</span>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="report-layout">
+                <!-- [도입] -->
+                <div class="card concept-card" style="margin-bottom: 1.5rem;">
+                    <div class="concept-header">
+                        <span class="concept-badge">💡 도입</span>
+                        <h3>생각 열기 (3분 워밍업)</h3>
+                    </div>
+                    <div class="concept-body">
+                        <p><strong>교과서 연계 단원:</strong> Ⅲ-1-01. 빅데이터와 의사 결정, Ⅰ-1-02. 변이성과 통계적 문제해결<br>
+                        <strong>탐구 질문:</strong> "내가 가정한 물가와 지출 데이터는 단 하나의 정답인가, 조건에 따라 범위가 변하는 시나리오인가?"</p>
+                        <hr style="margin: 0.8rem 0; border: none; border-top: 1px solid var(--slate-200);">
+                        <p><strong>발문:</strong> "우리가 열심히 분석한 My-CPI 지표와 미래 예측 추세선 방정식은 과연 미래의 완벽하고 확실한 예언서일까요? 만약 정부 정책이 변하거나, 예상치 못한 물가 폭등이 발생한다면 우리가 내린 의사결정은 여전히 타당할까요?"</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.88rem; color: var(--slate-600);">
+                            <strong>핵심 판별:</strong> 통계적 분석 모델이 내포하는 변이성(Variability)과 미래의 통계적 불확실성(Uncertainty)을 인지하고 유연하게 수용합니다.
+                        </p>
+                    </div>
+                </div>
 
-          <!-- 좌측: 불확실성 시뮬레이터 (수업 영역) -->
-          <aside class="card sidebar-card no-print">
-            <div class="zone-header instruction compact">
-              <span class="zone-badge instr-badge">🔵 수업 진행</span>
-            </div>
-            <h2 class="card-title">🎲 불확실성 시나리오 설정</h2>
-            <p class="card-desc">물가 상승률의 표준편차(σ)를 조절하여 미래 시나리오의 범위를 확인하세요.</p>
+                <!-- 4차시 수식 추가 (LaTeX 적용) -->
+                <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--info);">
+                    <div class="concept-header">
+                        <span class="concept-badge" style="background:#e0f2fe; color:#0369a1;">🧮 핵심 수식</span>
+                        <h3>신뢰범위 시나리오 식</h3>
+                    </div>
+                    <div class="concept-body" style="text-align: center; padding: 1.25rem; background: var(--slate-50); border-radius: 8px;">
+                        <p style="font-size: 1.15rem; margin-bottom: 0.6rem; color: var(--danger);">
+                            $$\text{비관적 물가 시나리오: } r_{\text{pes}} = r + 1.96 \times \sigma$$
+                        </p>
+                        <p style="font-size: 1.15rem; margin-bottom: 0.6rem; color: var(--success);">
+                            $$\text{낙관적 물가 시나리오: } r_{\text{opt}} = r - 1.96 \times \sigma$$
+                        </p>
+                        <p style="font-size: 0.85rem; color: var(--slate-600);">
+                            ($r$은 My-CPI 상승률 기본 기대값, $\sigma$는 물가 변동의 표준편차. 95% 확률 신뢰 구간을 모사한 시나리오입니다.)
+                        </p>
+                    </div>
+                </div>
 
-            <div class="input-group">
-              <label for="uncertainty-sd">📊 물가 상승률 표준편차 (σ)</label>
-              <div class="range-row">
-                <input type="range" id="uncertainty-sd" min="0.1" max="5.0" step="0.1" value="1.5" class="slider">
-                <input type="number" id="uncertainty-sd-num" min="0.1" max="5.0" step="0.1" value="1.5"
-                  class="num-input">
-                <span class="unit">%</span>
-              </div>
-            </div>
+                <!-- [전개] -->
+                <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--primary);">
+                    <div class="concept-header">
+                        <span class="concept-badge practice">⚙️ 전개 (실습)</span>
+                        <h3>Q1~Q3 통합 My-CPI 최종 타당성 검증 보고서 서술</h3>
+                    </div>
+                    <p class="card-desc">미래 물가 변동폭의 불확실성(σ)을 조절하며 20년 뒤 예상되는 자산 가치 범위를 시나리오별로 검증해 보세요.</p>
 
-            <div class="scenario-stack">
-              <h3 class="scenario-title">🔮 20년 뒤 화폐 가치 시나리오</h3>
-              <div class="scenario-item optimistic">
-                <div class="scen-label">🟢 낙관적 (r − 1.96σ)</div>
-                <strong id="scen-opt">—</strong>
-              </div>
-              <div class="scenario-item expected">
-                <div class="scen-label">🔵 기본 예상 (r)</div>
-                <strong id="scen-exp">—</strong>
-              </div>
-              <div class="scenario-item pessimistic">
-                <div class="scen-label">🔴 비관적 (r + 1.96σ)</div>
-                <strong id="scen-pes">—</strong>
-              </div>
-            </div>
+                    <div class="grid-2">
+                        <div>
+                            <div class="input-group">
+                                <label for="c4-sd">📊 물가 상승률 표준편차 (σ)</label>
+                                <div class="range-row">
+                                    <input type="range" id="c4-sd" min="0.1" max="5.0" step="0.1" value="1.5"
+                                        class="slider">
+                                    <input type="number" id="c4-sd-num" min="0.1" max="5.0" step="0.1" value="1.5"
+                                        class="num-input">
+                                    <span class="unit">%</span>
+                                </div>
+                            </div>
 
-            <div class="zone-header assessment compact" style="margin-top:1.5rem;">
-              <span class="zone-badge assess-badge">🟡 수행평가</span>
-              <span class="score-badge" style="margin-left:auto;">배점 100점 · 20%</span>
-            </div>
-            <p class="card-desc" style="margin-top:0.75rem;">우측 보고서 양식을 완성하세요.<br>1·2차 수행평가 수치가 자동 연동됩니다.</p>
-            <button type="button" id="btn-export-pdf" class="btn-primary">
-              🖨️ 보고서 인쇄 / PDF 저장
-            </button>
-          </aside>
+                            <div class="scenario-stack">
+                                <h3 class="scenario-title">🔮 시나리오별 20년 뒤 화폐 가치</h3>
+                                <div class="scenario-item optimistic">
+                                    <div class="scen-label">🟢 낙관적 시나리오 (Low Inflation: r - 1.96σ)</div>
+                                    <strong id="c4-scen-opt">—</strong>
+                                </div>
+                                <div class="scenario-item expected">
+                                    <div class="scen-label">🔵 기본 예상 시나리오 (r)</div>
+                                    <strong id="c4-scen-exp">—</strong>
+                                </div>
+                                <div class="scenario-item pessimistic">
+                                    <div class="scen-label">🔴 비관적 시나리오 (High Inflation: r + 1.96σ)</div>
+                                    <strong id="c4-scen-pes">—</strong>
+                                </div>
+                            </div>
+                            <button type="button" id="btn-rand-sd" class="btn-primary" style="margin-top: 1rem; width: auto; background-color: var(--navy);">
+                                🎲 랜덤 표준편차 설정
+                            </button>
+                        </div>
 
-          <!-- 우측: 최종 보고서 (수행평가 영역) -->
-          <div class="card report-card print-area">
+                        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:1.25rem;">
+                            <h4 style="margin-bottom:0.75rem;color:var(--navy);">📑 수업 실습 데이터 동기화 현황</h4>
+                            <div style="display:flex; flex-direction:column; gap:0.6rem; font-size:0.875rem;">
+                                <div style="display:flex; justify-content:space-between; border-bottom:1px solid #e2e8f0; padding-bottom:0.4rem;">
+                                    <span>설정된 나의 My-CPI:</span><strong id="c4-my-cpi-val">—</strong>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; border-bottom:1px solid #e2e8f0; padding-bottom:0.4rem;">
+                                    <span>학급 데이터 원본 왜곡도:</span><strong id="c4-skewness-val">—</strong>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; border-bottom:1px solid #e2e8f0; padding-bottom:0.4rem;">
+                                    <span>시뮬레이션 설정 기간 (n):</span><strong id="c4-years-val">—</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="report-top">
-              <div>
-                <h2 class="report-title">My-CPI 타당성 최종 검증 보고서</h2>
-                <p class="report-sub">서울대학교 마이크로디그리형 연수 · 3차 수행평가</p>
-              </div>
-              <div class="report-meta-box">
-                <div>작성일: <strong id="report-date">—</strong></div>
-                <div>성명: <input type="text" id="student-name" class="inline-input" placeholder="이름을 입력하세요"></div>
-              </div>
-            </div>
+                <!-- [정리] -->
+                <div class="card concept-card question-card">
+                    <div class="concept-header">
+                        <span class="concept-badge summary">📝 정리</span>
+                        <h3>Q4. 분석 수치 종합 연계 및 최종 보고서 작성 구상</h3>
+                    </div>
+                    <div class="question-box">
+                        <p><strong>정리:</strong> 합리적인 개인의 지출 설계와 데이터 해석 능력이 단순히 내 돈을 절약하는 개인적 유용성을 넘어, 친환경·공정무역 등 거시적인 사회적 책임과 지속가능한 경제 주체로서의 성찰에 미치는 영향을 성찰하며 마무리합시다.</p>
+                        <hr style="margin: 0.8rem 0; border: none; border-top: 1px solid var(--slate-200);">
+                        <p><strong>Q4 활동지 서술:</strong> 1차시~3차시의 정량적 분석 지표들을 논리적으로 종합하여, My-CPI의 최종 타당성 진단과 이를 활용한 조건부 소비 지출 시나리오를 서술하시오.</p>
+                    </div>
+                    <textarea id="c-q4-answer" class="answer-box" placeholder="자신의 생각을 기록하세요..." rows="6"></textarea>
+                    <div class="char-count"><span id="c-q4-chars">0</span>자 작성됨</div>
+                </div>
 
-            <!-- 보고서 섹션 1 -->
-            <div class="report-section">
-              <h3 class="rs-title">① 나의 My-CPI 가중 구조 설계 요약 <span class="auto-tag">자동 연동</span></h3>
-              <div class="table-scroll">
-                <table class="report-table">
-                  <thead>
-                    <tr>
-                      <th>카테고리</th>
-                      <th>국가 a<sub>i</sub></th>
-                      <th>나의 w<sub>i</sub></th>
-                      <th>편차</th>
-                      <th>p<sub>i</sub></th>
-                      <th>w<sub>i</sub>×p<sub>i</sub></th>
-                    </tr>
-                  </thead>
-                  <tbody id="report-weight-tbody">
-                    <tr>
-                      <td colspan="6" class="empty-cell">1차 시뮬레이터 데이터 로딩 중...</td>
-                    </tr>
-                  </tbody>
-                  <tfoot>
-                    <tr class="table-foot">
-                      <td><strong>합계 / My-CPI</strong></td>
-                      <td>100.0%</td>
-                      <td id="rep-total-w">—</td>
-                      <td>—</td>
-                      <td>—</td>
-                      <td id="rep-my-cpi">—</td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
-              <div class="report-summary-row">
-                <span>공식 CPI <strong id="rep-official-cpi">—</strong></span>
-                <span>My-CPI <strong id="rep-my-cpi-2" class="highlight-text">—</strong></span>
-                <span>단순 평균 CPI <strong id="rep-simple-cpi">—</strong></span>
-              </div>
-            </div>
+            </section>
 
-            <!-- 보고서 섹션 2 -->
-            <div class="report-section">
-              <h3 class="rs-title">② 학급 데이터 이상치·대표값 분석 요약 <span class="auto-tag">자동 연동</span></h3>
-              <div class="report-stat-row">
-                <div class="rs-item"><span>원본 평균</span><strong id="rep-raw-mean">—</strong></div>
-                <div class="rs-item"><span>원본 중앙값</span><strong id="rep-raw-median">—</strong></div>
-                <div class="rs-item"><span>원본 왜곡도</span><strong id="rep-raw-skew">—</strong></div>
-                <div class="rs-item"><span>IQR 제거 후 평균</span><strong id="rep-iqr-mean">—</strong></div>
-                <div class="rs-item"><span>IQR 제거 후 중앙값</span><strong id="rep-iqr-median">—</strong></div>
-                <div class="rs-item"><span>이상치 기준 상한</span><strong id="rep-iqr-upper">—</strong></div>
-              </div>
-            </div>
-
-            <!-- 보고서 섹션 3 -->
-            <div class="report-section">
-              <h3 class="rs-title">③ 비선형 구매력 감쇄 시뮬레이션 요약 <span class="auto-tag">자동 연동</span></h3>
-              <div class="report-stat-row">
-                <div class="rs-item"><span>적용 r</span><strong id="rep-sim-rate">—</strong></div>
-                <div class="rs-item"><span>설정 n</span><strong id="rep-sim-years">—</strong></div>
-                <div class="rs-item"><span>20년 뒤 실질 가치</span><strong id="rep-real-20">—</strong></div>
-                <div class="rs-item"><span>낙관 시나리오</span><strong id="rep-opt">—</strong></div>
-                <div class="rs-item"><span>비관 시나리오</span><strong id="rep-pes">—</strong></div>
-                <div class="rs-item"><span>불확실성 σ</span><strong id="rep-sigma">—</strong></div>
-              </div>
-            </div>
-
-            <!-- 보고서 섹션 4 — Q 답변 연계 -->
-            <div class="report-section">
-              <h3 class="rs-title">④ 종합 연계 분석 — 수행평가 답변 요약 <span class="auto-tag">자동 연동</span></h3>
-
-              <div class="qa-block">
-                <div class="qa-label">Q1-1. 국가 CPI vs My-CPI 수리적 격차 원인</div>
-                <div class="qa-preview" id="rep-q1-1">1차 수행평가 Q1-1 답변이 여기에 표시됩니다.</div>
-              </div>
-              <div class="qa-block">
-                <div class="qa-label">Q1-2. 이상치 근거에 따른 대표값 정합성 판단</div>
-                <div class="qa-preview" id="rep-q1-2">1차 수행평가 Q1-2 답변이 여기에 표시됩니다.</div>
-              </div>
-              <div class="qa-block">
-                <div class="qa-label">Q2-1. 비선형 감쇄 그래프의 수리적 이유</div>
-                <div class="qa-preview" id="rep-q2-1">2차 수행평가 Q2-1 답변이 여기에 표시됩니다.</div>
-              </div>
-              <div class="qa-block">
-                <div class="qa-label">Q2-2. r값 장기 고정 가정의 통계적 한계</div>
-                <div class="qa-preview" id="rep-q2-2">2차 수행평가 Q2-2 답변이 여기에 표시됩니다.</div>
-              </div>
-            </div>
-
-            <!-- 보고서 섹션 5 — Q3 최종 논술 (수행평가 작성) -->
-            <div class="report-section assess-section">
-              <h3 class="rs-title assess-title">⑤ Q3. My-CPI 타당성 최종 검증 결론 <span class="assess-tag">직접 작성</span></h3>
-              <div class="question-box">
-                <p>①~④의 분석 수치(가중치 편차, 이상치 기준, 비선형 감쇄량, 불확실성 범위)를 <strong>모두 연계</strong>하여, 아래 4단계 프레임워크에 따라 나의 My-CPI
-                  분석의 타당성과 한계를 종합 서술하시오.</p>
-                <ol class="framework-list">
-                  <li><strong>[가중 구조]</strong> 나의 w<sub>i</sub>가 국가 a<sub>i</sub>와 어떻게 다르며, 그로 인해 My-CPI 격차가 얼마나 발생했는가?
-                  </li>
-                  <li><strong>[이상치·대표값]</strong> 학급 데이터의 왜곡도와 이상치 분석이 집단 대표값 선택에 주는 시사점은?</li>
-                  <li><strong>[비선형 추세]</strong> 복리 감쇄 구조가 장기 구매력에 미치는 실질적 영향과 r 고정 가정의 한계는?</li>
-                  <li><strong>[불확실성 성찰]</strong> σ 범위를 고려할 때 나의 My-CPI 분석이 갖는 통계적 불확실성의 범위와 의의는?</li>
-                </ol>
-              </div>
-              <textarea id="q3-answer" class="answer-box large" placeholder="4단계 프레임워크에 따라 종합 논술을 작성하세요…"
-                rows="14"></textarea>
-              <div class="char-count"><span id="q3-chars">0</span>자 작성됨</div>
-              <div class="qa-preview print-only" id="rep-q3">입력한 답변이 여기에 표시됩니다.</div>
-            </div>
-
-          </div><!-- /report-card -->
-        </div><!-- /report-layout -->
-
-      </section>
-
-    </main>
-  </div>
-  <script type="module" src="/src/main.js"></script>
+        </main>
+    </div>
+    <script type="module" src="/src/class.js"></script>
 </body>
 
 </html>
