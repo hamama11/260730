@@ -55,6 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('roadmap-card-pens')?.classList.add('active');
     }
 
+    // Always scroll to top when switching tabs
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
     // Force trigger calculations and chart resizing when entering tabs
     if (targetTabId === 'class1') renderC1Chart();
     if (targetTabId === 'class2') renderC2Chart();
@@ -80,16 +83,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Roadmap card click handler
   roadmapCards.forEach(card => {
-    card.addEventListener('click', () => {
+    card.addEventListener('click', (e) => {
+      // If action button inside card clicked, let button handle or bubble
       const target = card.getAttribute('data-target-tab');
       if (target) {
         switchTab(target);
-        // smooth scroll down past the roadmap
-        const targetSection = document.getElementById(target);
-        if (targetSection) {
-          targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
       }
+    });
+  });
+
+  // Roadmap card direct action buttons (0차시, 2차시, 5차시 바로가기)
+  document.querySelectorAll('.roadmap-card-action-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const parentCard = btn.closest('.roadmap-step-card');
+      const target = parentCard?.getAttribute('data-target-tab');
+      if (target) switchTab(target);
+    });
+  });
+
+  // Back to Roadmap buttons inside compact trackers
+  document.querySelectorAll('.btn-back-roadmap').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-jump-to') || 'tab-roadmap';
+      switchTab(target);
     });
   });
 
@@ -99,7 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const target = btn.getAttribute('data-jump-to');
       if (target) {
         switchTab(target);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
   });
