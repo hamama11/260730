@@ -125,6 +125,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Details accordion toggle handler (icon update & MathJax re-render)
+  document.querySelectorAll('.foldable-inquiry-details').forEach(details => {
+    details.addEventListener('toggle', () => {
+      const icon = details.querySelector('.summary-toggle-icon');
+      if (icon) {
+        icon.textContent = details.open ? '펼침 ▴' : '접힘 ▾';
+      }
+      if (details.open && window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
+        window.MathJax.typesetPromise();
+      }
+    });
+  });
+
   // 1.5. Global Student Name localStorage binding
   const globalNameEl = document.getElementById('global-student-name');
   if (globalNameEl) {
