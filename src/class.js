@@ -23,31 +23,83 @@ let RAW_POCKET_DATA = [
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // 1. Tab Navigation
+  // 1. Tab Navigation & Helper Function
   const tabBtns = document.querySelectorAll('.tab-btn');
   const tabContents = document.querySelectorAll('.tab-content');
+  const roadmapCards = document.querySelectorAll('.roadmap-step-card');
+
+  function switchTab(targetTabId) {
+    tabBtns.forEach(btn => {
+      if (btn.getAttribute('data-tab') === targetTabId) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+
+    tabContents.forEach(content => {
+      if (content.id === targetTabId) {
+        content.classList.add('active');
+      } else {
+        content.classList.remove('active');
+      }
+    });
+
+    // Sync Roadmap Cards active state
+    roadmapCards.forEach(card => card.classList.remove('active'));
+    if (targetTabId === 'class0' || targetTabId === 'class1') {
+      document.getElementById('roadmap-card-cpi')?.classList.add('active');
+    } else if (targetTabId === 'class2' || targetTabId === 'class3' || targetTabId === 'class4') {
+      document.getElementById('roadmap-card-stat')?.classList.add('active');
+    } else if (targetTabId === 'class-pension') {
+      document.getElementById('roadmap-card-pens')?.classList.add('active');
+    }
+
+    // Force trigger calculations and chart resizing when entering tabs
+    if (targetTabId === 'class1') renderC1Chart();
+    if (targetTabId === 'class2') renderC2Chart();
+    if (targetTabId === 'class3') renderC3Chart();
+    if (targetTabId === 'class4') calculateC4Scenarios();
+    if (targetTabId === 'class-pension') {
+      calculatePension();
+      renderPensionChart();
+    }
+
+    // Trigger MathJax typeset update when changing tabs
+    if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
+      window.MathJax.typesetPromise();
+    }
+  }
 
   tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const target = btn.getAttribute('data-tab');
-      tabBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      switchTab(target);
+    });
+  });
 
-      tabContents.forEach(content => {
-        if (content.id === target) {
-          content.classList.add('active');
-        } else {
-          content.classList.remove('active');
+  // Roadmap card click handler
+  roadmapCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const target = card.getAttribute('data-target-tab');
+      if (target) {
+        switchTab(target);
+        // smooth scroll down past the roadmap
+        const targetSection = document.getElementById(target);
+        if (targetSection) {
+          targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-      });
-      // Force trigger calculations and chart resizing when entering tabs
-      if (target === 'class1') renderC1Chart();
-      if (target === 'class2') renderC2Chart();
-      if (target === 'class3') renderC3Chart();
+      }
+    });
+  });
 
-      // Trigger MathJax typeset update when changing tabs
-      if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
-        window.MathJax.typesetPromise();
+  // Next Question Bridge jump button handlers
+  document.querySelectorAll('.bridge-jump-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-jump-to');
+      if (target) {
+        switchTab(target);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
   });
@@ -668,6 +720,204 @@ document.addEventListener('DOMContentLoaded', () => {
     // Sync to summary details card
     const t4YearsValLabel = document.getElementById('c4-years-val');
     if (t4YearsValLabel) t4YearsValLabel.textContent = `${n}년`;
+
+    // Also sync pension calculations if values change
+    calculatePension();
+  }
+
+  // ==========================================
+  // [Ⅲ. 연금 확장 모듈] 미래 생활비 및 필요자금 시뮬레이터
+  // ==========================================
+  let pensChartInstance = null;
+  let pensPv = 200; // default 200만원
+  let pensYears = 20; // default 20년
+
+  const pensPvSlider = document.getElementById('pens-pv-expense');
+  const pensPvNum = document.getElementById('pens-pv-expense-num');
+  const pensYearsSlider = document.getElementById('pens-years');
+  const pensYearsNum = document.getElementById('pens-years-num');
+
+  pensPvSlider?.addEventListener('input', () => {
+    pensPv = parseFloat(pensPvSlider.value) || 200;
+    if (pensPvNum) pensPvNum.value = pensPv;
+    calculatePension();
+    renderPensionChart();
+  });
+
+  pensPvNum?.addEventListener('input', () => {
+    pensPv = Math.max(50, Math.min(1000, parseFloat(pensPvNum.value) || 200));
+    if (pensPvSlider) pensPvSlider.value = pensPv;
+    calculatePension();
+    renderPensionChart();
+  });
+
+  pensYearsSlider?.addEventListener('input', () => {
+    pensYears = parseInt(pensYearsSlider.value) || 20;
+    if (pensYearsNum) pensYearsNum.value = pensYears;
+    calculatePension();
+    renderPensionChart();
+  });
+
+  pensYearsNum?.addEventListener('input', () => {
+    pensYears = Math.max(1, Math.min(50, parseInt(pensYearsNum.value) || 20));
+    if (pensYearsSlider) pensYearsSlider.value = pensYears;
+    calculatePension();
+    renderPensionChart();
+  });
+
+  function getPensionScenarios() {
+    const myCpiText = document.getElementById('c1-my-val')?.textContent || '3.40%';
+    const r = parseFloat(myCpiText.replace('%', '')) || 3.4;
+    const sd = c4Sd || 1.5;
+
+    const rOpt  = Math.max(0, r - 1.96 * sd);
+    const rBase = r;
+    const rPes  = r + 1.96 * sd;
+
+    return { rOpt, rBase, rPes };
+  }
+
+  function calculatePension() {
+    const { rOpt, rBase, rPes } = getPensionScenarios();
+
+    // 1. Update Scenario Rates in labels
+    const rOptEl = document.getElementById('pens-r-opt');
+    const rBaseEl = document.getElementById('pens-r-base');
+    const rPesEl = document.getElementById('pens-r-pes');
+
+    if (rOptEl) rOptEl.textContent = `${rOpt.toFixed(2)}% (My-CPI - 1.96σ)`;
+    if (rBaseEl) rBaseEl.textContent = `${rBase.toFixed(2)}% (My-CPI 기본)`;
+    if (rPesEl) rPesEl.textContent = `${rPes.toFixed(2)}% (My-CPI + 1.96σ)`;
+
+    // 2. Future Expense calculation: FV = PV * (1 + r)^n
+    const n = pensYears;
+    const pv = pensPv;
+
+    const calcFv = (rate, yr) => pv * Math.pow(1 + rate / 100, yr);
+
+    const fvOpt  = calcFv(rOpt, n);
+    const fvBase = calcFv(rBase, n);
+    const fvPes  = calcFv(rPes, n);
+
+    // Update Result Cards
+    const cardOptRate = document.getElementById('pens-card-opt-rate');
+    const cardOptVal  = document.getElementById('pens-card-opt-val');
+    const cardOptMul  = document.getElementById('pens-card-opt-mul');
+
+    const cardBaseRate = document.getElementById('pens-card-base-rate');
+    const cardBaseVal  = document.getElementById('pens-card-base-val');
+    const cardBaseMul  = document.getElementById('pens-card-base-mul');
+
+    const cardPesRate = document.getElementById('pens-card-pes-rate');
+    const cardPesVal  = document.getElementById('pens-card-pes-val');
+    const cardPesMul  = document.getElementById('pens-card-pes-mul');
+
+    if (cardOptRate) cardOptRate.textContent = `물가상승률: ${rOpt.toFixed(2)}%`;
+    if (cardOptVal)  cardOptVal.textContent  = `${Math.round(fvOpt).toLocaleString()} 만원/월`;
+    if (cardOptMul)  cardOptMul.textContent  = `현재 대비 ${(fvOpt / pv).toFixed(2)}배`;
+
+    if (cardBaseRate) cardBaseRate.textContent = `물가상승률: ${rBase.toFixed(2)}%`;
+    if (cardBaseVal)  cardBaseVal.textContent  = `${Math.round(fvBase).toLocaleString()} 만원/월`;
+    if (cardBaseMul)  cardBaseMul.textContent  = `현재 대비 ${(fvBase / pv).toFixed(2)}배`;
+
+    if (cardPesRate) cardPesRate.textContent = `물가상승률: ${rPes.toFixed(2)}%`;
+    if (cardPesVal)  cardPesVal.textContent  = `${Math.round(fvPes).toLocaleString()} 만원/월`;
+    if (cardPesMul)  cardPesMul.textContent  = `현재 대비 ${(fvPes / pv).toFixed(2)}배`;
+
+    // Update comparison table (0, 10, 20, 30 years)
+    const setCell = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = `${Math.round(val).toLocaleString()} 만원`;
+    };
+
+    setCell('tbl-opt-0', pv);
+    setCell('tbl-opt-10', calcFv(rOpt, 10));
+    setCell('tbl-opt-20', calcFv(rOpt, 20));
+    setCell('tbl-opt-30', calcFv(rOpt, 30));
+
+    setCell('tbl-base-0', pv);
+    setCell('tbl-base-10', calcFv(rBase, 10));
+    setCell('tbl-base-20', calcFv(rBase, 20));
+    setCell('tbl-base-30', calcFv(rBase, 30));
+
+    setCell('tbl-pes-0', pv);
+    setCell('tbl-pes-10', calcFv(rPes, 10));
+    setCell('tbl-pes-20', calcFv(rPes, 20));
+    setCell('tbl-pes-30', calcFv(rPes, 30));
+  }
+
+  function renderPensionChart() {
+    const ctx = document.getElementById('pens-chart-expense')?.getContext('2d');
+    if (!ctx) return;
+
+    const { rOpt, rBase, rPes } = getPensionScenarios();
+    const pv = pensPv;
+    const n = Math.max(10, pensYears);
+
+    const labels = [];
+    const dataOpt = [];
+    const dataBase = [];
+    const dataPes = [];
+
+    for (let yr = 0; yr <= n; yr += (n > 20 ? 5 : 2)) {
+      labels.push(`${yr}년`);
+      dataOpt.push(Math.round(pv * Math.pow(1 + rOpt / 100, yr)));
+      dataBase.push(Math.round(pv * Math.pow(1 + rBase / 100, yr)));
+      dataPes.push(Math.round(pv * Math.pow(1 + rPes / 100, yr)));
+    }
+
+    if (pensChartInstance) pensChartInstance.destroy();
+
+    pensChartInstance = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: '🔴 높은 물가 시나리오',
+            data: dataPes,
+            borderColor: 'rgb(239, 68, 68)',
+            backgroundColor: 'rgba(239, 68, 68, 0.05)',
+            borderWidth: 2.5,
+            tension: 0.2
+          },
+          {
+            label: '🔵 기준 물가 시나리오',
+            data: dataBase,
+            borderColor: 'rgb(59, 130, 246)',
+            backgroundColor: 'rgba(59, 130, 246, 0.05)',
+            borderWidth: 2.5,
+            tension: 0.2
+          },
+          {
+            label: '🟢 낮은 물가 시나리오',
+            data: dataOpt,
+            borderColor: 'rgb(16, 185, 129)',
+            backgroundColor: 'rgba(16, 185, 129, 0.05)',
+            borderWidth: 2.5,
+            tension: 0.2
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: { font: { size: 11 } }
+          }
+        },
+        scales: {
+          x: { grid: { display: false } },
+          y: {
+            ticks: {
+              callback: (v) => `${v}만`
+            }
+          }
+        }
+      }
+    });
   }
 
   // Initial Triggers
@@ -676,6 +926,7 @@ document.addEventListener('DOMContentLoaded', () => {
   calculateC3();
   calculateC4Scenarios();
   renderC1Chart();
+  calculatePension();
 
   // First typesetting on initial load
   if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
