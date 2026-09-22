@@ -38,7 +38,7 @@
 
 body {
   font-family: var(--font);
-  background: #f0f4f8;
+  background: #fdfbf7;
   color: var(--slate-800);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
@@ -206,6 +206,79 @@ body {
 }
 
 /* =====================================================
+   INQUIRY TRACK BANNERS (공통 탐구 vs 개별 탐구 구분)
+===================================================== */
+.inquiry-track-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  padding: 0.75rem 1.15rem;
+  border-radius: var(--radius-sm);
+  margin-top: 1.5rem;
+  margin-bottom: 1.1rem;
+  border: 1px solid;
+  box-shadow: var(--shadow-sm);
+}
+
+.inquiry-track-header.common-track {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border-color: #bfdbfe;
+  border-left: 6px solid #2563eb;
+}
+
+.inquiry-track-header.indiv-track {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border-color: #fde68a;
+  border-left: 6px solid #d97706;
+}
+
+.inquiry-track-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.inquiry-track-badge {
+  font-size: 0.76rem;
+  font-weight: 800;
+  padding: 0.2rem 0.65rem;
+  border-radius: 14px;
+  letter-spacing: 0.02em;
+}
+.inquiry-track-badge.common {
+  background: #2563eb;
+  color: #ffffff;
+}
+.inquiry-track-badge.indiv {
+  background: #d97706;
+  color: #ffffff;
+}
+
+.inquiry-track-title {
+  font-size: 0.96rem;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.inquiry-track-desc {
+  font-size: 0.8rem;
+  color: var(--slate-600);
+}
+
+.inquiry-track-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: #475569;
+}
+
+/* =====================================================
    ZONE HEADERS
 ===================================================== */
 .zone-header {
@@ -266,12 +339,12 @@ body {
   display: flex;
   align-items: center;
   gap: 1.1rem;
-  background: var(--white);
-  border: 1px solid var(--slate-200);
+  background: #ffffff;
+  border: 1px solid #f1ece4;
   border-radius: var(--radius);
-  padding: 1rem 1.25rem;
-  margin-bottom: 1rem;
-  box-shadow: var(--shadow-sm);
+  padding: 1.15rem 1.35rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 2px 8px rgba(180, 160, 140, 0.06);
 }
 
 .section-intro-img {
@@ -326,23 +399,71 @@ body {
   .grid-2 { grid-template-columns: 1fr; }
 }
 
-/* Base card */
+/* Base card (따뜻하고 포근한 카드 베이스) */
 .card {
-  background: var(--white);
-  border: 1px solid var(--slate-200);
+  background: #ffffff;
+  border: 1px solid #f1ece4;
   border-radius: var(--radius);
-  padding: 1.25rem;
-  box-shadow: var(--shadow-sm);
+  padding: 1.35rem 1.45rem;
+  box-shadow: 0 2px 8px rgba(180, 160, 140, 0.07);
+}
+
+.concept-card {
+  background: #ffffff;
+  border: 1px solid #f1ece4;
+  border-left: 5px solid #d97706;
+  border-radius: var(--radius);
+  padding: 1.35rem 1.45rem;
+  box-shadow: 0 2px 8px rgba(180, 160, 140, 0.07);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.concept-card:hover {
+  box-shadow: 0 4px 14px rgba(180, 160, 140, 0.12);
+}
+
+.concept-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid #f5efe6;
+}
+
+.concept-header h3 {
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: var(--navy);
+  margin: 0;
+}
+
+.concept-badge {
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  background: #fef3c7;
+  color: #b45309;
+}
+.concept-badge.practice {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+.concept-badge.summary {
+  background: #fef3c7;
+  color: #92400e;
 }
 
 /* Assessment card inherits card then overrides */
 .assess-card {
-  background: #fffdf5;
-  border: 1px solid var(--slate-200);
+  background: #fffdf7;
+  border: 1px solid #fde68a;
   border-left: 5px solid var(--warning);
   border-radius: var(--radius);
-  padding: 1.25rem;
-  box-shadow: var(--shadow-sm);
+  padding: 1.35rem;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.08);
   margin-top: 1rem;
 }
 
@@ -1219,13 +1340,12 @@ body {
 
 /* 1. Progress Roadmap at the top of the page */
 .roadmap-container {
-  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #1e293b 100%);
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 60%, #172554 100%);
   border-radius: var(--radius);
-  padding: 1.5rem;
-  margin-bottom: 1.75rem;
+  padding: 1.75rem 1.85rem;
+  color: #fff;
   box-shadow: var(--shadow-md);
-  color: var(--white);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   position: relative;
   overflow: hidden;
 }
@@ -1233,58 +1353,101 @@ body {
 .roadmap-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-bottom: 1.25rem;
-  padding-bottom: 0.85rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
 }
 
 .roadmap-title-wrap {
   display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.roadmap-badge-row {
+  display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 
 .roadmap-badge {
   background: linear-gradient(135deg, #6366f1, #8b5cf6);
   color: #fff;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 800;
-  letter-spacing: 0.05em;
-  padding: 0.25rem 0.65rem;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.6rem;
   border-radius: 20px;
   text-transform: uppercase;
 }
 
-.roadmap-title {
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: #fff;
-  letter-spacing: -0.01em;
+.roadmap-sub-badge {
+  background: rgba(251, 191, 36, 0.18);
+  color: #fcd34d;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 20px;
+  border: 1px solid rgba(251, 191, 36, 0.35);
+}
+
+/* 「만원의 청춘」 큰 제목 */
+.roadmap-main-title {
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  text-shadow: 0 2px 10px rgba(99, 102, 241, 0.3);
+  margin: 0;
+}
+
+.roadmap-main-title .highlight-title {
+  background: linear-gradient(135deg, #60a5fa, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 「라떼는 말이야…」 작은 질문 */
+.roadmap-sub-question {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #fef08a;
+  background: rgba(254, 240, 138, 0.12);
+  padding: 0.35rem 0.85rem;
+  border-radius: 8px;
+  border-left: 3px solid #f59e0b;
+  margin-top: 0.2rem;
 }
 
 .roadmap-flow-caption {
-  font-size: 0.82rem;
-  color: #a5b4fc;
+  font-size: 0.8rem;
+  color: #cbd5e1;
   font-weight: 600;
-  background: rgba(99, 102, 241, 0.18);
-  padding: 0.3rem 0.8rem;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.4rem 0.85rem;
   border-radius: 20px;
-  border: 1px solid rgba(165, 180, 252, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+/* 1차시 ➔ 2차시 ➔ 3차시 세로/가로 반응형 로드맵 흐름 그리드 */
 .roadmap-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  gap: 1.25rem;
   position: relative;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .roadmap-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 }
 
@@ -1292,7 +1455,7 @@ body {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-sm);
-  padding: 1.15rem;
+  padding: 1.25rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1303,24 +1466,25 @@ body {
 
 .roadmap-step-card:hover {
   transform: translateY(-3px);
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.09);
   border-color: rgba(165, 180, 252, 0.5);
 }
 
 .roadmap-step-card.active {
   background: rgba(99, 102, 241, 0.16);
   border-color: #818cf8;
-  box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.35);
 }
 
+/* 카드 사이 연결 화살표 (데스크탑: 우측 가로, 모바일: 아래 세로) */
 .roadmap-step-card::after {
-  content: "➔";
+  content: "▼";
   position: absolute;
-  right: -0.85rem;
+  right: -0.95rem;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%) rotate(-90deg);
   color: #818cf8;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 900;
   z-index: 2;
 }
@@ -1329,9 +1493,12 @@ body {
   display: none;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .roadmap-step-card::after {
-    display: none;
+    right: 50%;
+    bottom: -1.25rem;
+    top: auto;
+    transform: translateX(50%) rotate(0deg);
   }
 }
 
@@ -1339,45 +1506,134 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.65rem;
 }
 
 .roadmap-num-tag {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 800;
-  padding: 0.2rem 0.55rem;
-  border-radius: 4px;
+  padding: 0.25rem 0.6rem;
+  border-radius: 5px;
+  letter-spacing: 0.02em;
 }
-.tag-cpi   { background: #3b82f6; color: #fff; }
-.tag-stat  { background: #10b981; color: #fff; }
-.tag-pens  { background: #8b5cf6; color: #fff; }
+.tag-cpi   { background: #2563eb; color: #fff; }
+.tag-stat  { background: #059669; color: #fff; }
+.tag-pens  { background: #7c3aed; color: #fff; }
 
-.roadmap-sessions-badge {
-  font-size: 0.72rem;
-  color: #cbd5e1;
-  background: rgba(255, 255, 255, 0.1);
+.roadmap-sub-concept-badge {
+  font-size: 0.74rem;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.08);
   padding: 0.15rem 0.5rem;
   border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .roadmap-action-title {
-  font-size: 1.02rem;
+  font-size: 1.08rem;
   font-weight: 800;
   color: #f8fafc;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.35;
 }
 
-.roadmap-question {
-  font-size: 0.85rem;
-  color: #cbd5e1;
-  line-height: 1.45;
-  margin-bottom: 0.75rem;
-  font-style: italic;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 0.5rem 0.65rem;
-  border-radius: 6px;
-  border-left: 3px solid #818cf8;
+/* [공통 탐구] & [개별 탐구] 트리 구조 스타일 */
+.roadmap-tree-box {
+  background: rgba(15, 23, 42, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 0.75rem 0.85rem;
+  margin-bottom: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
 }
+
+.tree-node {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.tree-branch {
+  color: #818cf8;
+  font-weight: 800;
+  font-family: monospace;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+
+.tree-content {
+  flex: 1;
+}
+
+.tree-tag-row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.15rem;
+}
+
+.tree-type-tag {
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+.tree-type-tag.common {
+  background: rgba(59, 130, 246, 0.25);
+  color: #93c5fd;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+}
+.tree-type-tag.indiv {
+  background: rgba(245, 158, 11, 0.25);
+  color: #fcd34d;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.tree-question-text {
+  font-weight: 700;
+  color: #f1f5f9;
+  font-size: 0.83rem;
+}
+
+.tree-desc-text {
+  font-size: 0.76rem;
+  color: #94a3b8;
+  margin-top: 0.1rem;
+}
+
+/* 하단 버튼 그룹 */
+.roadmap-card-nav-row {
+  display: flex;
+  gap: 0.45rem;
+  margin-top: 0.85rem;
+}
+
+.roadmap-card-nav-btn {
+  flex: 1;
+  padding: 0.45rem 0.5rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  transition: opacity 0.15s, transform 0.15s;
+}
+.roadmap-card-nav-btn:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+.roadmap-card-nav-btn.btn-cpi { background: #2563eb; color: #fff; }
+.roadmap-card-nav-btn.btn-stat { background: #059669; color: #fff; }
+.roadmap-card-nav-btn.btn-pens { background: #7c3aed; color: #fff; }
 
 .roadmap-concepts-box {
   margin-top: 0.4rem;
@@ -1543,6 +1799,176 @@ body {
 .tracker-mini-right {
   display: flex;
   align-items: center;
+}
+
+/* 2-1. 차시별 핵심질문 독립 영역 (컴팩트 슬림 & 따뜻한 톤) */
+.session-core-question-hero {
+  position: relative;
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 45%, #fff7ed 100%);
+  border: 1px solid #fde68a;
+  border-left: 6px solid #f59e0b;
+  border-radius: var(--radius-sm);
+  padding: 1.1rem 1.4rem 1.1rem 1.4rem;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 2px 10px rgba(245, 158, 11, 0.08);
+  overflow: hidden;
+}
+
+.session-core-question-hero.cpi-warm {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 50%, #fef9c3 100%);
+  border-color: #fde68a;
+  border-left-color: #d97706;
+}
+
+.session-core-question-hero.stat-warm {
+  background: linear-gradient(135deg, #fffdf5 0%, #fef9c3 50%, #ecfdf5 100%);
+  border-color: #fef08a;
+  border-left-color: #059669;
+}
+
+.session-core-question-hero.pens-warm {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 50%, #faf5ff 100%);
+  border-color: #fde68a;
+  border-left-color: #7c3aed;
+}
+
+/* 대형 장식용 따옴표 워터마크 */
+.session-core-question-hero::before {
+  content: "“";
+  position: absolute;
+  top: -10px;
+  right: 18px;
+  font-family: Georgia, serif, "Pretendard";
+  font-size: 5.5rem;
+  font-weight: 900;
+  line-height: 1;
+  color: rgba(217, 119, 6, 0.07);
+  pointer-events: none;
+}
+
+.question-hero-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.question-hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: #f59e0b;
+  color: #ffffff;
+  font-size: 0.76rem;
+  font-weight: 800;
+  padding: 0.2rem 0.65rem;
+  border-radius: 14px;
+  letter-spacing: 0.02em;
+}
+
+.question-hero-sub {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #92400e;
+}
+
+.question-hero-body {
+  position: relative;
+  z-index: 1;
+}
+
+.question-hero-text {
+  font-size: 1.18rem;
+  font-weight: 900;
+  line-height: 1.45;
+  color: #78350f;
+  letter-spacing: -0.015em;
+  word-break: keep-all;
+  margin-bottom: 0.35rem;
+}
+
+.question-hero-text .quote-mark {
+  font-family: Georgia, serif;
+  color: #d97706;
+  font-size: 1.4rem;
+  font-weight: 900;
+  vertical-align: -2px;
+  padding: 0 0.1rem;
+}
+
+.question-hero-context {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #a16207;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* 누적형 이전 질문 인라인 플렉스 트레일 (가로 칩/태그로 세로 공간 최소화) */
+.question-trail {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.65rem;
+  margin-bottom: 0.65rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px dashed rgba(217, 119, 6, 0.2);
+}
+
+.trail-header {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #b45309;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-right: 0.2rem;
+  flex-shrink: 0;
+}
+
+.trail-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  color: #78350f;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(217, 119, 6, 0.18);
+  padding: 0.15rem 0.5rem;
+  border-radius: 14px;
+  white-space: nowrap;
+}
+
+.trail-item .trail-badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #b45309;
+}
+
+.trail-item .trail-q-text {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.trail-arrow-sep {
+  color: #d97706;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+@media (max-width: 768px) {
+  .session-core-question-hero {
+    padding: 0.9rem 1rem;
+  }
+  .question-hero-text {
+    font-size: 1.05rem;
+  }
+  .trail-item {
+    white-space: normal;
+  }
 }
 
 .btn-back-roadmap {

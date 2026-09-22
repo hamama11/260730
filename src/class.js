@@ -92,10 +92,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Roadmap card direct action buttons (0차시, 2차시, 5차시 바로가기)
-  document.querySelectorAll('.roadmap-card-action-btn').forEach(btn => {
+  // Roadmap card direct action buttons & nav buttons
+  document.querySelectorAll('.roadmap-card-action-btn, .roadmap-card-nav-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
+      const directTarget = btn.getAttribute('data-jump-to');
+      if (directTarget) {
+        switchTab(directTarget);
+        return;
+      }
       const parentCard = btn.closest('.roadmap-step-card');
       const target = parentCard?.getAttribute('data-target-tab');
       if (target) switchTab(target);
