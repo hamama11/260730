@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     tabBtns.forEach(btn => {
       if (btn.getAttribute('data-tab') === targetTabId) {
         btn.classList.add('active');
+        btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       } else {
         btn.classList.remove('active');
       }
@@ -97,6 +98,18 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       const directTarget = btn.getAttribute('data-jump-to');
+      if (directTarget === 'c0-practice-anchor') {
+        switchTab('tab-roadmap');
+        setTimeout(() => {
+          const el = document.getElementById('c0-practice-anchor');
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const acc = document.getElementById('c0-details-accordion');
+            if (acc) acc.open = true;
+          }
+        }, 100);
+        return;
+      }
       if (directTarget) {
         switchTab(directTarget);
         return;

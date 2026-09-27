@@ -45,15 +45,21 @@ body {
 }
 
 /* =====================================================
-   HEADER
+   HEADER (밝고 따뜻한 톤 & 상단 고정)
 ===================================================== */
 .app-header {
-  background: var(--navy);
-  color: var(--white);
-  position: sticky;
+  background: rgba(254, 252, 248, 0.98);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--slate-800);
+  position: fixed;
   top: 0;
-  z-index: 200;
-  box-shadow: var(--shadow-md);
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+  border-bottom: 1.5px solid #ebdcd0;
+  box-shadow: 0 4px 20px rgba(180, 140, 110, 0.08);
 }
 
 .header-inner {
@@ -68,16 +74,17 @@ body {
   align-items: center;
   gap: 1rem;
   padding: 0.65rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid #f1e4d8;
 }
 
 .header-hero-img {
   width: 44px;
   height: 44px;
-  border-radius: 8px;
+  border-radius: 10px;
   object-fit: cover;
   flex-shrink: 0;
-  box-shadow: 0 0 0 2px #334155;
+  box-shadow: 0 2px 8px rgba(180, 140, 110, 0.15);
+  border: 1px solid #ebdcd0;
 }
 
 .header-title {
@@ -85,16 +92,17 @@ body {
 }
 
 .header-title h1 {
-  font-size: 1.2rem;
+  font-size: 1.18rem;
   font-weight: 800;
   letter-spacing: -.02em;
   margin-bottom: .1rem;
   white-space: nowrap;
+  color: #451a03;
 }
 
 .header-title .subtitle {
   font-size: .78rem;
-  color: var(--slate-400);
+  color: #78716c;
   white-space: nowrap;
 }
 
@@ -103,7 +111,8 @@ body {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  background: rgba(255, 255, 255, 0.12);
+  background: #fdf5ec;
+  border: 1px solid #ebdcd0;
   padding: 0.35rem 0.65rem;
   border-radius: 6px;
   margin-left: auto;
@@ -112,26 +121,58 @@ body {
 
 .header-student-info span {
   font-weight: 700;
-  color: #fff;
+  color: #78350f;
   font-size: 0.82rem;
   white-space: nowrap;
 }
 
 .header-student-info input {
   background: #fff;
-  border: 1px solid #cbd5e1;
+  border: 1px solid #d6beaa;
   border-radius: 4px;
   padding: 0.25rem 0.5rem;
   font-size: 0.8rem;
   width: 140px;
-  color: #1e293b;
+  color: #292524;
   outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-/* Tab navigation - compact */
+.header-student-info input:focus {
+  border-color: #d97706;
+  box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.15);
+}
+
+.nav-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #fff;
+  color: #92400e;
+  border: 1px solid #fcd34d;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(180, 140, 110, 0.08);
+  transition: all 0.18s;
+  flex-shrink: 0;
+}
+
+.nav-link-btn:hover {
+  background: #fef3c7;
+  border-color: #f59e0b;
+  color: #78350f;
+  transform: translateY(-1px);
+}
+
+/* Tab navigation - compact & bright */
 .tab-navigation {
   display: flex;
-  gap: .25rem;
+  gap: .35rem;
+  padding: .35rem 0;
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -140,63 +181,86 @@ body {
 .tab-btn {
   display: flex;
   align-items: center;
-  gap: .4rem;
-  padding: .55rem .95rem;
-  border: none;
-  border-bottom: 3px solid transparent;
-  background: none;
-  color: var(--slate-400);
+  gap: .45rem;
+  padding: .5rem .85rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: #78716c;
   font-family: var(--font);
   font-size: .84rem;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
-  transition: color .18s, border-color .18s;
+  transition: all .18s;
   flex-shrink: 0;
+  position: relative;
 }
 
-.tab-btn:hover { color: #cbd5e1; }
+.tab-btn:hover {
+  background: #fdf5ec;
+  color: #451a03;
+}
 
+/* 내가 어느 탭을 클릭하고 보고 있는지 확실하게 보여주는 active 스타일 */
 .tab-btn.active {
-  color: var(--white);
-  border-bottom-color: var(--primary);
+  background: #ffffff !important;
+  color: #78350f !important;
+  font-weight: 800;
+  border: 1.5px solid #d97706 !important;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.16);
+}
+
+.tab-btn.active::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 3px;
+  background: #d97706;
+  border-radius: 2px;
 }
 
 .tab-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 28px;
-  height: 18px;
-  padding: 0 .4rem;
-  background: #334155;
-  color: var(--slate-400);
+  min-width: 26px;
+  height: 20px;
+  padding: 0 .45rem;
+  background: #f1e5d8;
+  color: #78716c;
   font-size: .68rem;
   font-weight: 800;
-  border-radius: 12px;
-  transition: background .18s, color .18s;
+  border-radius: 10px;
+  transition: all .18s;
+}
+
+.tab-btn:hover .tab-badge {
+  background: #e8d7c7;
+  color: #451a03;
 }
 
 .tab-btn.active .tab-badge {
-  background: var(--primary);
-  color: var(--white);
+  background: #d97706 !important;
+  color: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(217, 119, 6, 0.3);
 }
-
-.tab-badge.accent { background: #6d28d9; color: var(--white); }
-.tab-btn.active .tab-badge.accent { background: #7c3aed; }
 
 /* =====================================================
    MAIN & TAB CONTENT
 ===================================================== */
 .app-main {
   max-width: 1400px;
-  margin: 1rem auto;
-  padding: 0 1.25rem 3rem;
+  margin: 0 auto;
+  padding: 110px 1.25rem 3rem;
 }
 
-.tab-content { display: none; }
+.tab-content { display: none !important; }
 .tab-content.active {
-  display: block;
+  display: block !important;
   animation: fadeUp .2s ease;
 }
 
