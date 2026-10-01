@@ -648,6 +648,17 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('c3-accumulated-inflation').textContent = `${accumulated.toFixed(1)}%`;
     document.getElementById('c3-real-purchasing-power').textContent = `${realValue.toFixed(1)} 만원`;
 
+    // Calculate and sync 10, 20, 30 years PV of 100만원
+    const pv10 = 100 / Math.pow(1 + r, 10);
+    const pv20 = 100 / Math.pow(1 + r, 20);
+    const pv30 = 100 / Math.pow(1 + r, 30);
+    const elPv10 = document.getElementById('pv-10yr-val');
+    const elPv20 = document.getElementById('pv-20yr-val');
+    const elPv30 = document.getElementById('pv-30yr-val');
+    if (elPv10) elPv10.textContent = `${pv10.toFixed(1)} 만원`;
+    if (elPv20) elPv20.textContent = `${pv20.toFixed(1)} 만원`;
+    if (elPv30) elPv30.textContent = `${pv30.toFixed(1)} 만원`;
+
     // Sync to tab 4 labels
     const t4YearsLabel = document.getElementById('c4-years-val');
     if (t4YearsLabel) t4YearsLabel.textContent = `${n}년`;
@@ -871,6 +882,29 @@ document.addEventListener('DOMContentLoaded', () => {
     if (cardPesVal)  cardPesVal.textContent  = `${Math.round(fvPes).toLocaleString()} 만원/월`;
     if (cardPesMul)  cardPesMul.textContent  = `현재 대비 ${(fvPes / pv).toFixed(2)}배`;
 
+    // 3. Annuity Compound Sum Calculation (등비수열의 합): Sn = M * ((1+i)^n - 1) / i
+    const annRateEl = document.getElementById('pens-ann-rate');
+    const annRate = (annRateEl ? parseFloat(annRateEl.value) : 4.0) / 100;
+    const sampleMonthlyM = 30; // 월 30만원 납입 가정
+    const sampleAnnualM = sampleMonthlyM * 12; // 연 360만원
+    
+    // Sn for sampleAnnualM with rate annRate over n years
+    const snAccum = annRate > 0 ? sampleAnnualM * ((Math.pow(1 + annRate, n) - 1) / annRate) : (sampleAnnualM * n);
+
+    // Required annual deposit to generate annual target fund (assuming 20 years of retirement life)
+    const annualTargetExpense = fvBase * 12; // 1년치 필요 생활비
+    const totalTargetFund = annualTargetExpense * 20; // 20년치 목표 자금
+    const requiredAnnualM = annRate > 0 ? (totalTargetFund * annRate) / (Math.pow(1 + annRate, n) - 1) : (totalTargetFund / n);
+    const requiredMonthlyM = requiredAnnualM / 12;
+
+    const elTargetMonthly = document.getElementById('ann-target-monthly');
+    const elTotalAccum = document.getElementById('ann-total-accum');
+    const elRequiredMonthly = document.getElementById('ann-required-monthly');
+
+    if (elTargetMonthly) elTargetMonthly.textContent = `${Math.round(fvBase).toLocaleString()} 만원/월`;
+    if (elTotalAccum) elTotalAccum.textContent = `${Math.round(snAccum).toLocaleString()} 만원`;
+    if (elRequiredMonthly) elRequiredMonthly.textContent = `${Math.round(requiredMonthlyM).toLocaleString()} 만원/월`;
+
     // Update comparison table (0, 10, 20, 30 years)
     const setCell = (id, val) => {
       const el = document.getElementById(id);
@@ -892,6 +926,36 @@ document.addEventListener('DOMContentLoaded', () => {
     setCell('tbl-pes-20', calcFv(rPes, 20));
     setCell('tbl-pes-30', calcFv(rPes, 30));
   }
+
+  // Bind Annuity Rate Slider
+  const annRateSlider = document.getElementById('pens-ann-rate');
+  const annRateNum = document.getElementById('pens-ann-rate-num');
+  annRateSlider?.addEventListener('input', () => {
+    if (annRateNum) annRateNum.value = annRateSlider.value;
+    calculatePension();
+  });
+  annRateNum?.addEventListener('input', () => {
+    if (annRateSlider) annRateSlider.value = annRateNum.value;
+    calculatePension();
+  });
+
+  // 2차시 [선택 A] / [선택 B] 탭 토글 바인딩
+  const choiceBtns = document.querySelectorAll('.choice-toggle-btn');
+  choiceBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetPanelId = btn.getAttribute('data-choice');
+      choiceBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.querySelectorAll('.choice-toggle-panel').forEach(panel => {
+        panel.classList.toggle('active', panel.id === targetPanelId);
+      });
+
+      if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
+        window.MathJax.typesetPromise();
+      }
+    });
+  });
 
   function renderPensionChart() {
     const ctx = document.getElementById('pens-chart-expense')?.getContext('2d');
@@ -921,7 +985,7 @@ document.addEventListener('DOMContentLoaded', () => {
         labels,
         datasets: [
           {
-            label: '🔴 높은 물가 시나리오',
+            label: '🔴 비관 시나리오 (고물가 지속)',
             data: dataPes,
             borderColor: 'rgb(239, 68, 68)',
             backgroundColor: 'rgba(239, 68, 68, 0.05)',
@@ -929,7 +993,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tension: 0.2
           },
           {
-            label: '🔵 기준 물가 시나리오',
+            label: '🔵 기준 시나리오 (평균 물가)',
             data: dataBase,
             borderColor: 'rgb(59, 130, 246)',
             backgroundColor: 'rgba(59, 130, 246, 0.05)',
@@ -937,7 +1001,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tension: 0.2
           },
           {
-            label: '🟢 낮은 물가 시나리오',
+            label: '🟢 낙관 시나리오 (물가 안정기)',
             data: dataOpt,
             borderColor: 'rgb(16, 185, 129)',
             backgroundColor: 'rgba(16, 185, 129, 0.05)',

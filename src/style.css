@@ -2388,6 +2388,159 @@ body {
   border-top: 1px dashed #e2e8f0;
 }
 
+/* =====================================================
+   3차시 하이브리드 프로젝트 (경제 수학 주축 + 실용통계 유연 연계)
+===================================================== */
+.hybrid-badge-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.hybrid-badge {
+  font-size: 0.76rem;
+  font-weight: 800;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.hybrid-badge.math-core {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+.hybrid-badge.stat-opt {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.hybrid-badge.stat-choice {
+  background: #fefce8;
+  color: #a16207;
+  border: 1px solid #fef08a;
+}
+
+/* 2차시 선택 A / 선택 B 탭 토글 */
+.choice-toggle-container {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.choice-toggle-nav {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 0.5rem;
+}
+
+.choice-toggle-btn {
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #475569;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.choice-toggle-btn.active {
+  background: #059669;
+  color: #ffffff;
+  border-color: #059669;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.25);
+}
+
+.choice-toggle-panel {
+  display: none;
+}
+
+.choice-toggle-panel.active {
+  display: block;
+}
+
+/* PV 현재가치 및 연금 원리합계 카드 스타일 */
+.pv-result-box {
+  background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+  border: 1.5px solid #93c5fd;
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  text-align: center;
+}
+
+.pv-result-box .pv-card {
+  background: #ffffff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.pv-result-box .pv-card span {
+  display: block;
+  font-size: 0.8rem;
+  color: #64748b;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.pv-result-box .pv-card strong {
+  font-size: 1.35rem;
+  color: #1e3a8a;
+  font-weight: 800;
+}
+
+.annuity-result-box {
+  background: linear-gradient(135deg, #faf5ff 0%, #ede9fe 100%);
+  border: 1.5px solid #c084fc;
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  text-align: center;
+}
+
+.annuity-result-box .ann-card {
+  background: #ffffff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.annuity-result-box .ann-card span {
+  display: block;
+  font-size: 0.8rem;
+  color: #64748b;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.annuity-result-box .ann-card strong {
+  font-size: 1.35rem;
+  color: #6b21a8;
+  font-weight: 800;
+}
+
 
 
 
