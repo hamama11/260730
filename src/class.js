@@ -138,6 +138,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // 📖 수업 웹툰 / 흐름도 팝업 모달 열기 & 닫기 제어
+  const storyModal = document.getElementById('story-flow-modal');
+  if (storyModal) {
+    document.querySelectorAll('.btn-story-modal').forEach(btn => {
+      btn.addEventListener('click', () => {
+        storyModal.style.display = 'flex';
+        storyModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    const closeBtn = storyModal.querySelector('.story-modal-close');
+    const closeModal = () => {
+      storyModal.style.display = 'none';
+      storyModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+
+    closeBtn?.addEventListener('click', closeModal);
+    storyModal.addEventListener('click', (e) => {
+      if (e.target === storyModal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && storyModal.style.display === 'flex') closeModal();
+    });
+  }
+
   // Details accordion toggle handler (icon update & MathJax re-render)
   document.querySelectorAll('.foldable-inquiry-details').forEach(details => {
     details.addEventListener('toggle', () => {

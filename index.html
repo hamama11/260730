@@ -635,7 +635,8 @@
                     <div class="tracker-mini-info">
                         <div class="mini-pos-badge cpi-badge">1차시 · 가중구조 &amp; My-CPI</div>
                     </div>
-                    <div class="tracker-mini-right">
+                    <div class="tracker-mini-right" style="display:flex; gap:0.4rem; align-items:center;">
+                        <button type="button" class="btn-back-roadmap btn-story-modal" style="background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe;">📖 수업 웹툰 보기</button>
                         <button type="button" class="btn-back-roadmap" data-jump-to="tab-roadmap">🗺️ 전체 로드맵 보기</button>
                     </div>
                 </div>
@@ -1098,7 +1099,8 @@
                     <div class="tracker-mini-info">
                         <div class="mini-pos-badge stat-badge">2차시 · 할인율 &amp; 현재가치(PV)</div>
                     </div>
-                    <div class="tracker-mini-right">
+                    <div class="tracker-mini-right" style="display:flex; gap:0.4rem; align-items:center;">
+                        <button type="button" class="btn-back-roadmap btn-story-modal" style="background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe;">📖 수업 웹툰 보기</button>
                         <button type="button" class="btn-back-roadmap" data-jump-to="tab-roadmap">🗺️ 전체 로드맵 보기</button>
                     </div>
                 </div>
@@ -1635,7 +1637,8 @@
                     <div class="tracker-mini-info">
                         <div class="mini-pos-badge pens-badge">3차시 · 연금 수열과 미래 설계</div>
                     </div>
-                    <div class="tracker-mini-right">
+                    <div class="tracker-mini-right" style="display:flex; gap:0.4rem; align-items:center;">
+                        <button type="button" class="btn-back-roadmap btn-story-modal" style="background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe;">📖 수업 웹툰 보기</button>
                         <button type="button" class="btn-back-roadmap" data-jump-to="tab-roadmap">🗺️ 전체 로드맵 보기</button>
                     </div>
                 </div>
@@ -1918,6 +1921,36 @@
 
         </main>
     </div>
+    <!-- 📖 수업 웹툰 / 전체 흐름 팝업 모달 -->
+    <div id="story-flow-modal" class="story-modal-overlay" style="display:none;" aria-hidden="true">
+        <div class="story-modal-container">
+            <div class="story-modal-header">
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <span style="font-size:1.35rem;">📖</span>
+                    <div>
+                        <h3 style="margin:0; font-size:1.05rem; color:#1e3a8a; font-weight:800;">
+                            [수업 웹툰] "내 월급만 빼고 다 오른다" 3차시 스토리 전체 흐름
+                        </h3>
+                        <p style="margin:0; font-size:0.8rem; color:#64748b;">
+                            1화 My-CPI 가중평균 ➔ 2화 현재가치(PV)와 인플레이션 ➔ 3화 미래 저축 계획(PMT &amp; 변동성)
+                        </p>
+                    </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <a href="/수업흐름.png" target="_blank" rel="noopener noreferrer" class="story-newtab-btn" title="새 탭에서 원본 보기">
+                        🔍 새 탭에서 크게 보기
+                    </a>
+                    <button type="button" class="story-modal-close" aria-label="모달 닫기">✕</button>
+                </div>
+            </div>
+            <div class="story-modal-body">
+                <a href="/수업흐름.png" target="_blank" rel="noopener noreferrer" title="클릭하여 원본 크기로 보기" style="display:inline-block; max-width:100%;">
+                    <img src="/수업흐름.png" alt="내 월급만 빼고 다 오른다 3차시 전체 수업 흐름도" style="width:100%; height:auto; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.08);">
+                </a>
+            </div>
+        </div>
+    </div>
+
     <script type="module" src="/src/class.js"></script>
 </body>
 
