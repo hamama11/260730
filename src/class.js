@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 2. Q&A Textareas localStorage binding
-  const qItems = ['c-q1-answer', 'c-q2-answer', 'c-q3-answer', 'c-q4-answer'];
+  const qItems = ['c-q1-answer', 'c-q2-answer', 'c-q3-answer', 'c-q4-answer', 'c-q3-pension-answer'];
   qItems.forEach(id => {
     const el = document.getElementById(id);
     const countEl = document.getElementById(id.replace('answer', 'chars'));

@@ -32,22 +32,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── Q 답변 바인딩 (1차·2차 수행평가) ───────────────────
   // session1/2/3 외부의 서술형 텍스트에어리어는 main에서 일괄 관리
+  // 수업 페이지(index.html)에서 작성한 내용과 상호 연동(fallback)
   const qItems = [
-    { ta: 'q1-1-answer', chars: 'q1-1-chars' },
-    { ta: 'q1-2-answer', chars: 'q1-2-chars' },
-    { ta: 'q2-1-answer', chars: 'q2-1-chars' },
-    { ta: 'q2-2-answer', chars: 'q2-2-chars' },
+    { ta: 'q1-1-answer', chars: 'q1-1-chars', classKey: 'c-q1-answer' },
+    { ta: 'q1-2-answer', chars: 'q1-2-chars', classKey: 'c-q2-answer' },
+    { ta: 'q2-1-answer', chars: 'q2-1-chars', classKey: 'c-q3-answer' },
+    { ta: 'q2-2-answer', chars: 'q2-2-chars', classKey: 'c-q4-answer' },
   ];
 
-  qItems.forEach(({ ta: taId, chars: charsId }) => {
+  qItems.forEach(({ ta: taId, chars: charsId, classKey }) => {
     const ta    = document.getElementById(taId);
     const chars = document.getElementById(charsId);
     const lsKey = `mycpi_${taId}`;
 
     if (!ta) return;
 
-    // 저장된 답변 복원
-    const stored = localStorage.getItem(lsKey) || '';
+    // 저장된 답변 복원 (수행평가 자체 저장값 우선, 없을 시 수업 페이지 작성값 자동 연동)
+    const stored = localStorage.getItem(lsKey) || (classKey ? localStorage.getItem(classKey) : '') || '';
     ta.value = stored;
     if (chars) chars.textContent = stored.length;
 
@@ -58,6 +59,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (chars) chars.textContent = v.length;
     });
   });
+
+  // 학생 성명 자동 동기화
+  const studentNameInput = document.getElementById('global-student-name');
+  if (studentNameInput) {
+    const savedName = localStorage.getItem('mycpi_student_name') || '';
+    studentNameInput.value = savedName;
+    studentNameInput.addEventListener('input', () => {
+      localStorage.setItem('mycpi_student_name', studentNameInput.value);
+      const repName = document.getElementById('student-name');
+      if (repName) repName.value = studentNameInput.value;
+    });
+  }
 
   // ── 상태 변경 콜백 ──────────────────────────────────────
   const handleS1Change = (s1) => {

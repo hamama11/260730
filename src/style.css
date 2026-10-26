@@ -2541,6 +2541,114 @@ body {
   font-weight: 800;
 }
 
+/* =====================================================
+   질문 예시 및 사고 힌트 토글 아코디언 스타일
+===================================================== */
+.q-hint-details {
+  margin: 0.85rem 0 0.5rem 0;
+  border: 1px solid #e0e7ff;
+  border-radius: 8px;
+  background: #f8fafc;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.q-hint-details[open] {
+  border-color: #c7d2fe;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.06);
+}
+
+.q-hint-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.55rem 0.9rem;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #4338ca;
+  background: #eef2ff;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  transition: background 0.2s;
+}
+
+.q-hint-summary::-webkit-details-marker {
+  display: none;
+}
+
+.q-hint-summary:hover {
+  background: #e0e7ff;
+}
+
+.q-hint-summary-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.q-hint-summary .q-hint-icon {
+  font-size: 0.78rem;
+  color: #6366f1;
+  transition: transform 0.2s;
+}
+
+.q-hint-details[open] .q-hint-summary .q-hint-icon {
+  transform: rotate(180deg);
+}
+
+.q-hint-body {
+  padding: 0.9rem 1rem;
+  border-top: 1px dashed #e0e7ff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.q-hint-item {
+  background: #f8fafc;
+  border-left: 3px solid #6366f1;
+  border-radius: 4px;
+  padding: 0.6rem 0.75rem;
+}
+
+.q-hint-item.alt {
+  border-left-color: #059669;
+}
+
+.q-hint-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  background: #e0e7ff;
+  color: #3730a3;
+  margin-bottom: 0.35rem;
+}
+
+.q-hint-item.alt .q-hint-badge {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.q-hint-row {
+  margin-bottom: 0.25rem;
+  color: #334155;
+}
+
+.q-hint-row:last-child {
+  margin-bottom: 0;
+}
+
+.q-hint-row strong {
+  color: #1e293b;
+}
+
+
 
 
 
