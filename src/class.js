@@ -24,7 +24,7 @@ let RAW_POCKET_DATA = [
 document.addEventListener('DOMContentLoaded', () => {
 
   // 1. Tab Navigation & Helper Function
-  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabBtns = document.querySelectorAll('.tab-btn, .tab-btn-sub');
   const tabContents = document.querySelectorAll('.tab-content');
   const roadmapCards = document.querySelectorAll('.roadmap-step-card');
 
@@ -60,10 +60,20 @@ document.addEventListener('DOMContentLoaded', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     // Force trigger calculations and chart resizing when entering tabs
-    if (targetTabId === 'class1') renderC1Chart();
-    if (targetTabId === 'class2') renderC2Chart();
-    if (targetTabId === 'class3') renderC3Chart();
-    if (targetTabId === 'class4') calculateC4Scenarios();
+    if (targetTabId === 'class1') {
+      calculateC1();
+      renderC1Chart();
+    }
+    if (targetTabId === 'class2') {
+      calculateC2();
+    }
+    if (targetTabId === 'class3') {
+      calculateC3();
+      renderC3Chart();
+    }
+    if (targetTabId === 'class4') {
+      calculateC4Scenarios();
+    }
     if (targetTabId === 'class-pension') {
       calculatePension();
       renderPensionChart();
@@ -178,6 +188,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Choice A vs Choice B toggle buttons handler (in Session 2)
+  const choiceBtns = document.querySelectorAll('.choice-toggle-btn');
+  choiceBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetPanelId = btn.getAttribute('data-choice');
+      choiceBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.querySelectorAll('.choice-toggle-panel').forEach(panel => {
+        if (panel.id === targetPanelId) {
+          panel.classList.add('active');
+        } else {
+          panel.classList.remove('active');
+        }
+      });
+    });
+  });
+
   // 1.5. Global Student Name localStorage binding
   const globalNameEl = document.getElementById('global-student-name');
   if (globalNameEl) {
@@ -206,6 +234,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   // [0차시] 소비자물가지수(CPI) 실시간 산출 시뮬레이터
   // ==========================================
+  let isBaseLocked = true; // 기준연도 Lock 기본값
+  let lockedSum0 = 141000;
+
   const c0Inputs = {
     p0Rice: document.getElementById('c0-p0-rice'),
     q0Rice: document.getElementById('c0-q0-rice'),
@@ -222,6 +253,44 @@ document.addEventListener('DOMContentLoaded', () => {
     ptMovie: document.getElementById('c0-pt-movie'),
     ptMovieVal: document.getElementById('c0-pt-movie-val')
   };
+
+  const btnLockBase = document.getElementById('c0-btn-lock-base');
+  const lockIcon = document.getElementById('c0-lock-icon');
+  const lockText = document.getElementById('c0-lock-text');
+  const lockBadge = document.getElementById('c0-lock-badge');
+
+  if (btnLockBase) {
+    btnLockBase.addEventListener('click', () => {
+      isBaseLocked = !isBaseLocked;
+      if (isBaseLocked) {
+        // 현재 1단계 총액으로 다시 Lock 확정
+        const p0R = parseFloat(c0Inputs.p0Rice?.value) || 0;
+        const q0R = parseFloat(c0Inputs.q0Rice?.value) || 0;
+        const p0E = parseFloat(c0Inputs.p0Elec?.value) || 0;
+        const q0E = parseFloat(c0Inputs.q0Elec?.value) || 0;
+        const p0M = parseFloat(c0Inputs.p0Movie?.value) || 0;
+        const q0M = parseFloat(c0Inputs.q0Movie?.value) || 0;
+        lockedSum0 = (p0R * q0R) + (p0E * q0E) + (p0M * q0M);
+
+        btnLockBase.style.background = '#2563eb';
+        if (lockIcon) lockIcon.textContent = '🔒';
+        if (lockText) lockText.textContent = '기준연도 확정 완료 (Lock 풀기)';
+        if (lockBadge) {
+          lockBadge.textContent = '확정(Lock)';
+          lockBadge.style.background = '#4c1d95';
+        }
+      } else {
+        btnLockBase.style.background = '#64748b';
+        if (lockIcon) lockIcon.textContent = '🔓';
+        if (lockText) lockText.textContent = '기준연도 총액 실시간 연동 중 (클릭하여 확정)';
+        if (lockBadge) {
+          lockBadge.textContent = '실시간 연동';
+          lockBadge.style.background = '#0284c7';
+        }
+      }
+      calculateC0();
+    });
+  }
 
   function calculateC0() {
     if (!c0Inputs.p0Rice) return; // safety check
@@ -247,35 +316,67 @@ document.addEventListener('DOMContentLoaded', () => {
     const costRice0  = p0R * q0R;
     const costElec0  = p0E * q0E;
     const costMovie0 = p0M * q0M;
-    const sum0 = costRice0 + costElec0 + costMovie0;
+    const currentSum0 = costRice0 + costElec0 + costMovie0;
+
+    if (!isBaseLocked) {
+      lockedSum0 = currentSum0;
+    }
 
     const costRiceT  = ptR * q0R;
     const costElecT  = ptE * q0E;
     const costMovieT = ptM * q0M;
     const sumT = costRiceT + costElecT + costMovieT;
 
-    const cpi = sum0 > 0 ? (sumT / sum0) * 100 : 0;
+    const divisor = lockedSum0 > 0 ? lockedSum0 : currentSum0;
+    const cpi = divisor > 0 ? (sumT / divisor) * 100 : 0;
 
     // Weights (in per-mil / 1000)
-    const wRice  = sum0 > 0 ? Math.round((costRice0 / sum0) * 1000) : 0;
-    const wElec  = sum0 > 0 ? Math.round((costElec0 / sum0) * 1000) : 0;
-    const wMovie = sum0 > 0 ? (1000 - wRice - wElec) : 0; // ensure total is exactly 1000
+    const wRice  = divisor > 0 ? Math.round((costRice0 / divisor) * 1000) : 0;
+    const wElec  = divisor > 0 ? Math.round((costElec0 / divisor) * 1000) : 0;
+    const wMovie = divisor > 0 ? (1000 - wRice - wElec) : 0; // ensure total is exactly 1000
 
     // Update DOM
     const elSum0  = document.getElementById('c0-calc-sum0');
-    const elSumt  = document.getElementById('c0-calc-sumt');
     const elCpi   = document.getElementById('c0-calc-cpi');
+    const elMathSumT = document.getElementById('c0-math-sumt');
+    const elMathSum0 = document.getElementById('c0-math-sum0');
     const elWRice = document.getElementById('c0-weight-rice-val');
     const elWElec = document.getElementById('c0-weight-elec-val');
     const elWMov  = document.getElementById('c0-weight-movie-val');
 
-    if (elSum0) elSum0.textContent = `${sum0.toLocaleString()} 원`;
-    if (elSumt) elSumt.textContent = `${sumT.toLocaleString()} 원`;
+    if (elSum0) elSum0.textContent = `${divisor.toLocaleString()} 원`;
+    if (elMathSumT) elMathSumT.textContent = sumT.toLocaleString();
+    if (elMathSum0) elMathSum0.textContent = divisor.toLocaleString();
     if (elCpi)  elCpi.textContent = cpi.toFixed(2);
 
     if (elWRice) elWRice.textContent = wRice;
     if (elWElec) elWElec.textContent = wElec;
     if (elWMov)  elWMov.textContent  = wMovie;
+
+    // [5단계 실시간 분석 및 공표 브리핑 업데이트]
+    const elInflationRate = document.getElementById('c0-calc-inflation-rate');
+    const elBriefingHeadline = document.getElementById('c0-briefing-headline');
+    const elBriefingDesc = document.getElementById('c0-briefing-desc');
+
+    if (elInflationRate) {
+      const inflationRate = cpi - 100;
+      const sign = inflationRate >= 0 ? '+' : '';
+      elInflationRate.textContent = `${sign}${inflationRate.toFixed(2)}%`;
+      elInflationRate.style.color = inflationRate >= 0 ? '#dc2626' : '#2563eb';
+
+      if (elBriefingHeadline && elBriefingDesc) {
+        if (Math.abs(inflationRate) < 0.05) {
+          elBriefingHeadline.textContent = `📢 [공표] 기준시점 대비 종합물가지수 100.0선 기록`;
+          elBriefingDesc.textContent = `기준 바스켓의 가격 변동 합계가 0%로 물가 안정세를 나타내고 있습니다.`;
+        } else if (inflationRate > 0) {
+          elBriefingHeadline.textContent = `📢 [속보] 물가지수 ${cpi.toFixed(2)} 기록, 기준시점 대비 ${inflationRate.toFixed(2)}% 상승 공표`;
+          elBriefingDesc.textContent = `기준 바스켓 소비 총액이 ${sum0.toLocaleString()}원에서 ${sumT.toLocaleString()}원으로 늘어나 화폐 실질 가치가 하락했습니다. 가계는 동일한 생활 수준을 유지하기 위해 매달 추가 지출이 필요합니다.`;
+        } else {
+          elBriefingHeadline.textContent = `📢 [발표] 물가지수 ${cpi.toFixed(2)} 기록, 기준시점 대비 ${Math.abs(inflationRate).toFixed(2)}% 하락`;
+          elBriefingDesc.textContent = `주요 소비 품목 가격 하락으로 기준 바스켓 총액이 감소했습니다.`;
+        }
+      }
+    }
   }
 
   // Bind inputs
@@ -385,9 +486,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const simpleAvg = cpiCategories.reduce((s, c) => s + c.inflation, 0) / cpiCategories.length;
 
     // Update labels
-    document.getElementById('c1-official-val').textContent = `${officialCpi.toFixed(2)}%`;
-    document.getElementById('c1-my-val').textContent = `${myCpi.toFixed(2)}%`;
-    document.getElementById('c1-simple-val').textContent = `${simpleAvg.toFixed(2)}%`;
+    const elOff = document.getElementById('c1-official-val');
+    const elMy = document.getElementById('c1-my-val');
+    const elSim = document.getElementById('c1-simple-val');
+    if (elOff) elOff.textContent = `${officialCpi.toFixed(2)}%`;
+    if (elMy) elMy.textContent = `${myCpi.toFixed(2)}%`;
+    if (elSim) elSim.textContent = `${simpleAvg.toFixed(2)}%`;
 
     // Sync to tab 4 summary label
     const t4MyCpiLabel = document.getElementById('c4-my-cpi-val');
@@ -529,11 +633,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const skewness = finalStats.sd > 0 ? (cubedDiffSum / data.length) / Math.pow(finalStats.sd, 3) : 0;
 
     // Update labels
-    document.getElementById('c2-stat-mean').textContent = `${finalStats.mean.toFixed(1)} 만원`;
-    document.getElementById('c2-stat-median').textContent = `${median.toFixed(1)} 만원`;
-    document.getElementById('c2-stat-mode').textContent = `${mode.toFixed(0)} 만원`;
-    document.getElementById('c2-stat-skewness').textContent = skewness.toFixed(3);
-    document.getElementById('c2-stat-count').textContent = `${data.length} / ${n}명`;
+    const elMean = document.getElementById('c2-stat-mean');
+    const elMed = document.getElementById('c2-stat-median');
+    const elMode = document.getElementById('c2-stat-mode');
+    const elSkew = document.getElementById('c2-stat-skewness');
+    const elCount = document.getElementById('c2-stat-count');
+
+    if (elMean) elMean.textContent = `${finalStats.mean.toFixed(1)} 만원`;
+    if (elMed) elMed.textContent = `${median.toFixed(1)} 만원`;
+    if (elMode) elMode.textContent = `${mode.toFixed(0)} 만원`;
+    if (elSkew) elSkew.textContent = skewness.toFixed(3);
+    if (elCount) elCount.textContent = `${data.length} / ${n}명`;
 
     // Sync to tab 4 labels
     const t4SkewLabel = document.getElementById('c4-skewness-val');
@@ -543,6 +653,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderC2Chart(data, mean, median, mode) {
+    if (!data) {
+      calculateC2();
+      return;
+    }
     const ctx = document.getElementById('c2-chart-dist')?.getContext('2d');
     if (!ctx) return;
 
@@ -672,8 +786,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const accumulated = (compound - 1) * 100;
     const realValue = 100 / compound;
 
-    document.getElementById('c3-accumulated-inflation').textContent = `${accumulated.toFixed(1)}%`;
-    document.getElementById('c3-real-purchasing-power').textContent = `${realValue.toFixed(1)} 만원`;
+    const elAcc = document.getElementById('c3-accumulated-inflation');
+    const elReal = document.getElementById('c3-real-purchasing-power');
+    if (elAcc) elAcc.textContent = `${accumulated.toFixed(1)}%`;
+    if (elReal) elReal.textContent = `${realValue.toFixed(1)} 만원`;
 
     // Calculate and sync 10, 20, 30 years PV of 100만원
     const pv10 = 100 / Math.pow(1 + r, 10);
@@ -783,7 +899,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function calculateC4Scenarios() {
     // Read My-CPI dynamically calculated from Tab 1
-    const myCpiText = document.getElementById('c1-my-val').textContent || '3.40%';
+    const myCpiText = document.getElementById('c1-my-val')?.textContent || '3.40%';
     const r = parseFloat(myCpiText.replace('%', '')) || 3.4;
     const n = c3Years;
     const sd = c4Sd;

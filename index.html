@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="My-CPI 데이터 분석 수업 실습 - 0~4차시 개념 학습 및 시뮬레이터 도구" />
+    <meta name="description" content="My-CPI 데이터 분석 수업 실습 - 0~3차시 (1-1, 2-1차시 연계) 개념 학습 및 시뮬레이터 도구" />
     <title>My-CPI 수업 실습 대시보드</title>
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" crossorigin />
@@ -30,57 +30,88 @@
 <body>
     <div id="app" class="tex2jax_process">
 
-        <!-- ===== HEADER ===== -->
+        <!-- ===== HEADER (단일 바 통합) ===== -->
         <header class="app-header">
             <div class="header-inner">
                 <div class="header-hero">
-                    <img src="/hero.png" alt="My-CPI 데이터 분석 수업" class="header-hero-img">
-                    <div class="header-title">
-                        <h1>🏫 My-CPI 수업 실습 페이지</h1>
-                        <p class="subtitle">데이터 기반 사고력 신장을 위한 통계 수업 자료실</p>
+                    <div class="header-hero-left">
+                        <img src="/hero.png" alt="My-CPI 수업" class="header-hero-img">
+                        <div class="header-title">
+                            <h1>🏫 My-CPI</h1>
+                        </div>
                     </div>
-                    <div class="header-student-info">
-                        <span>학번/성명:</span>
-                        <input type="text" id="global-student-name" placeholder="학번 성명 입력">
+
+                    <!-- 중앙 차시 탭 네비게이션 -->
+                    <nav class="tab-navigation-matrix" role="tablist">
+                        <!-- 윗줄: [로드맵] | [1차시] | [2차시] | [3차시] -->
+                        <div class="tab-matrix-row">
+                            <button class="tab-btn active" data-tab="tab-roadmap" role="tab" id="tab-nav-roadmap"
+                                style="padding: 0.35rem 0.65rem;">
+                                <span class="tab-badge" style="background:#8b5cf6; color:#fff;">🗺️ 로드맵</span>
+                                <span style="font-weight: 800;">3차시 여정</span>
+                            </button>
+
+                            <button class="tab-btn" data-tab="class1" role="tab" id="tab-class1"
+                                style="padding: 0.35rem 0.65rem;">
+                                <span class="tab-badge" style="background:#2563eb; color:#fff;">1차시</span>
+                                <span style="font-weight: 700;">[경수] 가중평균</span>
+                            </button>
+
+                            <button class="tab-btn" data-tab="class3" role="tab" id="tab-class3"
+                                style="padding: 0.35rem 0.65rem;">
+                                <span class="tab-badge" style="background:#059669; color:#fff;">2차시</span>
+                                <span style="font-weight: 700;">[경수] 할인율 &amp; PV</span>
+                            </button>
+
+                            <button class="tab-btn" data-tab="class-pension" role="tab" id="tab-class-pension"
+                                style="padding: 0.35rem 0.65rem;">
+                                <span class="tab-badge" style="background:#7c3aed; color:#fff;">3차시</span>
+                                <span style="font-weight: 700;">[경수] 연금 &amp; 미래설계</span>
+                            </button>
+                        </div>
+
+                        <!-- 아랫줄: 1-1차시(1차시 하단), 2-1차시(2차시 하단) 직하단 정렬 -->
+                        <div class="tab-matrix-row" style="padding-left: 0.15rem;">
+                            <div style="width: 125px; flex-shrink: 0;"></div>
+                            <div style="width: 145px; flex-shrink: 0;">
+                                <button class="tab-btn-sub" data-tab="class2" role="tab" id="tab-class2"
+                                    style="width: 100%; justify-content: flex-start; padding: 0.15rem 0.45rem;"
+                                    title="1-1차시: 학급 데이터 이상치(IQR)">
+                                    <span style="font-weight: 800; color: #d97706;">└ 📊 1-1차시</span>
+                                    <span>상자그림(IQR)</span>
+                                </button>
+                            </div>
+                            <div style="width: 155px; flex-shrink: 0;">
+                                <button class="tab-btn-sub" data-tab="class4" role="tab" id="tab-class4"
+                                    style="width: 100%; justify-content: flex-start; padding: 0.15rem 0.45rem;"
+                                    title="2-1차시: 변동성(σ) 시나리오">
+                                    <span style="font-weight: 800; color: #059669;">└ 📈 2-1차시</span>
+                                    <span>변동성 시나리오</span>
+                                </button>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <div class="header-hero-right">
+                        <div class="header-student-info" style="margin-left: 0; padding: 0.25rem 0.5rem;">
+                            <span style="font-size: 0.78rem;">성명:</span>
+                            <input type="text" id="global-student-name" placeholder="학번 성명"
+                                style="width: 90px; font-size: 0.78rem; padding: 0.2rem 0.35rem;">
+                        </div>
+                        <a href="/evaluation.html" class="nav-link-btn"
+                            style="font-size: 0.78rem; padding: 0.35rem 0.65rem; margin-left: 0;">📝 수행평가</a>
                     </div>
-                    <a href="/evaluation.html" class="nav-link-btn">📝 수행평가 제출 페이지</a>
                 </div>
-                <nav class="tab-navigation" role="tablist">
-                    <button class="tab-btn active" data-tab="tab-roadmap" role="tab" id="tab-nav-roadmap">
-                        <span class="tab-badge" style="background:#8b5cf6; color:#fff;">🗺️ 로드맵</span>
-                        <span style="font-weight: 800;">3차시 탐구 여정</span>
-                    </button>
-                    <button class="tab-btn" data-tab="class1" role="tab" id="tab-class1">
-                        <span class="tab-badge" style="background:#2563eb; color:#fff;">1차시</span>
-                        <span>[경수] 가중평균 &amp; My-CPI</span>
-                    </button>
-                    <button class="tab-btn" data-tab="class3" role="tab" id="tab-class3">
-                        <span class="tab-badge" style="background:#059669; color:#fff;">2차시</span>
-                        <span>[경수] 할인율 &amp; 현재가치(PV)</span>
-                    </button>
-                    <button class="tab-btn" data-tab="class-pension" role="tab" id="tab-class-pension">
-                        <span class="tab-badge" style="background:#7c3aed; color:#fff;">3차시</span>
-                        <span>[경수] 연금수열 &amp; 미래설계</span>
-                    </button>
-                    <button class="tab-btn" data-tab="class2" role="tab" id="tab-class2" style="border-left: 2px solid #e2e8f0; margin-left: 0.25rem;">
-                        <span class="tab-badge" style="background:#f59e0b; color:#fff;">선택 B</span>
-                        <span style="font-size: 0.8rem; color:#64748b;">학급 상자그림(IQR)</span>
-                    </button>
-                    <button class="tab-btn" data-tab="class4" role="tab" id="tab-class4">
-                        <span class="tab-badge" style="background:#10b981; color:#fff;">선택/종합</span>
-                        <span style="font-size: 0.8rem; color:#64748b;">변동성 시나리오</span>
-                    </button>
-                </nav>
             </div>
         </header>
 
-        <!-- ===== MAIN ===== -->
         <main class="app-main">
 
             <!-- ================================================
              [첫 화면] PROGRESS ROADMAP: MY-CPI DATA STORY 전용 탭
             ================================================ -->
-            <section id="tab-roadmap" class="tab-content active" role="tabpanel" aria-labelledby="tab-nav-roadmap" style="padding-top: 0.5rem;">
+            <section id="tab-roadmap" class="tab-content active" role="tabpanel" aria-labelledby="tab-nav-roadmap"
+                style="padding-top: 0.5rem;">
                 <div class="roadmap-container" aria-label="My-CPI Data Story 전체 학습 여정 로드맵" style="margin-bottom: 2rem;">
                     <!-- 로드맵 헤더: 대제목 「만원의 청춘」 / 소질문 「라떼는 말이야…」 -->
                     <div class="roadmap-header">
@@ -101,34 +132,6 @@
                         </div>
                     </div>
 
-                    <!-- 📖 3차시 수업 스토리 웹툰 배너 (수업흐름.png) -->
-                    <div class="lesson-flow-banner" style="margin-bottom: 2rem; background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); border: 1.5px solid #bfdbfe; border-radius: 1rem; overflow: hidden; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.08);">
-                        <div style="padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; background: #ffffff; border-bottom: 1px solid #e2e8f0;">
-                            <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                <span style="font-size: 1.5rem;">📖</span>
-                                <div>
-                                    <h3 style="margin: 0; font-size: 1.1rem; color: #1e3a8a; font-weight: 700;">
-                                        [수업 웹툰] "내 월급만 빼고 다 오른다" 3차시 스토리 흐름
-                                    </h3>
-                                    <p style="margin: 0.2rem 0 0; font-size: 0.85rem; color: #64748b;">
-                                        1화 My-CPI 가중평균 ➔ 2화 현재가치(PV)와 인플레이션 ➔ 3화 미래 저축 계획(PMT & 변동성)
-                                    </p>
-                                </div>
-                            </div>
-                            <span style="font-size: 0.8rem; background: #dbeafe; color: #1d4ed8; padding: 0.3rem 0.75rem; border-radius: 9999px; font-weight: 600;">
-                                💡 클릭하면 원본 크기로 확대
-                            </span>
-                        </div>
-                        <div style="padding: 1.25rem; text-align: center; background: #f8fafc;">
-                            <a href="/수업흐름.png" target="_blank" rel="noopener noreferrer" title="새 탭에서 원본 이미지 크게 보기" style="display: inline-block; cursor: zoom-in; max-width: 100%;">
-                                <img src="/수업흐름.png" alt="내 월급만 빼고 다 오른다 - 1~3차시 수업 흐름도" style="width: 100%; max-width: 1050px; height: auto; border-radius: 0.75rem; box-shadow: 0 2px 10px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; transition: transform 0.2s ease;">
-                            </a>
-                            <p style="margin: 0.75rem 0 0; font-size: 0.8rem; color: #94a3b8;">
-                                🔍 이미지를 클릭하면 새 창에서 크게 확인할 수 있습니다.
-                            </p>
-                        </div>
-                    </div>
-
                     <!-- 1차시 ➔ 2차시 ➔ 3차시 트리형 로드맵 그리드 -->
                     <div class="roadmap-grid">
                         <!-- [1차시] 가중평균과 My-CPI (지수 산출과 소비 변이성) -->
@@ -138,7 +141,9 @@
                                     <span class="roadmap-num-tag tag-cpi">[1차시] 가중평균 &amp; My-CPI</span>
                                     <span class="roadmap-sub-concept-badge">지수 산출</span>
                                 </div>
-                                <h3 class="roadmap-action-title">가중평균과 My-CPI <span style="font-size:0.85rem; color:#93c5fd; font-weight:normal;">(수식 연산 ➔ 변이성 성찰)</span></h3>
+                                <h3 class="roadmap-action-title">가중평균과 My-CPI <span
+                                        style="font-size:0.85rem; color:#93c5fd; font-weight:normal;">(수식 연산 ➔ 변이성
+                                        성찰)</span></h3>
 
                                 <!-- 공통/개별 탐구 트리 박스 -->
                                 <div class="roadmap-tree-box">
@@ -146,20 +151,24 @@
                                         <span class="tree-branch">📘</span>
                                         <div class="tree-content">
                                             <div class="tree-tag-row">
-                                                <span class="tree-type-tag common" style="background:#2563eb; color:#fff;">《경제 수학》 기본 필수</span>
+                                                <span class="tree-type-tag common"
+                                                    style="background:#2563eb; color:#fff;">《경제 수학》 기본 필수</span>
                                                 <span class="tree-question-text">100만원 예산 배분 &amp; 가중평균</span>
                                             </div>
-                                            <div class="tree-desc-text">개인 가중치($w_i$) 설정 및 $\bar{x}_w = \frac{\sum w_i x_i}{\sum w_i}$ 산출</div>
+                                            <div class="tree-desc-text">개인 가중치($w_i$) 설정 및 $\bar{x}_w = \frac{\sum w_i
+                                                x_i}{\sum w_i}$ 산출</div>
                                         </div>
                                     </div>
                                     <div class="tree-node">
                                         <span class="tree-branch">📊</span>
                                         <div class="tree-content">
                                             <div class="tree-tag-row">
-                                                <span class="tree-type-tag indiv" style="background:#059669; color:#fff;">《실용통계》 유연 토론</span>
+                                                <span class="tree-type-tag indiv"
+                                                    style="background:#059669; color:#fff;">《실용통계》 토론</span>
                                                 <span class="tree-question-text">평균의 함정과 변이성 성찰</span>
                                             </div>
-                                            <div class="tree-desc-text">국가 CPI vs My-CPI 격차를 개개인 지출 구조의 변이성(Variability)으로 논증</div>
+                                            <div class="tree-desc-text">국가 CPI vs My-CPI 격차를 개개인 지출 구조의
+                                                변이성(Variability)으로 논증</div>
                                         </div>
                                     </div>
                                 </div>
@@ -167,15 +176,18 @@
 
                             <div>
                                 <div class="roadmap-concepts-box">
-                                    <strong>핵심 공식:</strong> 가중평균 $\bar{x}_w = \frac{\sum w_i x_i}{\sum w_i}$ · 소비 변이성(Variability)
+                                    <strong>핵심 공식:</strong> 가중평균 $\bar{x}_w = \frac{\sum w_i x_i}{\sum w_i}$ · 소비
+                                    변이성(Variability)
                                 </div>
                                 <div class="curriculum-badges">
                                     <span class="curr-tag math">📘 &lt;경제 수학&gt; Ⅰ-1. 수와 생활 경제 (경제지표)</span>
                                     <span class="curr-tag stat">📊 &lt;실용통계&gt; Ⅱ-1. 자료 요약 (평균의 함정)</span>
                                 </div>
                                 <div class="roadmap-card-nav-row">
-                                    <button type="button" class="roadmap-card-nav-btn btn-cpi" data-jump-to="c0-practice-anchor">0차시 CPI 원리 ↓</button>
-                                    <button type="button" class="roadmap-card-nav-btn btn-cpi" data-jump-to="class1" style="background:#1d4ed8;">1차시 실습 ➔</button>
+                                    <button type="button" class="roadmap-card-nav-btn btn-cpi"
+                                        data-jump-to="c0-practice-anchor">0차시 CPI 원리 ↓</button>
+                                    <button type="button" class="roadmap-card-nav-btn btn-cpi" data-jump-to="class1"
+                                        style="background:#1d4ed8;">1차시 실습 ➔</button>
                                 </div>
                             </div>
                         </div>
@@ -187,7 +199,9 @@
                                     <span class="roadmap-num-tag tag-stat">[2차시] 할인율 &amp; 현재가치</span>
                                     <span class="roadmap-sub-concept-badge">화폐가치 하락 검증</span>
                                 </div>
-                                <h3 class="roadmap-action-title">할인율과 현재가치 <span style="font-size:0.85rem; color:#6ee7b7; font-weight:normal;">(PV 계산 ➔ 추세선/상자그림)</span></h3>
+                                <h3 class="roadmap-action-title">할인율과 현재가치 <span
+                                        style="font-size:0.85rem; color:#6ee7b7; font-weight:normal;">(PV 계산 ➔
+                                        추세선/상자그림)</span></h3>
 
                                 <!-- 공통/개별 탐구 트리 박스 -->
                                 <div class="roadmap-tree-box">
@@ -195,20 +209,24 @@
                                         <span class="tree-branch">📘</span>
                                         <div class="tree-content">
                                             <div class="tree-tag-row">
-                                                <span class="tree-type-tag common" style="background:#2563eb; color:#fff;">《경제 수학》 기본 필수</span>
+                                                <span class="tree-type-tag common"
+                                                    style="background:#2563eb; color:#fff;">《경제 수학》 기본 필수</span>
                                                 <span class="tree-question-text">복리 할인 및 현재가치 수식</span>
                                             </div>
-                                            <div class="tree-desc-text">$PV = \frac{A}{(1+r)^n}$ 수식으로 30년 뒤 화폐의 실질 구매력 하락 정량 계산</div>
+                                            <div class="tree-desc-text">$PV = \frac{A}{(1+r)^n}$ 수식으로 30년 뒤 화폐의 실질 구매력
+                                                하락 정량 계산</div>
                                         </div>
                                     </div>
                                     <div class="tree-node">
                                         <span class="tree-branch">📊</span>
                                         <div class="tree-content">
                                             <div class="tree-tag-row">
-                                                <span class="tree-type-tag indiv" style="background:#059669; color:#fff;">《실용통계》 유연 선택 (택1)</span>
+                                                <span class="tree-type-tag indiv"
+                                                    style="background:#059669; color:#fff;">《실용통계》 선택 (택1)</span>
                                                 <span class="tree-question-text">[A] 추세선 착시 vs [B] 학급 상자그림</span>
                                             </div>
-                                            <div class="tree-desc-text">1차 선형 회귀 착시 비판(선택 A) 또는 $1.5 \times \text{IQR}$ 이상치 검증(선택 B)</div>
+                                            <div class="tree-desc-text">1차 선형 회귀 착시 비판(선택 A) 또는 $1.5 \times \text{IQR}$
+                                                이상치 검증(선택 B)</div>
                                         </div>
                                     </div>
                                 </div>
@@ -223,8 +241,10 @@
                                     <span class="curr-tag stat">📊 &lt;실용통계&gt; Ⅱ-2. 추세선 / Ⅱ-1. 상자그림(IQR)</span>
                                 </div>
                                 <div class="roadmap-card-nav-row">
-                                    <button type="button" class="roadmap-card-nav-btn btn-stat" data-jump-to="class3">2차시 PV 실습 ➔</button>
-                                    <button type="button" class="roadmap-card-nav-btn btn-stat" data-jump-to="class2" style="background:#047857;">선택 B 상자그림 ➔</button>
+                                    <button type="button" class="roadmap-card-nav-btn btn-stat"
+                                        data-jump-to="class3">2차시 PV 실습 ➔</button>
+                                    <button type="button" class="roadmap-card-nav-btn btn-stat" data-jump-to="class2"
+                                        style="background:#047857;">1-1차시 상자그림 ➔</button>
                                 </div>
                             </div>
                         </div>
@@ -236,7 +256,9 @@
                                     <span class="roadmap-num-tag tag-pens">[3차시] 연금 수열 &amp; 미래 설계</span>
                                     <span class="roadmap-sub-concept-badge">원리합계 &amp; 시나리오</span>
                                 </div>
-                                <h3 class="roadmap-action-title">연금 수열과 미래 설계 <span style="font-size:0.85rem; color:#d8b4fe; font-weight:normal;">(원리합계 ➔ 변동성 시나리오)</span></h3>
+                                <h3 class="roadmap-action-title">연금 수열과 미래 설계 <span
+                                        style="font-size:0.85rem; color:#d8b4fe; font-weight:normal;">(원리합계 ➔ 변동성
+                                        시나리오)</span></h3>
 
                                 <!-- 공통/개별 탐구 트리 박스 -->
                                 <div class="roadmap-tree-box">
@@ -244,20 +266,24 @@
                                         <span class="tree-branch">📘</span>
                                         <div class="tree-content">
                                             <div class="tree-tag-row">
-                                                <span class="tree-type-tag common" style="background:#2563eb; color:#fff;">《경제 수학》 기본 필수</span>
+                                                <span class="tree-type-tag common"
+                                                    style="background:#2563eb; color:#fff;">《경제 수학》 기본 필수</span>
                                                 <span class="tree-question-text">적립식 연금 원리합계 수식</span>
                                             </div>
-                                            <div class="tree-desc-text">$S_n = M \times \frac{(1+i)^n - 1}{i}$ 공식으로 미래 필요 생활비와 준비금 산출</div>
+                                            <div class="tree-desc-text">$S_n = M \times \frac{(1+i)^n - 1}{i}$ 공식으로 미래
+                                                필요 생활비와 준비금 산출</div>
                                         </div>
                                     </div>
                                     <div class="tree-node">
                                         <span class="tree-branch">📊</span>
                                         <div class="tree-content">
                                             <div class="tree-tag-row">
-                                                <span class="tree-type-tag indiv" style="background:#059669; color:#fff;">《실용통계》 유연 종합</span>
+                                                <span class="tree-type-tag indiv"
+                                                    style="background:#059669; color:#fff;">《실용통계》 종합</span>
                                                 <span class="tree-question-text">변동성(σ) 3개 시나리오 &amp; PPDAC</span>
                                             </div>
-                                            <div class="tree-desc-text">물가 변동성($\sigma$) 기반 낙관·기준·비관 범위 내 합리적 재무 의사결정</div>
+                                            <div class="tree-desc-text">물가 변동성($\sigma$) 기반 낙관·기준·비관 범위 내 합리적 재무 의사결정
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -265,45 +291,50 @@
 
                             <div>
                                 <div class="roadmap-concepts-box">
-                                    <strong>핵심 공식:</strong> 연금 원리합계 $S_n = M \frac{(1+i)^n - 1}{i}$ · $r \pm 1.96\sigma$ 시나리오
+                                    <strong>핵심 공식:</strong> 연금 원리합계 $S_n = M \frac{(1+i)^n - 1}{i}$ · $r \pm 1.96\sigma$
+                                    시나리오
                                 </div>
                                 <div class="curriculum-badges">
                                     <span class="curr-tag math">📘 &lt;경제 수학&gt; Ⅰ-2. 수열과 금융 (연금과 원리합계)</span>
                                     <span class="curr-tag stat">📊 &lt;실용통계&gt; Ⅰ-1. 문제해결(PPDAC), 변동성</span>
                                 </div>
                                 <div class="roadmap-card-nav-row">
-                                    <button type="button" class="roadmap-card-nav-btn btn-pens" data-jump-to="class-pension">3차시 연금 실습 ➔</button>
-                                    <button type="button" class="roadmap-card-nav-btn btn-stat" data-jump-to="class4" style="background:#059669;">변동성 시나리오 ➔</button>
+                                    <button type="button" class="roadmap-card-nav-btn btn-pens"
+                                        data-jump-to="class-pension">3차시 연금 실습 ➔</button>
+                                    <button type="button" class="roadmap-card-nav-btn btn-stat" data-jump-to="class4"
+                                        style="background:#059669;">2-1차시 변동성 시나리오 ➔</button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- 📖 3차시 수업 스토리 웹툰 접기/펼치기 아코디언 -->
+                    <details class="lesson-flow-details"
+                        style="margin-top: 1.5rem; margin-bottom: 2rem; background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); border: 1.5px solid #bfdbfe; border-radius: 1rem; overflow: hidden; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.08);">
+                        <summary class="lesson-flow-summary"
+                            style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding: 0.85rem 1.25rem; font-weight: 700; color: #1e3a8a; list-style: none;">
+                            <span style="display: flex; align-items: center; gap: 0.5rem;">
+                                <span style="font-size: 1.2rem;">📖</span>
+                                <span style="font-size: 0.98rem;">[수업 Story 웹툰] "내 월급만 빼고 다 오른다" 3차시 스토리 흐름</span>
+                            </span>
+                            <span class="flow-summary-tag"
+                                style="font-size: 0.75rem; background: #dbeafe; color: #1d4ed8; padding: 3px 10px; border-radius: 12px; font-weight: 600;">접어두기
+                                / 펼쳐보기 ▼</span>
+                        </summary>
+                        <div class="lesson-flow-details-content" style="border-top: 1px solid #bfdbfe;">
+                            <div style="padding: 1.25rem; text-align: center; background: #f8fafc;">
+                                <a href="/수업흐름.png" target="_blank" rel="noopener noreferrer" title="새 탭에서 원본 이미지 크게 보기"
+                                    style="display: inline-block; cursor: zoom-in; max-width: 100%;">
+                                    <img src="/수업흐름.png" alt="내 월급만 빼고 다 오른다 - 1~3차시 수업 흐름도"
+                                        style="width: 100%; max-width: 1050px; height: auto; border-radius: 0.75rem; box-shadow: 0 2px 10px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; transition: transform 0.2s ease;">
+                                </a>
+                                <p style="margin: 0.75rem 0 0; font-size: 0.8rem; color: #94a3b8;">
+                                    💡 이미지를 클릭하면 새 창에서 원본 크기로 크게 확인하실 수 있습니다.
+                                </p>
+                            </div>
+                        </div>
+                    </details>
                 </div>
 
-                <!-- 로드맵 종합 안내 배너 -->
-                <div style="background:#ffffff; border-radius:12px; padding:1.5rem 1.8rem; border:1px solid #e2e8f0; box-shadow:var(--shadow-sm); margin-bottom:2rem;">
-                    <h3 style="font-size:1.1rem; color:var(--navy); margin-bottom:0.6rem; display:flex; align-items:center; gap:0.5rem;">
-                        🧭 <span>《경제 수학》 주축 + 《실용통계》 유연 연계 3차시 하이브리드 프로젝트</span>
-                    </h3>
-                    <p style="font-size:0.92rem; color:var(--slate-600); line-height:1.7; margin-bottom:1rem;">
-                        본 프로젝트는 <strong>《경제 수학》을 메인 주축(기본 필수 트랙)</strong>으로 삼아 수식 연산을 따라가고, 
-                        <strong>《실용통계》의 변이성·추세선 착시·상자그림·변동성 시나리오</strong>를 유연한 선택형 탐구 및 토론 발문으로 결합한 구조입니다.
-                    </p>
-                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:1rem; font-size:0.85rem;">
-                        <div style="background:#f8fafc; padding:1rem; border-radius:8px; border-left:4px solid #2563eb;">
-                            <strong style="color:#2563eb; display:block; margin-bottom:0.25rem;">[1차시] 가중평균과 My-CPI (지수 산출)</strong>
-                            📘 가중평균 수식 $\bar{x}_w = \frac{\sum w_i x_i}{\sum w_i}$ ➔ 📊 [토론] 평균의 함정과 소비 변이성
-                        </div>
-                        <div style="background:#f8fafc; padding:1rem; border-radius:8px; border-left:4px solid #059669;">
-                            <strong style="color:#059669; display:block; margin-bottom:0.25rem;">[2차시] 할인율과 현재가치 (화폐가치 하락 검증)</strong>
-                            📘 복리 할인 $PV = \frac{A}{(1+r)^n}$ ➔ 📊 [선택 A] 추세선 착시 검토 / [선택 B] 상자그림 IQR 검증
-                        </div>
-                        <div style="background:#f8fafc; padding:1rem; border-radius:8px; border-left:4px solid #7c3aed;">
-                            <strong style="color:#7c3aed; display:block; margin-bottom:0.25rem;">[3차시] 연금 수열과 미래 설계 (미래 적용)</strong>
-                            📘 적립식 연금 $S_n = M \frac{(1+i)^n - 1}{i}$ ➔ 📊 [종합] 변동성($\sigma$) 3개 시나리오 &amp; PPDAC
-                        </div>
-                    </div>
-                </div>
                 <!-- [공통 탐구: 0차시 기초 원리 & 5단계 CPI 산출 프로세스 조작기] -->
                 <div class="inquiry-track-header common-track" id="c0-practice-anchor" style="margin-top: 2rem;">
                     <div class="inquiry-track-left">
@@ -328,286 +359,432 @@
                         <div class="card concept-card" style="margin-bottom: 0; border: none; box-shadow: none;">
                             <div class="concept-header">
                                 <span class="concept-badge" style="background:#e0f2fe; color:#0369a1;">📊 프로세스 실습</span>
-                                <span style="font-size: 0.78rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; background: #2563eb; color: #fff; vertical-align: middle;">Ⅰ. CPI (숫자를 만든다)</span>
+                                <span
+                                    style="font-size: 0.78rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; background: #2563eb; color: #fff; vertical-align: middle;">Ⅰ.
+                                    CPI (숫자를 만든다)</span>
                                 <h3>소비자물가지수(CPI) 단계별 산출 학습 및 실습</h3>
                             </div>
-                            <div class="concept-body" style="font-size: 0.92rem; line-height: 1.75; color: var(--slate-800);">
-                                <p style="margin-bottom: 1.5rem;">소비자물가지수는 가계의 평균적인 구매력을 측정하기 위해 아래의 5가지 단계를 거쳐 산출됩니다. 각 단계의 설명과
+                            <div class="concept-body"
+                                style="font-size: 0.92rem; line-height: 1.75; color: var(--slate-800);">
+                                <p style="margin-bottom: 1.5rem;">소비자물가지수는 가계의 평균적인 구매력을 측정하기 위해 아래의 5가지 단계를 거쳐 산출됩니다. 각
+                                    단계의 설명과
                                     연결된 입력값을 조작하며 수리적 변화를 실시간으로 관찰해 보세요.</p>
 
-                                <!-- 1~5단계 CPI 산출 파이프라인 단계 안내 바 -->
-                                <div style="background:#f8fafc; border-radius:10px; padding:1rem; border:1px solid #e2e8f0; margin-bottom:0.5rem;">
-                                    <div style="font-size:0.83rem; font-weight:700; color:var(--navy); margin-bottom:0.6rem; display:flex; align-items:center; gap:0.4rem;">
-                                        🔄 <span>공식 CPI 산출 5단계 연속 프로세스 파이프라인</span>
-                                    </div>
-                                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:0.5rem; font-size:0.78rem;">
-                                        <div style="background:#ffffff; border-radius:6px; padding:0.6rem; border-left:3px solid #2563eb; box-shadow:0 1px 2px rgba(0,0,0,0.04);">
-                                            <strong style="color:#2563eb; display:block;">1단계 · 바스켓·가중치</strong>
-                                            <span style="color:#64748b; font-size:0.73rem;">품목별 $P_0, Q_0$ 지출비중($w_i$)</span>
-                                        </div>
-                                        <div style="background:#ffffff; border-radius:6px; padding:0.6rem; border-left:3px solid #3b82f6; box-shadow:0 1px 2px rgba(0,0,0,0.04);">
-                                            <strong style="color:#1d4ed8; display:block;">2단계 · 기준연도 설정</strong>
-                                            <span style="color:#64748b; font-size:0.73rem;">기준총액($\sum P_0 Q_0$) = 지수 100</span>
-                                        </div>
-                                        <div style="background:#ffffff; border-radius:6px; padding:0.6rem; border-left:3px solid #059669; box-shadow:0 1px 2px rgba(0,0,0,0.04);">
-                                            <strong style="color:#059669; display:block;">3단계 · 가격 변동 조사</strong>
-                                            <span style="color:#64748b; font-size:0.73rem;">현재 시장가격($P_t$) 조사·수집</span>
-                                        </div>
-                                        <div style="background:#ffffff; border-radius:6px; padding:0.6rem; border-left:3px solid #047857; box-shadow:0 1px 2px rgba(0,0,0,0.04);">
-                                            <strong style="color:#047857; display:block;">4단계 · 가중합성 산출</strong>
-                                            <span style="color:#64748b; font-size:0.73rem;">$\frac{\sum P_t Q_0}{\sum P_0 Q_0} \times 100$</span>
-                                        </div>
-                                        <div style="background:#ffffff; border-radius:6px; padding:0.6rem; border-left:3px solid #7c3aed; box-shadow:0 1px 2px rgba(0,0,0,0.04);">
-                                            <strong style="color:#7c3aed; display:block;">5단계 · 분석 및 공표</strong>
-                                            <span style="color:#64748b; font-size:0.73rem;">물가상승률(YoY) 및 체감격차</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                <!-- 5단계 실습 단계별 병렬 그리드 컨테이너 -->
+                                <div style="display: flex; flex-direction: column; gap: 1.25rem;">
 
-                            <!-- 1단계: 품목 및 가중치 설정 -->
-                            <div
-                                style="padding: 1.25rem; background: var(--slate-50); border-radius: 8px; border: 1px solid var(--slate-200); border-left: 4px solid #2563eb;">
-                                <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.5rem;">
-                                    <strong style="font-size: 1rem; color: var(--navy);">
-                                        1단계: 조사 대상 품목 및 가중치 설정 (Consumer Basket)
-                                        <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서</span>
-                                        <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.25rem; background: #f3e8ff; color: #6b21a8; vertical-align: middle;">교과서 외 실습</span>
-                                    </strong>
-                                    <span style="font-size:0.75rem; font-weight:600; color:#2563eb; background:#eff6ff; padding:2px 8px; border-radius:12px; border:1px solid #bfdbfe;">➔ 1차시 My-CPI(개인 가중치)의 기초</span>
-                                </div>
-                                <p style="font-size: 0.85rem; color: var(--slate-600); margin-bottom: 1rem;">
-                                    가계의 대표적인 소비 품목을 선정하고 기준시점의 가격($P_0$)과 구입수량($Q_0$)을 정합니다. 지출액($P_0 \times Q_0$)에 비례하여 품목별 <strong>가중치($w_i$, 1,000분율)</strong>가 자동으로 결정됩니다.
-                                </p>
-
-                                <div
-                                    style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
-                                    <!-- A: 쌀 -->
+                                    <!-- [상단] 1, 2, 3, 4단계 4열 가로 나란히 한 줄(또는 반응형 4분할) 배치 -->
                                     <div
-                                        style="background:#fff; padding: 0.75rem; border-radius: 6px; border: 1px solid var(--slate-200);">
-                                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem;">
-                                            <span style="font-weight: 700; color: var(--primary); font-size: 0.85rem;">🌾 품목 A: 쌀 (10kg)</span>
-                                            <span style="font-size:0.72rem; color:#64748b;">기준 바스켓</span>
-                                        </div>
+                                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; align-items: stretch;">
+                                        <!-- 1단계: 품목 및 가중치 설정 -->
                                         <div
-                                            style="display:grid; grid-template-columns: 1fr 1fr; gap:0.4rem; margin-top:0.4rem;">
+                                            style="padding: 1.1rem; background: var(--slate-50); border-radius: 8px; border: 1px solid var(--slate-200); border-left: 4px solid #2563eb; display:flex; flex-direction:column; justify-content:space-between;">
                                             <div>
-                                                <label
-                                                    style="font-size:0.7rem; color:var(--slate-500); display:block;">기준가격 ($P_0$)</label>
-                                                <input type="number" id="c0-p0-rice" class="num-input"
-                                                    style="width:100%; font-size:0.8rem; padding:0.3rem;" value="30000">
+                                                <div
+                                                    style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.4rem; margin-bottom:0.45rem;">
+                                                    <strong style="font-size: 0.92rem; color: var(--navy);">
+                                                        1단계: 품목·가중치 설정
+                                                        <span
+                                                            style="font-size: 0.68rem; font-weight: normal; padding: 1px 5px; border-radius: 4px; margin-left: 0.2rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서</span>
+                                                    </strong>
+                                                    <span
+                                                        style="font-size:0.68rem; font-weight:600; color:#2563eb; background:#eff6ff; padding:1px 6px; border-radius:10px; border:1px solid #bfdbfe;">바스켓</span>
+                                                </div>
+                                                <p
+                                                    style="font-size: 0.78rem; color: var(--slate-600); margin-bottom: 0.75rem; line-height: 1.45;">
+                                                    기준가격($P_0$)과 수량($Q_0$)으로 가중치($w_i$, 1000분율)가 자동 결정됩니다.
+                                                </p>
+
+                                                <div
+                                                    style="display:flex; flex-direction:column; gap: 0.5rem; margin-bottom: 0.75rem;">
+                                                    <!-- A: 쌀 -->
+                                                    <div
+                                                        style="background:#fff; padding: 0.5rem 0.6rem; border-radius: 6px; border: 1px solid var(--slate-200);">
+                                                        <div
+                                                            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.2rem;">
+                                                            <span
+                                                                style="font-weight: 700; color: var(--primary); font-size: 0.78rem;">🌾
+                                                                쌀 (10kg)</span>
+                                                            <span style="font-size:0.65rem; color:#64748b;">기준
+                                                                바스켓</span>
+                                                        </div>
+                                                        <div
+                                                            style="display:grid; grid-template-columns: 1.2fr 0.8fr; gap:0.35rem;">
+                                                            <div>
+                                                                <label
+                                                                    style="font-size:0.65rem; color:var(--slate-500); display:block;">P₀
+                                                                    (원)</label>
+                                                                <input type="number" id="c0-p0-rice" class="num-input"
+                                                                    style="width:100%; font-size:0.76rem; padding:0.2rem 0.35rem;"
+                                                                    value="30000">
+                                                            </div>
+                                                            <div>
+                                                                <label
+                                                                    style="font-size:0.65rem; color:var(--slate-500); display:block;">Q₀
+                                                                    (포)</label>
+                                                                <input type="number" id="c0-q0-rice" class="num-input"
+                                                                    style="width:100%; font-size:0.76rem; padding:0.2rem 0.35rem;"
+                                                                    value="2">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- B: 전기요금 -->
+                                                    <div
+                                                        style="background:#fff; padding: 0.5rem 0.6rem; border-radius: 6px; border: 1px solid var(--slate-200);">
+                                                        <div
+                                                            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.2rem;">
+                                                            <span
+                                                                style="font-weight: 700; color: var(--primary); font-size: 0.78rem;">⚡
+                                                                전기요금 (1kWh)</span>
+                                                            <span style="font-size:0.65rem; color:#64748b;">기준
+                                                                바스켓</span>
+                                                        </div>
+                                                        <div
+                                                            style="display:grid; grid-template-columns: 1.2fr 0.8fr; gap:0.35rem;">
+                                                            <div>
+                                                                <label
+                                                                    style="font-size:0.65rem; color:var(--slate-500); display:block;">P₀
+                                                                    (원)</label>
+                                                                <input type="number" id="c0-p0-elec" class="num-input"
+                                                                    style="width:100%; font-size:0.76rem; padding:0.2rem 0.35rem;"
+                                                                    value="150">
+                                                            </div>
+                                                            <div>
+                                                                <label
+                                                                    style="font-size:0.65rem; color:var(--slate-500); display:block;">Q₀
+                                                                    (kWh)</label>
+                                                                <input type="number" id="c0-q0-elec" class="num-input"
+                                                                    style="width:100%; font-size:0.76rem; padding:0.2rem 0.35rem;"
+                                                                    value="300">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- C: 영화관람료 -->
+                                                    <div
+                                                        style="background:#fff; padding: 0.5rem 0.6rem; border-radius: 6px; border: 1px solid var(--slate-200);">
+                                                        <div
+                                                            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.2rem;">
+                                                            <span
+                                                                style="font-weight: 700; color: var(--primary); font-size: 0.78rem;">🎬
+                                                                영화관람료 (1회)</span>
+                                                            <span style="font-size:0.65rem; color:#64748b;">기준
+                                                                바스켓</span>
+                                                        </div>
+                                                        <div
+                                                            style="display:grid; grid-template-columns: 1.2fr 0.8fr; gap:0.35rem;">
+                                                            <div>
+                                                                <label
+                                                                    style="font-size:0.65rem; color:var(--slate-500); display:block;">P₀
+                                                                    (원)</label>
+                                                                <input type="number" id="c0-p0-movie" class="num-input"
+                                                                    style="width:100%; font-size:0.76rem; padding:0.2rem 0.35rem;"
+                                                                    value="12000">
+                                                            </div>
+                                                            <div>
+                                                                <label
+                                                                    style="font-size:0.65rem; color:var(--slate-500); display:block;">Q₀
+                                                                    (회)</label>
+                                                                <input type="number" id="c0-q0-movie" class="num-input"
+                                                                    style="width:100%; font-size:0.76rem; padding:0.2rem 0.35rem;"
+                                                                    value="3">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
+
+                                            <div
+                                                style="background:var(--white); padding: 0.5rem 0.65rem; border-radius:6px; border: 1px solid var(--slate-200); font-size:0.74rem;">
+                                                <div
+                                                    style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.2rem;">
+                                                    <strong>📋 가중치 ($w_i$)</strong>
+                                                    <span style="font-size:0.68rem; color:#64748b;">합계: 1,000</span>
+                                                </div>
+                                                <div
+                                                    style="display:flex; justify-content:space-between; font-size:0.72rem; color:var(--slate-600);">
+                                                    <span>쌀: <strong id="c0-weight-rice-val"
+                                                            style="color:var(--navy);">—</strong></span>
+                                                    <span>전기: <strong id="c0-weight-elec-val"
+                                                            style="color:var(--navy);">—</strong></span>
+                                                    <span>영화: <strong id="c0-weight-movie-val"
+                                                            style="color:var(--navy);">—</strong></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 2단계: 기준연도 설정 (Lock 인터랙션 & 역추적 질문) -->
+                                        <div
+                                            style="padding: 1.1rem; background: var(--slate-50); border-radius: 8px; border: 1px solid var(--slate-200); border-left: 4px solid #3b82f6; display:flex; flex-direction:column; justify-content:space-between;">
                                             <div>
-                                                <label
-                                                    style="font-size:0.7rem; color:var(--slate-500); display:block;">기준물량 ($Q_0$)</label>
-                                                <input type="number" id="c0-q0-rice" class="num-input"
-                                                    style="width:100%; font-size:0.8rem; padding:0.3rem;" value="2">
+                                                <div
+                                                    style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.4rem; margin-bottom:0.45rem;">
+                                                    <strong style="font-size: 0.92rem; color: var(--navy);">
+                                                        2단계: 기준연도 설정
+                                                        <span
+                                                            style="font-size: 0.68rem; font-weight: normal; padding: 1px 5px; border-radius: 4px; margin-left: 0.2rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서</span>
+                                                    </strong>
+                                                    <span
+                                                        style="font-size:0.68rem; font-weight:600; color:#1d4ed8; background:#eff6ff; padding:1px 6px; border-radius:10px; border:1px solid #bfdbfe;">지수
+                                                        100</span>
+                                                </div>
+                                                <p
+                                                    style="font-size: 0.78rem; color: var(--slate-600); margin-bottom: 0.65rem; line-height: 1.45;">
+                                                    1단계 지출액을 바탕으로 기준시점의 총액을 확정(Lock)하여 <strong>분모(기준 100)</strong>로
+                                                    삼습니다.
+                                                </p>
+
+                                                <!-- 기준연도 확정 버튼 및 상태 표시 -->
+                                                <div style="margin-bottom:0.65rem;">
+                                                    <button type="button" id="c0-btn-lock-base"
+                                                        style="width:100%; padding:0.45rem 0.6rem; background:#2563eb; color:#fff; border:none; border-radius:6px; font-size:0.78rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:0.35rem; transition:background 0.2s;">
+                                                        <span id="c0-lock-icon">🔒</span> <span id="c0-lock-text">이 총액으로
+                                                            기준연도 확정 (Lock)</span>
+                                                    </button>
+                                                </div>
+
+                                                <div id="c0-base-box"
+                                                    style="background:#ede9fe; color:#5b21b6; padding:0.65rem 0.75rem; border-radius:6px; font-size:0.78rem; font-weight:700; border:1.5px solid #c4b5fd; text-align:center; margin-bottom:0.65rem; transition:all 0.3s;">
+                                                    <div
+                                                        style="font-size:0.7rem; color:#6d28d9; margin-bottom:0.15rem; display:flex; justify-content:center; align-items:center; gap:0.25rem;">
+                                                        <span>확정된 기준 분모총액 ($\sum P_0 Q_0$)</span>
+                                                        <span id="c0-lock-badge"
+                                                            style="background:#4c1d95; color:#fff; font-size:0.62rem; padding:1px 5px; border-radius:4px;">확정완료</span>
+                                                    </div>
+                                                    <span id="c0-calc-sum0"
+                                                        style="font-size:1.15rem; color:#4c1d95; font-weight:900;">141,000
+                                                        원</span>
+                                                    <div
+                                                        style="font-size:0.68rem; font-weight:normal; color:#7c3aed; margin-top:0.15rem;">
+                                                        (이 시점의 소비자물가지수 = 100)
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- 💡 2단계 수식 역추적 질문 -->
+                                            <div
+                                                style="background:#ffffff; border:1px solid #bfdbfe; border-left:3px solid #2563eb; border-radius:6px; padding:0.5rem 0.65rem; font-size:0.73rem; line-height:1.45;">
+                                                <strong style="color:#1d4ed8; display:block; margin-bottom:0.2rem;">🔍
+                                                    수식 의미 역추적 Q.</strong>
+                                                <p style="margin:0 0 0.3rem; color:#334155;">
+                                                    "왜 4단계 산출 공식의 <strong>분모</strong>에 $\sum P_0 Q_0$를 둘까요? 분모가 커지면 같은
+                                                    가격 상승에도 CPI는 어떻게 반응할까요?"
+                                                </p>
+                                                <input type="text" id="c0-q2-memo"
+                                                    placeholder="생각 한 줄 적기 (예: 기준이 커지면 상승률이 둔감해짐)"
+                                                    style="width:100%; font-size:0.72rem; padding:0.25rem 0.4rem; border:1px solid #cbd5e1; border-radius:4px; background:#f8fafc;">
+                                            </div>
+                                        </div>
+
+                                        <!-- 3단계: 가격 조사 -->
+                                        <div
+                                            style="padding: 1.1rem; background: var(--slate-50); border-radius: 8px; border: 1px solid var(--slate-200); border-left: 4px solid #059669; display:flex; flex-direction:column; justify-content:space-between;">
+                                            <div>
+                                                <div
+                                                    style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.4rem; margin-bottom:0.45rem;">
+                                                    <strong style="font-size: 0.92rem; color: var(--navy);">
+                                                        3단계: 현재 가격 조사
+                                                        <span
+                                                            style="font-size: 0.68rem; font-weight: normal; padding: 1px 5px; border-radius: 4px; margin-left: 0.2rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서</span>
+                                                    </strong>
+                                                    <span
+                                                        style="font-size:0.68rem; font-weight:600; color:#059669; background:#ecfdf5; padding:1px 6px; border-radius:10px; border:1px solid #a7f3d0;">조사·수집</span>
+                                                </div>
+                                                <p
+                                                    style="font-size: 0.78rem; color: var(--slate-600); margin-bottom: 0.75rem; line-height: 1.45;">
+                                                    <strong>수량($Q_0$)</strong>은 고정한 채 현재 시장가격($P_t$) 슬라이더를 움직여 변동을 줍니다.
+                                                </p>
+
+                                                <div style="display:flex; flex-direction:column; gap:0.55rem;">
+                                                    <div
+                                                        style="background:#fff; padding:0.45rem 0.65rem; border-radius:6px; border:1px solid var(--slate-200);">
+                                                        <div
+                                                            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.15rem;">
+                                                            <span
+                                                                style="font-weight:700; font-size:0.75rem; color:var(--slate-800);">🌾
+                                                                쌀 현재가</span>
+                                                            <span><strong id="c0-pt-rice-val"
+                                                                    style="color:var(--primary); font-size:0.82rem;">33,000</strong>원</span>
+                                                        </div>
+                                                        <input type="range" id="c0-pt-rice" style="width:100%;"
+                                                            class="slider" min="10000" max="60000" step="1000"
+                                                            value="33000">
+                                                    </div>
+                                                    <div
+                                                        style="background:#fff; padding:0.45rem 0.65rem; border-radius:6px; border:1px solid var(--slate-200);">
+                                                        <div
+                                                            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.15rem;">
+                                                            <span
+                                                                style="font-weight:700; font-size:0.75rem; color:var(--slate-800);">⚡
+                                                                전기요금</span>
+                                                            <span><strong id="c0-pt-elec-val"
+                                                                    style="color:var(--primary); font-size:0.82rem;">180</strong>원</span>
+                                                        </div>
+                                                        <input type="range" id="c0-pt-elec" style="width:100%;"
+                                                            class="slider" min="50" max="300" step="5" value="180">
+                                                    </div>
+                                                    <div
+                                                        style="background:#fff; padding:0.45rem 0.65rem; border-radius:6px; border:1px solid var(--slate-200);">
+                                                        <div
+                                                            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.15rem;">
+                                                            <span
+                                                                style="font-weight:700; font-size:0.75rem; color:var(--slate-800);">🎬
+                                                                영화료</span>
+                                                            <span><strong id="c0-pt-movie-val"
+                                                                    style="color:var(--primary); font-size:0.82rem;">14,000</strong>원</span>
+                                                        </div>
+                                                        <input type="range" id="c0-pt-movie" style="width:100%;"
+                                                            class="slider" min="5000" max="25000" step="500"
+                                                            value="14000">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- 4단계: 지수 산출 (실시간 분수 대입 시각화 & 역추적 질문) -->
+                                        <div
+                                            style="padding: 1.1rem; background: var(--slate-50); border-radius: 8px; border: 1px solid var(--slate-200); border-left: 4px solid #047857; display:flex; flex-direction:column; justify-content:space-between;">
+                                            <div>
+                                                <div
+                                                    style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.4rem; margin-bottom:0.45rem;">
+                                                    <strong style="font-size: 0.92rem; color: var(--navy);">
+                                                        4단계: 지수 산출
+                                                        <span
+                                                            style="font-size: 0.68rem; font-weight: normal; padding: 1px 5px; border-radius: 4px; margin-left: 0.2rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서</span>
+                                                    </strong>
+                                                    <span
+                                                        style="font-size:0.68rem; font-weight:600; color:#047857; background:#ecfdf5; padding:1px 6px; border-radius:10px; border:1px solid #a7f3d0;">라스파이레스</span>
+                                                </div>
+                                                <p
+                                                    style="font-size: 0.78rem; color: var(--slate-600); margin-bottom: 0.65rem; line-height: 1.45;">
+                                                    고정 수량($Q_0$)을 가중합성하여 종합 CPI를 실시간 분수 수식으로 도출합니다.
+                                                </p>
+
+                                                <!-- 실시간 라스파이레스 분수 수식 대입 비주얼 애니메이션 박스 -->
+                                                <div
+                                                    style="background:#ffffff; border:1.5px solid #a7f3d0; border-radius:8px; padding:0.6rem 0.75rem; margin-bottom:0.65rem; box-shadow:0 1px 4px rgba(5,150,105,0.06);">
+                                                    <div
+                                                        style="font-size:0.68rem; color:#065f46; font-weight:700; margin-bottom:0.35rem; display:flex; justify-content:space-between;">
+                                                        <span>📐 실시간 수치 대입 공식</span>
+                                                        <span style="font-family:monospace; color:#047857;">[분자/분모 ×
+                                                            100]</span>
+                                                    </div>
+                                                    <div
+                                                        style="display:flex; align-items:center; justify-content:center; gap:0.4rem; font-size:0.82rem; font-weight:800; font-family:'Pretendard', monospace;">
+                                                        <span style="color:#0f172a;">CPI =</span>
+                                                        <div
+                                                            style="display:inline-flex; flex-direction:column; align-items:center; text-align:center;">
+                                                            <!-- 분자: 현재 총액 -->
+                                                            <span id="c0-math-sumt"
+                                                                style="color:#2563eb; padding:0 0.3rem; border-bottom:2px solid #0f172a; transition:color 0.2s;">
+                                                                161,000
+                                                            </span>
+                                                            <!-- 분모: 기준 총액 -->
+                                                            <span id="c0-math-sum0"
+                                                                style="color:#7c3aed; padding:0 0.3rem; transition:color 0.2s;">
+                                                                141,000
+                                                            </span>
+                                                        </div>
+                                                        <span style="color:#0f172a;">× 100 =</span>
+                                                        <span id="c0-calc-cpi"
+                                                            style="font-size:1.15rem; color:#047857; font-weight:900; background:#ecfdf5; padding:2px 6px; border-radius:4px; border:1px solid #6ee7b7; transition:all 0.2s;">
+                                                            114.18
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- 💡 4단계 수식 역추적 질문 -->
+                                            <div
+                                                style="background:#ffffff; border:1px solid #a7f3d0; border-left:3px solid #059669; border-radius:6px; padding:0.5rem 0.65rem; font-size:0.73rem; line-height:1.45;">
+                                                <strong style="color:#065f46; display:block; margin-bottom:0.2rem;">🔍
+                                                    수식 의미 역추적 Q.</strong>
+                                                <p style="margin:0 0 0.3rem; color:#334155;">
+                                                    "왜 분자와 분모에 곱해지는 수량이 둘 다 <strong>$Q_0$(기준수량)</strong>으로 똑같을까요? 수량을
+                                                    바꾸지 않는 이유는 무엇일까요?"
+                                                </p>
+                                                <input type="text" id="c0-q4-memo"
+                                                    placeholder="생각 한 줄 적기 (예: 소비량 변화가 아닌 '순수한 가격 변동'만 재기 위해)"
+                                                    style="width:100%; font-size:0.72rem; padding:0.25rem 0.4rem; border:1px solid #cbd5e1; border-radius:4px; background:#f8fafc;">
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- B: 전기요금 -->
+
+                                    <!-- [행 3] 5단계: 분석 및 공표 (실시간 분석 & 뉴스 카드 실습) -->
                                     <div
-                                        style="background:#fff; padding: 0.75rem; border-radius: 6px; border: 1px solid var(--slate-200);">
-                                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem;">
-                                            <span style="font-weight: 700; color: var(--primary); font-size: 0.85rem;">⚡ 품목 B: 전기요금 (1kWh)</span>
-                                            <span style="font-size:0.72rem; color:#64748b;">기준 바스켓</span>
-                                        </div>
+                                        style="padding: 1.25rem; background: var(--slate-50); border-radius: 8px; border: 1px solid var(--slate-200); border-left: 4px solid #7c3aed;">
                                         <div
-                                            style="display:grid; grid-template-columns: 1fr 1fr; gap:0.4rem; margin-top:0.4rem;">
-                                            <div>
-                                                <label
-                                                    style="font-size:0.7rem; color:var(--slate-500); display:block;">기준가격 ($P_0$)</label>
-                                                <input type="number" id="c0-p0-elec" class="num-input"
-                                                    style="width:100%; font-size:0.8rem; padding:0.3rem;" value="150">
-                                            </div>
-                                            <div>
-                                                <label
-                                                    style="font-size:0.7rem; color:var(--slate-500); display:block;">기준물량 ($Q_0$)</label>
-                                                <input type="number" id="c0-q0-elec" class="num-input"
-                                                    style="width:100%; font-size:0.8rem; padding:0.3rem;" value="300">
-                                            </div>
+                                            style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.75rem;">
+                                            <strong style="font-size: 0.98rem; color: var(--navy);">
+                                                5단계: 분석 및 공표 (Analysis &amp; Publication)
+                                                <span
+                                                    style="font-size: 0.72rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.3rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서</span>
+                                                <span
+                                                    style="font-size: 0.72rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.2rem; background: #faf5ff; color: #7c3aed; vertical-align: middle;">실시간
+                                                    공표 실습</span>
+                                            </strong>
+                                            <span
+                                                style="font-size:0.72rem; font-weight:600; color:#7c3aed; background:#faf5ff; padding:2px 8px; border-radius:12px; border:1px solid #e9d5ff;">➔
+                                                3차시 미래 구매력 및 연금 시뮬레이션 적용</span>
                                         </div>
-                                    </div>
-                                    <!-- C: 영화관람료 -->
-                                    <div
-                                        style="background:#fff; padding: 0.75rem; border-radius: 6px; border: 1px solid var(--slate-200);">
-                                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem;">
-                                            <span style="font-weight: 700; color: var(--primary); font-size: 0.85rem;">🎬 품목 C: 영화관람료 (1회)</span>
-                                            <span style="font-size:0.72rem; color:#64748b;">기준 바스켓</span>
-                                        </div>
+
+                                        <!-- 📢 5단계 실시간 공식 공표 브리핑 배너 (4단계 연동) -->
                                         <div
-                                            style="display:grid; grid-template-columns: 1fr 1fr; gap:0.4rem; margin-top:0.4rem;">
+                                            style="background: #ffffff; border: 1.5px solid #ddd6fe; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(124, 58, 237, 0.08);">
+                                            <div
+                                                style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.6rem; border-bottom:1px dashed #e2e8f0; padding-bottom:0.5rem;">
+                                                <div style="display:flex; align-items:center; gap:0.4rem;">
+                                                    <span style="font-size:1.1rem;">📢</span>
+                                                    <strong style="font-size:0.95rem; color:#4c1d95;">통계청 가상 물가 동향 공식
+                                                        속보</strong>
+                                                </div>
+                                                <span
+                                                    style="font-size:0.75rem; background:#ede9fe; color:#6d28d9; padding:2px 8px; border-radius:9999px; font-weight:700;">실시간
+                                                    자동 공표</span>
+                                            </div>
+                                            <div
+                                                style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:1rem; align-items:center;">
+                                                <div
+                                                    style="background:#faf5ff; border:1px solid #e9d5ff; border-radius:6px; padding:0.75rem; text-align:center;">
+                                                    <span
+                                                        style="font-size:0.78rem; color:#6d28d9; font-weight:600; display:block;">기준연도(100)
+                                                        대비 물가상승률</span>
+                                                    <strong id="c0-calc-inflation-rate"
+                                                        style="font-size:1.5rem; color:#dc2626; font-weight:900;">+0.00%</strong>
+                                                    <span id="c0-calc-inflation-label"
+                                                        style="font-size:0.75rem; color:#64748b; display:block; margin-top:0.2rem;">(기준
+                                                        지수 100 기준 변동분)</span>
+                                                </div>
+                                                <div>
+                                                    <p id="c0-briefing-headline"
+                                                        style="font-size:0.9rem; font-weight:700; color:#1e293b; margin-bottom:0.3rem;">
+                                                        "소비자물가지수 100선 유지, 물가 안정세 기록"
+                                                    </p>
+                                                    <p id="c0-briefing-desc"
+                                                        style="font-size:0.8rem; color:#64748b; line-height:1.5; margin:0;">
+                                                        좌측 3단계에서 가격 슬라이더를 움직이면 품목별 가격 변동이 반영되어 실시간으로 공식 물가 브리핑 기사가
+                                                        작성됩니다.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div
+                                            style="background:#fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 0.75rem 1rem; font-size:0.82rem; color:#92400e; line-height:1.65; display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:0.75rem;">
                                             <div>
-                                                <label
-                                                    style="font-size:0.7rem; color:var(--slate-500); display:block;">기준가격 ($P_0$)</label>
-                                                <input type="number" id="c0-p0-movie" class="num-input"
-                                                    style="width:100%; font-size:0.8rem; padding:0.3rem;" value="12000">
+                                                <strong>💡 체감물가 격차:</strong><br>공식 지수는 전국 가계 평균 지출을 기준하므로, 특정 품목(쌀, 전기
+                                                등) 소비가 많은 개인의 실질 체감 물가(My-CPI)와 차이가 발생합니다.
                                             </div>
                                             <div>
-                                                <label
-                                                    style="font-size:0.7rem; color:var(--slate-500); display:block;">기준물량 ($Q_0$)</label>
-                                                <input type="number" id="c0-q0-movie" class="num-input"
-                                                    style="width:100%; font-size:0.8rem; padding:0.3rem;" value="3">
+                                                <strong>🔄 품목 개편:</strong><br>소비 패턴 변화에 맞춰 5년마다 공중전화 등 사양 품목을 제외하고 OTT
+                                                서비스 등 새로운 품목을 바스켓에 추가·교체합니다.
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div
-                                    style="background:var(--white); padding: 0.75rem; border-radius:6px; border: 1px solid var(--slate-200); font-size:0.82rem;">
-                                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.4rem;">
-                                        <strong>📋 실시간 자동 계산 품목 가중치 ($w_i$, 1000분율)</strong>
-                                        <span style="font-size:0.75rem; color:#64748b;">(가중치 합계: 1,000 고정)</span>
-                                    </div>
-                                    <ul
-                                        style="padding-left:1.2rem; margin-top:0.25rem; color:var(--slate-600); display:flex; gap:1.5rem; flex-wrap:wrap; list-style-type:circle;">
-                                        <li>쌀 가중치: <strong id="c0-weight-rice-val" style="color:var(--navy);">—</strong> / 1,000</li>
-                                        <li>전기요금 가중치: <strong id="c0-weight-elec-val" style="color:var(--navy);">—</strong> / 1,000</li>
-                                        <li>영화관람료 가중치: <strong id="c0-weight-movie-val" style="color:var(--navy);">—</strong> / 1,000</li>
-                                    </ul>
-                                </div>
                             </div>
-
-                            <!-- 2단계: 기준연도 설정 -->
-                            <div
-                                style="padding: 1.25rem; background: var(--slate-50); border-radius: 8px; border: 1px solid var(--slate-200); border-left: 4px solid #3b82f6;">
-                                <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.5rem;">
-                                    <strong style="font-size: 1rem; color: var(--navy);">
-                                        2단계: 기준연도 설정 (Base Year)
-                                        <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서</span>
-                                    </strong>
-                                    <span style="font-size:0.75rem; font-weight:600; color:#1d4ed8; background:#eff6ff; padding:2px 8px; border-radius:12px; border:1px solid #bfdbfe;">➔ 기준 지수 100의 분모($\sum P_0 Q_0$) 확정</span>
-                                </div>
-                                <p style="font-size: 0.85rem; color: var(--slate-600); margin-bottom: 0.75rem;">
-                                    비교의 기준이 되는 시점을 정합니다. 보통 5년 주기로 개편하며, 이때의 총 소비 지출액을 기준으로 삼아 물가 수준을 <strong>100</strong>으로 고정합니다.
-                                </p>
-                                <div
-                                    style="background:#ede9fe; color:#5b21b6; padding:0.6rem 0.8rem; border-radius:6px; display:inline-block; font-size:0.85rem; font-weight:700;">
-                                    🎯 기준시점 총액 ($\sum P_0 Q_0$): <span id="c0-calc-sum0">—</span> (이 시점의 물가지수를 100으로 약속함)
-                                </div>
-                            </div>
-
-                            <!-- 3단계: 가격 조사 -->
-                            <div
-                                style="padding: 1.25rem; background: var(--slate-50); border-radius: 8px; border: 1px solid var(--slate-200); border-left: 4px solid #059669;">
-                                <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.5rem;">
-                                    <strong style="font-size: 1rem; color: var(--navy);">
-                                        3단계: 가격 조사 (Price Survey)
-                                        <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서</span>
-                                    </strong>
-                                    <span style="font-size:0.75rem; font-weight:600; color:#059669; background:#ecfdf5; padding:2px 8px; border-radius:12px; border:1px solid #a7f3d0;">➔ 1단계 기준가격($P_0$) 대비 현재가격($P_t$) 변동 측정</span>
-                                </div>
-                                <p style="font-size: 0.85rem; color: var(--slate-600); margin-bottom: 1rem;">
-                                    1단계에서 고정한 <strong>기준물량($Q_0$)</strong>은 그대로 유지한 채, 시장에서 실제 거래되는 현재 가격($P_t$)을 정기 조사합니다. 아래 슬라이더로 현재 가격을 변경하면 1단계 기준가격($P_0$) 대비 상승률과 함께 4단계 지수가 즉시 반응합니다.
-                                </p>
-
-                                <div style="display:flex; flex-direction:column; gap:0.75rem;">
-                                    <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap; background:#fff; padding:0.6rem 0.85rem; border-radius:6px; border:1px solid var(--slate-200);">
-                                        <span
-                                            style="min-width:140px; font-weight:700; font-size:0.85rem; color:var(--slate-800);">🌾
-                                            쌀 현재가 ($P_{t,쌀}$):</span>
-                                        <input type="range" id="c0-pt-rice" style="flex:1; min-width:150px;"
-                                            class="slider" min="10000" max="60000" step="1000" value="33000">
-                                        <span style="min-width:95px; text-align:right;"><strong id="c0-pt-rice-val"
-                                                style="color:var(--primary);">33,000</strong> 원</span>
-                                    </div>
-                                    <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap; background:#fff; padding:0.6rem 0.85rem; border-radius:6px; border:1px solid var(--slate-200);">
-                                        <span
-                                            style="min-width:140px; font-weight:700; font-size:0.85rem; color:var(--slate-800);">⚡
-                                            전기요금 현재가 ($P_{t,전기}$):</span>
-                                        <input type="range" id="c0-pt-elec" style="flex:1; min-width:150px;"
-                                            class="slider" min="50" max="300" step="5" value="180">
-                                        <span style="min-width:95px; text-align:right;"><strong id="c0-pt-elec-val"
-                                                style="color:var(--primary);">180</strong> 원</span>
-                                    </div>
-                                    <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap; background:#fff; padding:0.6rem 0.85rem; border-radius:6px; border:1px solid var(--slate-200);">
-                                        <span
-                                            style="min-width:140px; font-weight:700; font-size:0.85rem; color:var(--slate-800);">🎬
-                                            영화료 현재가 ($P_{t,영화}$):</span>
-                                        <input type="range" id="c0-pt-movie" style="flex:1; min-width:150px;"
-                                            class="slider" min="5000" max="25000" step="500" value="14000">
-                                        <span style="min-width:95px; text-align:right;"><strong id="c0-pt-movie-val"
-                                                style="color:var(--primary);">14,000</strong> 원</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 4단계: 지수 산출 -->
-                            <div
-                                style="padding: 1.25rem; background: var(--slate-50); border-radius: 8px; border: 1px solid var(--slate-200); border-left: 4px solid #047857;">
-                                <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.5rem;">
-                                    <strong style="font-size: 1rem; color: var(--navy);">
-                                        4단계: 지수 산출 (Index Calculation)
-                                        <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서</span>
-                                        <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.25rem; background: #f3e8ff; color: #6b21a8; vertical-align: middle;">교과서 외 수식</span>
-                                    </strong>
-                                    <span style="font-size:0.75rem; font-weight:600; color:#047857; background:#ecfdf5; padding:2px 8px; border-radius:12px; border:1px solid #a7f3d0;">➔ 2단계 분모($\sum P_0 Q_0$) 대비 3단계 분자($\sum P_t Q_0$) 가중합성</span>
-                                </div>
-                                <p style="font-size: 0.85rem; color: var(--slate-600); margin-bottom: 0.75rem;">
-                                    기준량($Q_0$)을 가중치로 한 라스파이레스 공식을 사용하여 현재 시점의 종합 소비자물가지수(CPI)를 실시간 계산합니다.
-                                </p>
-                                <p
-                                    style="font-size: 0.82rem; font-family: monospace; text-align:center; padding:0.5rem; background:#fff; border-radius:4px; border:1px solid var(--slate-200); margin-bottom:0.75rem;">
-                                    $$CPI = \frac{\sum (P_t \times Q_0)}{\sum (P_0 \times Q_0)} \times 100$$
-                                </p>
-
-                                <div
-                                    style="background:var(--white); padding: 0.8rem; border-radius: 6px; border: 1px solid var(--slate-200); font-size:0.85rem; display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:0.75rem;">
-                                    <div>현재시점 총액 ($\sum P_t Q_0$): <strong id="c0-calc-sumt"
-                                            style="color:var(--navy);">—</strong></div>
-                                    <div style="background:#f5f3ff; padding:0.3rem 0.6rem; border-radius:4px;">
-                                        <strong>최종 소비자물가지수 (CPI):</strong> <span id="c0-calc-cpi"
-                                            style="font-size:1.05rem; color:var(--primary); font-weight:800;">—</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 5단계 및 유의사항 -->
-                            <div
-                                style="padding: 1.25rem; background: var(--slate-50); border-radius: 8px; border: 1px solid var(--slate-200); border-left: 4px solid #7c3aed;">
-                                <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.5rem;">
-                                    <strong style="font-size: 1rem; color: var(--navy);">
-                                        5단계: 분석 및 공표 (Analysis &amp; Publication)
-                                        <span style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서</span>
-                                    </strong>
-                                    <span style="font-size:0.75rem; font-weight:600; color:#7c3aed; background:#faf5ff; padding:2px 8px; border-radius:12px; border:1px solid #e9d5ff;">➔ 3차시 미래 구매력 및 연금 시뮬레이션 적용</span>
-                                </div>
-                                <p style="font-size: 0.85rem; color: var(--slate-600); margin-bottom: 0.75rem;">
-                                    산출된 데이터를 전월 대비(MoM), 전년 동월 대비(YoY) 등으로 분석하여 매월 초에 발표합니다. 이 지표는 통화 정책, 임금 협상, 연금 조정 등의 기초 자료로 활용됩니다.
-                                </p>
-
-                                <div
-                                    style="background:#fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 0.75rem; font-size:0.82rem; color:#92400e; line-height:1.65;">
-                                    <strong>💡 통계적 유의사항 요약</strong><br>
-                                    - <strong>체감물가 격차</strong>: CPI는 가계 평균 지출을 기준하므로, 특정 품목 소비가 많은 개인의 실질 체감 물가(My-CPI)와 다릅니다.<br>
-                                    - <strong>품목 교체</strong>: 기술 발전 등에 따라 공중전화 같은 품목은 제외하고 OTT 이용료 등 현실성 있는 대상을 수시로 개편합니다.
-                                </div>
-                            </div>
-
                         </div>
                     </div>
-                </div>
-            </div>
-        </details>
-
-                <!-- 탐구 다리: 0차시 기초 ➔ 1차시 -->
-                <div class="next-question-bridge" style="margin-bottom: 2rem;">
-                    <div class="bridge-header">
-                        <span class="bridge-badge">STEP 0 ➔ STEP 1 탐구 다리</span>
-                        <span style="font-size:0.8rem; color:#94a3b8;">생각을 넓히는 질문</span>
-                    </div>
-                    <div class="bridge-context">
-                        물가라는 복잡한 현실을 공식 품목과 가중치를 통해 <strong>‘하나의 숫자’(공식 CPI)</strong>로 합성하는 5단계 원리를 탐구했습니다.
-                    </div>
-                    <div class="bridge-question-box">
-                        “① 물가는 어떻게 하나의 숫자가 될까? 그리고 ② 그 숫자가 나에게도 같을까?”
-                    </div>
-                    <div class="bridge-btn-wrap">
-                        <button type="button" class="bridge-jump-btn" data-jump-to="class1">
-                            <span>1차시: 나의 소비를 반영한 My-CPI 산출하기</span>
-                            <span>➔</span>
-                        </button>
-                    </div>
-                </div>
+                </details>
             </section>
 
             <!-- ================================================
@@ -636,84 +813,67 @@
                         <div class="mini-pos-badge cpi-badge">1차시 · 가중구조 &amp; My-CPI</div>
                     </div>
                     <div class="tracker-mini-right" style="display:flex; gap:0.4rem; align-items:center;">
-                        <button type="button" class="btn-back-roadmap btn-story-modal" style="background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe;">📖 수업 웹툰 보기</button>
+                        <button type="button" class="btn-back-roadmap btn-story-modal"
+                            style="background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe;">📖 수업 웹툰 보기</button>
                         <button type="button" class="btn-back-roadmap" data-jump-to="tab-roadmap">🗺️ 전체 로드맵 보기</button>
                     </div>
                 </div>
 
-                <!-- [독립적 핵심 질문 영역] 따뜻한 톤 & 큰 따옴표 (누적형) -->
-                <div class="session-core-question-hero cpi-warm">
-                    <div class="question-hero-header">
-                        <span class="question-hero-tag">💡 1차시 핵심 질문</span>
-                        <span class="question-hero-sub">영역 Ⅰ. CPI (숫자를 만든다)</span>
-                    </div>
+                <!-- [1차시 핵심 질문 & 공식 수식 2열 병렬 배치] -->
+                <div class="grid-2" style="margin-bottom: 1.5rem; align-items: stretch;">
+                    <!-- [좌측: 1차시 핵심 질문] -->
+                    <div class="session-core-question-hero cpi-warm"
+                        style="margin-bottom:0; display:flex; flex-direction:column; justify-content:space-between;">
+                        <div>
+                            <div class="question-hero-header">
+                                <span class="question-hero-tag">💡 1차시 핵심 질문</span>
+                                <span class="question-hero-sub">영역 Ⅰ. CPI (숫자를 만든다)</span>
+                            </div>
 
-                    <!-- 이전 질문 히스토리 (sub 누적: 가로 칩 형태) -->
-                    <div class="question-trail">
-                        <span class="trail-header">📜 이전 질문:</span>
-                        <div class="trail-item">
-                            <span class="trail-badge">0차시</span>
-                            <span class="trail-q-text">수많은 가격을 어떻게 하나의 숫자로 묶을까?</span>
+                            <!-- 이전 질문 히스토리 -->
+                            <div class="question-trail" style="margin-bottom:0.75rem;">
+                                <span class="trail-header">📜 이전 질문:</span>
+                                <div class="trail-item">
+                                    <span class="trail-badge">0차시</span>
+                                    <span class="trail-q-text">수많은 가격을 어떻게 하나의 숫자로 묶을까?</span>
+                                </div>
+                            </div>
+
+                            <div class="question-hero-body" style="padding:0.75rem 0 0;">
+                                <div class="question-hero-text" style="font-size:1.1rem; line-height:1.45;">
+                                    <span class="quote-mark">“</span>① 물가는 어떻게 하나의 숫자가 되고, ② 그 숫자가 나에게도 같을까?<span
+                                        class="quote-mark">”</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="question-hero-context"
+                            style="margin-top:0.75rem; font-size:0.82rem; background:rgba(255,255,255,0.7); padding:0.5rem 0.75rem; border-radius:6px;">
+                            🔍 <strong>탐구 안내:</strong> 전국 가계의 평균 가중치와 내 실제 소비 가중치($w_i$)의 차이를 비교하여 나만의 지수(My-CPI)를
+                            산출합니다.
                         </div>
                     </div>
 
-                    <div class="question-hero-body">
-                        <div class="question-hero-text">
-                            <span class="quote-mark">“</span>① 물가는 어떻게 하나의 숫자가 되고, ② 그 숫자가 나에게도 같을까?<span class="quote-mark">”</span>
+                    <!-- [우측: 핵심 수식 LaTeX] -->
+                    <div class="card concept-card"
+                        style="margin-bottom: 0; border-left-color: var(--info); display:flex; flex-direction:column; justify-content:space-between;">
+                        <div class="concept-header">
+                            <span class="concept-badge" style="background:#e0f2fe; color:#0369a1;">🧮 핵심 수식</span>
+                            <h3>가중평균 물가지수 산출 수식 <span
+                                    style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.3rem; background: #dbeafe; color: #1e40af; vertical-align: middle;">경제수학
+                                    필수</span></h3>
                         </div>
-                        <div class="question-hero-context">
-                            🔍 <strong>탐구 안내:</strong> 전국 가계의 평균 가중치와 내 생활 속 실제 소비 가중치($w_i$)의 차이를 비교하여 나만의 지수(My-CPI)를 직접 산출합니다.
+                        <div class="concept-body"
+                            style="text-align: center; padding: 0.85rem 1rem; background: var(--slate-50); border-radius: 8px;">
+                            <p style="font-size: 0.98rem; margin-bottom: 0.4rem; color: #64748b;">
+                                $$\text{단순평균: } \bar{x} = \frac{\sum x_i}{n}$$
+                            </p>
+                            <p style="font-size: 1.12rem; margin-bottom: 0.4rem; color: var(--navy); font-weight:800;">
+                                $$\text{가중평균: } \bar{x}_w = \frac{\sum w_i x_i}{\sum w_i}$$
+                            </p>
+                            <p style="font-size: 0.78rem; color: var(--slate-600); margin:0;">
+                                ($w_i$: 100만 원 중 품목별 지출 가중치 %, $x_i$: 품목별 상승률)
+                            </p>
                         </div>
-                    </div>
-                </div>
-
-                <div class="section-intro">
-                    <img src="/icon1.png" alt="가중 구조 CPI 아이콘" class="section-intro-img">
-                    <div class="section-intro-body">
-                        <div class="hybrid-badge-banner">
-                            <span class="hybrid-badge math-core">📘 《경제 수학》 기본 필수: 100만 원 예산 배분 &amp; 가중평균 수식</span>
-                            <span class="hybrid-badge stat-opt">📊 《실용통계》 유연 토론: 평균의 함정과 소비 변이성</span>
-                        </div>
-                        <h2>[1차시] 가중평균과 My-CPI (지수 산출 및 소비 변이성)</h2>
-                        <p>100만 원 가상 예산 배분 실습을 바탕으로 개인 지출 가중치($w_i$)를 구하고, <strong>가중평균 수식($\bar{x}_w = \frac{\sum w_i x_i}{\sum w_i}$)</strong>을 적용해 나만의 물가지수 My-CPI를 산출합니다.</p>
-                        <div class="tag-row">
-                            <span class="tag">예산 100만 원 배분</span>
-                            <span class="tag">가중평균 공식</span>
-                            <span class="tag">My-CPI 산출</span>
-                            <span class="tag">소비 변이성(Variability)</span>
-                            <span class="tag">평균의 함정</span>
-                        </div>
-                        <div class="mapping-container"
-                            style="margin-top: 0.75rem; padding: 0.6rem 0.8rem; background: rgba(255,255,255,0.85); border-radius: 6px; border: 1px solid rgba(226, 232, 240, 0.8); font-size: 0.82rem; display: flex; flex-direction: column; gap: 0.3rem; line-height: 1.5; text-align: left;">
-                            <div><strong style="color: #0284c7;">📘 &lt;경제 수학&gt; 핵심 내용:</strong> Ⅰ-1. 수와 생활 경제 (경제지표, 가중평균 수식)</div>
-                            <div><strong style="color: #059669;">📊 &lt;실용통계&gt; 유연 토론:</strong> Ⅱ-1. 자료의 요약 (대푯값의 한계, 집단 내 소비 변이성)</div>
-                            <div style="color:#d97706; font-size:0.8rem; margin-top:0.2rem;">💡 <strong>핵심 성찰:</strong>
-                                통계청 공식 물가상승률(전국 평균)과 나의 My-CPI가 다른 이유는 개개인의 지출 구조에 내재된 <strong>변이성(Variability)</strong> 때문입니다. 어느 한쪽이 틀린 것이 아니라 관점의 차이입니다.</div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-                <!-- 수식 추가 (LaTeX 적용) -->
-                <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--info);">
-                    <div class="concept-header">
-                        <span class="concept-badge" style="background:#e0f2fe; color:#0369a1;">🧮 핵심 수식</span>
-                        <h3>가중평균 물가지수 산출 수식 <span
-                                style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #dbeafe; color: #1e40af; vertical-align: middle;">경제수학 필수</span></h3>
-                    </div>
-                    <div class="concept-body"
-                        style="text-align: center; padding: 1.25rem; background: var(--slate-50); border-radius: 8px;">
-                        <p style="font-size: 1.15rem; margin-bottom: 0.6rem; color: var(--navy);">
-                            $$\text{단순평균: } \bar{x} = \frac{x_1 + x_2 + \cdots + x_n}{n}$$
-                        </p>
-                        <p style="font-size: 1.15rem; margin-bottom: 0.6rem; color: var(--navy);">
-                            $$\text{가중평균: } \bar{x}_w = \frac{w_1x_1 + w_2x_2 + \cdots + w_nx_n}{w_1 + w_2 + \cdots +
-                            w_n} = \frac{\sum_{i=1}^{n} w_i x_i}{\sum_{i=1}^{n} w_i}$$
-                        </p>
-                        <p style="font-size: 0.85rem; color: var(--slate-600);">
-                            (여기서 $w_i$는 100만 원 중 품목별 지출 가중치(%, $\sum w_i = 100$), $x_i$는 품목별 물가상승률)
-                        </p>
                     </div>
                 </div>
 
@@ -730,10 +890,13 @@
                 <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--warning);">
                     <div class="concept-header">
                         <span class="concept-badge practice" style="background:#f59e0b;">⚙️ 개별 실습</span>
-                        <span style="font-size: 0.78rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; background: #2563eb; color: #fff; vertical-align: middle;">Ⅰ. 경제수학 기본</span>
+                        <span
+                            style="font-size: 0.78rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; background: #2563eb; color: #fff; vertical-align: middle;">Ⅰ.
+                            경제수학 기본</span>
                         <h3>100만 원 예산 배분 &amp; My-CPI 산출 실습 (35분)</h3>
                     </div>
-                    <p class="card-desc">총 <strong>100만 원의 한 달 소비 예산</strong>을 식비, 주거·광열, 교육, 교통, 오락·문화, 보건, 기타 품목에 배분하여 개인 지출 가중치($w_i$, 합계 100%)를 설정하고, <strong>가중평균 공식</strong>으로 My-CPI를 도출합니다.</p>
+                    <p class="card-desc">총 <strong>100만 원의 한 달 소비 예산</strong>을 식비, 주거·광열, 교육, 교통, 오락·문화, 보건, 기타 품목에 배분하여
+                        개인 지출 가중치($w_i$, 합계 100%)를 설정하고, <strong>가중평균 공식</strong>으로 My-CPI를 도출합니다.</p>
 
                     <div class="grid-2">
                         <div>
@@ -749,7 +912,8 @@
                                 <div class="progress-container">
                                     <div id="c1-weight-progress" class="progress-bar"></div>
                                 </div>
-                                <span id="c1-weight-warning" class="warning-text hidden">⚠️ 합계를 100% (100만 원)로 맞춰주세요.</span>
+                                <span id="c1-weight-warning" class="warning-text hidden">⚠️ 합계를 100% (100만 원)로
+                                    맞춰주세요.</span>
                             </div>
                             <button type="button" id="btn-rand-weights" class="btn-primary"
                                 style="margin-top: 1rem; width: auto; background-color: var(--navy);">
@@ -786,15 +950,19 @@
                         <h3>Q1. [평균의 함정과 변이성] 국가 CPI vs My-CPI 격차 원인 성찰</h3>
                     </div>
                     <div class="question-box">
-                        <div style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:6px; padding:0.85rem; margin-bottom:0.75rem;">
-                            <strong style="color:#065f46; font-size:0.92rem;">💬 토론 발문: "통계청 공식 물가는 2.5%라는데, 왜 내 체감 물가(My-CPI)는 5.8%일까?"</strong>
+                        <div
+                            style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:6px; padding:0.85rem; margin-bottom:0.75rem;">
+                            <strong style="color:#065f46; font-size:0.92rem;">💬 토론 발문: "통계청 공식 물가는 2.5%라는데, 왜 내 체감
+                                물가(My-CPI)는 5.8%일까?"</strong>
                             <p style="font-size:0.85rem; color:#047857; margin-top:0.35rem; line-height:1.6;">
                                 통계청 CPI는 전국 모든 가구의 평균 소비 바스켓으로 산출되므로, 학생 개개인의 실제 지출 구성과 필연적으로 차이가 발생합니다.
                             </p>
                         </div>
-                        <p><strong>Q1 활동지 서술 (기본 필수 + 유연 토론):</strong><br>
-                        1. <strong>[경제 수학]</strong> 가중평균 공식($\bar{x}_w = \frac{\sum w_i x_i}{\sum w_i}$)을 적용하여 내가 산출한 My-CPI 계산식과 최종 수치를 기술하시오.<br>
-                        2. <strong>[실용통계 토론]</strong> 국가 평균 지수와 내 My-CPI가 다른 이유를 개개인 지출 구조의 <strong>변이성(Variability)</strong> 및 <strong>'평균의 함정'</strong> 관점에서 비판적으로 성찰하여 서술하시오.</p>
+                        <p><strong>Q1 활동지 서술 (기본 필수 + 토론):</strong><br>
+                            1. <strong>[경제 수학]</strong> 가중평균 공식($\bar{x}_w = \frac{\sum w_i x_i}{\sum w_i}$)을 적용하여 내가
+                            산출한 My-CPI 계산식과 최종 수치를 기술하시오.<br>
+                            2. <strong>[실용통계 토론]</strong> 국가 평균 지수와 내 My-CPI가 다른 이유를 개개인 지출 구조의
+                            <strong>변이성(Variability)</strong> 및 <strong>'평균의 함정'</strong> 관점에서 비판적으로 성찰하여 서술하시오.</p>
                     </div>
                     <!-- Q1 사고 힌트 / 예시 보기 아코디언 토글 -->
                     <details class="q-hint-details">
@@ -806,23 +974,26 @@
                             <div class="q-hint-item">
                                 <span class="q-hint-badge">공정성 관점</span>
                                 <div class="q-hint-row"><strong>상황:</strong> 저소득층일수록 식비와 주거비 비중이 높습니다.</div>
-                                <div class="q-hint-row"><strong>생각:</strong> 국가가 발표한 '평균 CPI' 하나만을 기준으로 최저임금이나 청년 지원금을 결정한다면, 특정 계층이 겪게 될 구체적인 불이익은 무엇일까요?</div>
+                                <div class="q-hint-row"><strong>생각:</strong> 국가가 발표한 '평균 CPI' 하나만을 기준으로 최저임금이나 청년 지원금을
+                                    결정한다면, 특정 계층이 겪게 될 구체적인 불이익은 무엇일까요?</div>
                             </div>
                             <div class="q-hint-item alt">
                                 <span class="q-hint-badge">라이프스타일 관점</span>
                                 <div class="q-hint-row"><strong>상황:</strong> 유기농 식재료를 주로 먹고 매달 다수의 구독 서비스를 이용합니다.</div>
-                                <div class="q-hint-row"><strong>생각:</strong> 나의 가치관과 취향(라이프스타일)이 내 지갑의 물가를 갉아먹고 있다면, 이를 '국가 경제 탓'과 '나의 선택 비용'으로 어떻게 구분해서 해석해야 할까요?</div>
+                                <div class="q-hint-row"><strong>생각:</strong> 나의 가치관과 취향(라이프스타일)이 내 지갑의 물가를 갉아먹고 있다면, 이를
+                                    '국가 경제 탓'과 '나의 선택 비용'으로 어떻게 구분해서 해석해야 할까요?</div>
                             </div>
                         </div>
                     </details>
-                    <textarea id="c-q1-answer" class="answer-box" placeholder="1) 가중평균 수식 적용 결과와 2) 소비 변이성에 따른 국가 CPI와의 차이 성찰을 서술하세요..." rows="6"></textarea>
+                    <textarea id="c-q1-answer" class="answer-box"
+                        placeholder="1) 가중평균 수식 적용 결과와 2) 소비 변이성에 따른 국가 CPI와의 차이 성찰을 서술하세요..." rows="6"></textarea>
                     <div class="char-count"><span id="c-q1-chars">0</span>자 작성됨</div>
                 </div>
 
                 <!-- 1차시 종료: 다음 질문 브리지 -->
                 <div class="next-question-bridge">
                     <div class="bridge-header">
-                        <span class="bridge-badge">STEP 1 ➔ STEP 2 탐구 다리</span>
+                        <span class="bridge-badge">STEP 1 ➔ 1-1차시 탐구 다리</span>
                         <span style="font-size:0.8rem; color:#94a3b8;">생각을 넓히는 질문</span>
                     </div>
                     <div class="bridge-context">
@@ -833,7 +1004,7 @@
                     </div>
                     <div class="bridge-btn-wrap">
                         <button type="button" class="bridge-jump-btn" data-jump-to="class2">
-                            <span>2차시: 학급 데이터 분포와 대푯값 검증하기</span>
+                            <span>1-1차시: 학급 데이터 분포와 대푯값 검증하기</span>
                             <span>➔</span>
                         </button>
                     </div>
@@ -842,7 +1013,7 @@
             </section>
 
             <!-- ================================================
-             2차시: 데이터의 왜곡도 (Skewness & Outlier)와 대푯값 정합성
+             1-1차시: 데이터의 왜곡도 (Skewness & Outlier)와 대푯값 정합성
             ================================================ -->
             <section id="class2" class="tab-content" role="tabpanel" aria-labelledby="tab-class2">
                 <!-- 컴팩트 위치 네비게이터 -->
@@ -864,7 +1035,7 @@
                         </div>
                     </div>
                     <div class="tracker-mini-info">
-                        <div class="mini-pos-badge stat-badge">2차시 · 학급데이터 &amp; 대푯값</div>
+                        <div class="mini-pos-badge stat-badge">1-1차시 · 학급데이터 &amp; 대푯값</div>
                     </div>
                     <div class="tracker-mini-right">
                         <button type="button" class="btn-back-roadmap" data-jump-to="tab-roadmap">🗺️ 전체 로드맵 보기</button>
@@ -874,7 +1045,7 @@
                 <!-- [독립적 핵심 질문 영역] 따뜻한 톤 & 큰 따옴표 (누적형) -->
                 <div class="session-core-question-hero stat-warm">
                     <div class="question-hero-header">
-                        <span class="question-hero-tag" style="background:#059669;">💡 2차시 핵심 질문</span>
+                        <span class="question-hero-tag" style="background:#059669;">💡 1-1차시 핵심 질문</span>
                         <span class="question-hero-sub" style="color:#065f46;">영역 Ⅱ. 통계 (숫자를 검증한다)</span>
                     </div>
 
@@ -893,10 +1064,12 @@
                     </div>
                     <div class="question-hero-body">
                         <div class="question-hero-text" style="color:#064e3b;">
-                            <span class="quote-mark" style="color:#059669;">“</span>③ 왜 사람마다 다르고, ④ 다른 데이터는 잘못된 걸까?<span class="quote-mark" style="color:#059669;">”</span>
+                            <span class="quote-mark" style="color:#059669;">“</span>③ 왜 사람마다 다르고, ④ 다른 데이터는 잘못된 걸까?<span
+                                class="quote-mark" style="color:#059669;">”</span>
                         </div>
                         <div class="question-hero-context" style="color:#047857;">
-                            🔍 <strong>탐구 안내:</strong> 소비구조와 분포에 따른 대푯값(중앙값)을 탐구하고, 튀는 데이터(이상치)를 기계적으로 삭제하는 대신 데이터의 변동성과 맥락을 비판적으로 해석합니다.
+                            🔍 <strong>탐구 안내:</strong> 소비구조와 분포에 따른 대푯값(중앙값)을 탐구하고, 튀는 데이터(이상치)를 기계적으로 삭제하는 대신 데이터의 변동성과
+                            맥락을 비판적으로 해석합니다.
                         </div>
                     </div>
                 </div>
@@ -904,7 +1077,7 @@
                 <div class="section-intro">
                     <img src="/icon2.png" alt="데이터 왜곡도 아이콘" class="section-intro-img">
                     <div class="section-intro-body">
-                        <h2>[2차시] 데이터의 왜곡도 (Skewness &amp; Outlier)와 대푯값 정합성</h2>
+                        <h2>[1-1차시] 데이터의 왜곡도 (Skewness &amp; Outlier)와 대푯값 정합성</h2>
                         <p>"대다수의 데이터는 한쪽에 치우쳐 밀집해 있고, 극단적 값(이상치)이 존재하여 단순 평균치 계산이 착시를 유발하는 분포입니다."</p>
                         <div class="tag-row">
                             <span class="tag">소비구조 · 분포</span>
@@ -968,7 +1141,9 @@
                 <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--warning);">
                     <div class="concept-header">
                         <span class="concept-badge practice" style="background:#f59e0b;">⚙️ 개별 실습</span>
-                        <span style="font-size: 0.78rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; background: #059669; color: #fff; vertical-align: middle;">Ⅱ. 통계 (숫자를 검증한다)</span>
+                        <span
+                            style="font-size: 0.78rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; background: #059669; color: #fff; vertical-align: middle;">Ⅱ.
+                            통계 (숫자를 검증한다)</span>
                         <h3>상자그림을 통한 이상치 필터링 및 대푯값 결정 (35분) <span
                                 style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서
                                 (상자그림/대표값)</span><span
@@ -1043,8 +1218,10 @@
                         <div class="q-hint-body">
                             <div class="q-hint-item">
                                 <span class="q-hint-badge">통계의 착시 (평균 vs 중앙값)</span>
-                                <div class="q-hint-row"><strong>상황:</strong> 소득 격차나 주택 가격처럼 상위 극단값이 큰 통계에서 중앙값 대신 단순 산술평균을 발표하는 경우가 있습니다.</div>
-                                <div class="q-hint-row"><strong>생각:</strong> 이때 발생하는 '통계의 착시 현상'은 무엇이며, 일반 시민이나 정책 입안자가 이를 무비판적으로 신뢰했을 때 어떤 심각한 오류가 발생할까요?</div>
+                                <div class="q-hint-row"><strong>상황:</strong> 소득 격차나 주택 가격처럼 상위 극단값이 큰 통계에서 중앙값 대신 단순
+                                    산술평균을 발표하는 경우가 있습니다.</div>
+                                <div class="q-hint-row"><strong>생각:</strong> 이때 발생하는 '통계의 착시 현상'은 무엇이며, 일반 시민이나 정책 입안자가
+                                    이를 무비판적으로 신뢰했을 때 어떤 심각한 오류가 발생할까요?</div>
                             </div>
                         </div>
                     </details>
@@ -1052,10 +1229,10 @@
                     <div class="char-count"><span id="c-q2-chars">0</span>자 작성됨</div>
                 </div>
 
-                <!-- 2차시 종료: 다음 질문 브리지 -->
+                <!-- 1-1차시 종료: 다음 질문 브리지 -->
                 <div class="next-question-bridge">
                     <div class="bridge-header">
-                        <span class="bridge-badge">STEP 2 ➔ STEP 3 탐구 다리</span>
+                        <span class="bridge-badge">1-1차시 ➔ 2차시 탐구 다리</span>
                         <span style="font-size:0.8rem; color:#94a3b8;">생각을 넓히는 질문</span>
                     </div>
                     <div class="bridge-context">
@@ -1066,7 +1243,7 @@
                     </div>
                     <div class="bridge-btn-wrap">
                         <button type="button" class="bridge-jump-btn" data-jump-to="class3">
-                            <span>3차시: 시간 경과에 따른 비선형 복리와 구매력 변화 탐구하기</span>
+                            <span>2차시: 시간 경과에 따른 비선형 복리와 구매력 변화 탐구하기</span>
                             <span>➔</span>
                         </button>
                     </div>
@@ -1100,32 +1277,70 @@
                         <div class="mini-pos-badge stat-badge">2차시 · 할인율 &amp; 현재가치(PV)</div>
                     </div>
                     <div class="tracker-mini-right" style="display:flex; gap:0.4rem; align-items:center;">
-                        <button type="button" class="btn-back-roadmap btn-story-modal" style="background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe;">📖 수업 웹툰 보기</button>
+                        <button type="button" class="btn-back-roadmap btn-story-modal"
+                            style="background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe;">📖 수업 웹툰 보기</button>
                         <button type="button" class="btn-back-roadmap" data-jump-to="tab-roadmap">🗺️ 전체 로드맵 보기</button>
                     </div>
                 </div>
 
-                <!-- [핵심 질문 영역] -->
-                <div class="session-core-question-hero stat-warm">
-                    <div class="question-hero-header">
-                        <span class="question-hero-tag" style="background:#059669;">💡 2차시 핵심 질문</span>
-                        <span class="question-hero-sub" style="color:#065f46;">《경제 수학》 p.43~44 + 《실용통계》 선택 심화</span>
+                <!-- [2차시 핵심 질문 & 공식 수식 2열 병렬 배치] -->
+                <div class="grid-2" style="margin-bottom: 1.5rem; align-items: stretch;">
+                    <!-- [좌측: 2차시 핵심 질문] -->
+                    <div class="session-core-question-hero stat-warm"
+                        style="margin-bottom:0; display:flex; flex-direction:column; justify-content:space-between;">
+                        <div>
+                            <div class="question-hero-header">
+                                <span class="question-hero-tag" style="background:#059669;">💡 2차시 핵심 질문</span>
+                                <span class="question-hero-sub" style="color:#065f46;">《경제 수학》 p.43~44 + 《실용통계》 선택
+                                    심화</span>
+                            </div>
+
+                            <!-- 이전 질문 히스토리 -->
+                            <div class="question-trail" style="margin-bottom:0.75rem;">
+                                <span class="trail-header">📜 연계 여정:</span>
+                                <div class="trail-item">
+                                    <span class="trail-badge">1차시</span>
+                                    <span class="trail-q-text">100만원 예산 배분 &amp; 가중평균 My-CPI</span>
+                                </div>
+                            </div>
+                            <div class="question-hero-body" style="padding:0.5rem 0 0;">
+                                <div class="question-hero-text"
+                                    style="color:#064e3b; font-size:1.1rem; line-height:1.45;">
+                                    <span class="quote-mark" style="color:#059669;">“</span>물가가 오르면 미래 100만 원의 실질 가치는
+                                    얼마로 떨어질까? 단순 직선(1차 추세선)으로 예측해도 괜찮을까?<span class="quote-mark"
+                                        style="color:#059669;">”</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="question-hero-context"
+                            style="margin-top:0.75rem; font-size:0.82rem; background:rgba(255,255,255,0.7); padding:0.5rem 0.75rem; border-radius:6px; color:#047857;">
+                            🔍 <strong>탐구 안내:</strong> 교과서 p.43~44의 복리 할인 현재가치($PV = \frac{A}{(1+r)^n}$)로 실질 구매력 하락을 정량
+                            계산하고, 단순 선형 추세선의 착시 또는 학급 상자그림으로 데이터 타당성을 검증합니다.
+                        </div>
                     </div>
 
-                    <!-- 이전 질문 히스토리 -->
-                    <div class="question-trail">
-                        <span class="trail-header">📜 연계 여정:</span>
-                        <div class="trail-item">
-                            <span class="trail-badge">1차시</span>
-                            <span class="trail-q-text">100만원 예산 배분 &amp; 가중평균 My-CPI</span>
+                    <!-- [우측: 핵심 수식 카드] -->
+                    <div class="card concept-card"
+                        style="margin-bottom: 0; border-left-color: var(--info); display:flex; flex-direction:column; justify-content:space-between;">
+                        <div class="concept-header">
+                            <span class="concept-badge" style="background:#e0f2fe; color:#0369a1;">🧮 핵심 수식</span>
+                            <h3>복리 할인 및 현재가치 공식 <span
+                                    style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.3rem; background: #dbeafe; color: #1e40af; vertical-align: middle;">경제수학
+                                    교과서 p.43~44</span></h3>
                         </div>
-                    </div>
-                    <div class="question-hero-body">
-                        <div class="question-hero-text" style="color:#064e3b;">
-                            <span class="quote-mark" style="color:#059669;">“</span>물가가 오르면 미래 100만 원의 실질 가치는 얼마로 떨어질까? 단순 직선(1차 추세선)으로 예측해도 괜찮을까?<span class="quote-mark" style="color:#059669;">”</span>
-                        </div>
-                        <div class="question-hero-context" style="color:#047857;">
-                            🔍 <strong>탐구 안내:</strong> 교과서 p.43~44의 복리 할인 현재가치 수식($PV = \frac{A}{(1+r)^n}$)으로 실질 구매력 하락을 정량 계산하고, 단순 선형 추세선의 착시 또는 학급 상자그림을 통해 데이터의 타당성을 검증합니다.
+                        <div class="concept-body"
+                            style="text-align: center; padding: 0.85rem 1rem; background: var(--slate-50); border-radius: 8px;">
+                            <p
+                                style="font-size: 1.15rem; margin-bottom: 0.4rem; color: var(--navy); font-weight: bold;">
+                                $PV = \frac{A}{(1 + r)^n} = A \times (1 + r)^{-n}$
+                            </p>
+                            <p style="font-size: 0.95rem; margin-bottom: 0.4rem; color: #64748b;">
+                                $\text{1차 선형 감쇄: } PV_{\text{linear}} = A(1 - rn) \;\text{vs}\; \text{단리: }
+                                \frac{A}{1+rn}$
+                            </p>
+                            <p style="font-size: 0.78rem; color: var(--slate-600); margin:0;">
+                                ($A$: $n$년 뒤 명목금액, $r$: 할인율/물가상승률, $n$: 경과 년수. 기간이 길어질수록 1차 직선과 복리 곡선 간 괴리 발생)
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -1135,10 +1350,11 @@
                     <div class="section-intro-body">
                         <div class="hybrid-badge-banner">
                             <span class="hybrid-badge math-core">📘 《경제 수학》 기본 필수: 복리 할인 및 현재가치 ($PV$)</span>
-                            <span class="hybrid-badge stat-choice">📊 《실용통계》 유연 선택(택1): [A] 추세선 착시 vs [B] 학급 상자그림</span>
+                            <span class="hybrid-badge stat-choice">📊 《실용통계》 선택(택1): [A] 추세선 착시 vs [B] 학급 상자그림</span>
                         </div>
                         <h2>[2차시] 할인율과 현재가치 (화폐가치 하락 검증)</h2>
-                        <p>물가상승률($r$)을 할인율로 적용하여 30년 뒤 미래 화폐의 <strong>현재가치($PV = \frac{A}{(1+r)^n}$)</strong>를 계산하고, 단순 1차 추세선의 지수적 감쇄 착시를 비판적으로 검토합니다.</p>
+                        <p>물가상승률($r$)을 할인율로 적용하여 30년 뒤 미래 화폐의 <strong>현재가치($PV = \frac{A}{(1+r)^n}$)</strong>를 계산하고, 단순
+                            1차 추세선의 지수적 감쇄 착시를 비판적으로 검토합니다.</p>
                         <div class="tag-row">
                             <span class="tag">복리 할인</span>
                             <span class="tag">현재가치 (PV)</span>
@@ -1148,8 +1364,10 @@
                         </div>
                         <div class="mapping-container"
                             style="margin-top: 0.75rem; padding: 0.6rem 0.8rem; background: rgba(255,255,255,0.85); border-radius: 6px; border: 1px solid rgba(226, 232, 240, 0.8); font-size: 0.82rem; display: flex; flex-direction: column; gap: 0.3rem; line-height: 1.5; text-align: left;">
-                            <div><strong style="color: #0284c7;">📘 &lt;경제 수학&gt; 핵심 내용:</strong> p.43~44 수열과 금융 (할인율, 복리 할인, 현재가치 공식)</div>
-                            <div><strong style="color: #059669;">📊 &lt;실용통계&gt; 유연 선택:</strong> [선택 A] Ⅱ-2. 추세선 착시(Linearity Illusion) 비판 | [선택 B] Ⅱ-1. 학급 상자그림(Boxplot)과 $1.5\text{IQR}$ 이상치 검증</div>
+                            <div><strong style="color: #0284c7;">📘 &lt;경제 수학&gt; 핵심 내용:</strong> p.43~44 수열과 금융 (할인율,
+                                복리 할인, 현재가치 공식)</div>
+                            <div><strong style="color: #059669;">📊 &lt;실용통계&gt; 선택:</strong> [선택 A] Ⅱ-2. 추세선
+                                착시(Linearity Illusion) 비판 | [선택 B] Ⅱ-1. 학급 상자그림(Boxplot)과 $1.5\text{IQR}$ 이상치 검증</div>
                         </div>
                     </div>
                 </div>
@@ -1159,7 +1377,8 @@
                     <div class="concept-header">
                         <span class="concept-badge" style="background:#e0f2fe; color:#0369a1;">🧮 핵심 수식</span>
                         <h3>복리 할인 및 현재가치 공식 <span
-                                style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #dbeafe; color: #1e40af; vertical-align: middle;">경제수학 교과서 p.43~44</span></h3>
+                                style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #dbeafe; color: #1e40af; vertical-align: middle;">경제수학
+                                교과서 p.43~44</span></h3>
                     </div>
                     <div class="concept-body"
                         style="text-align: center; padding: 1.25rem; background: var(--slate-50); border-radius: 8px;">
@@ -1167,10 +1386,12 @@
                             $$PV = \frac{A}{(1 + r)^n} = A \times (1 + r)^{-n}$$
                         </p>
                         <p style="font-size: 1.05rem; margin-bottom: 0.6rem; color: #64748b;">
-                            $$\text{단순 1차 선형 감쇄 모델: } PV_{\text{linear}} = A \times (1 - r \times n) \quad \text{vs} \quad \text{단리 모델: } \frac{A}{1 + r \times n}$$
+                            $$\text{단순 1차 선형 감쇄 모델: } PV_{\text{linear}} = A \times (1 - r \times n) \quad \text{vs}
+                            \quad \text{단리 모델: } \frac{A}{1 + r \times n}$$
                         </p>
                         <p style="font-size: 0.85rem; color: var(--slate-600);">
-                            ($A$: $n$년 뒤 명목 금액(100만 원), $r$: 연평균 물가상승률(할인율), $n$: 경과 년수. 기간이 길어질수록 1차 직선과 실제 복리 곡선의 괴리(착시)가 발생함)
+                            ($A$: $n$년 뒤 명목 금액(100만 원), $r$: 연평균 물가상승률(할인율), $n$: 경과 년수. 기간이 길어질수록 1차 직선과 실제 복리 곡선의
+                            괴리(착시)가 발생함)
                         </p>
                     </div>
                 </div>
@@ -1187,10 +1408,13 @@
                 <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--warning);">
                     <div class="concept-header">
                         <span class="concept-badge practice" style="background:#f59e0b;">⚙️ 필수 실습</span>
-                        <span style="font-size: 0.78rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; background: #2563eb; color: #fff; vertical-align: middle;">Ⅱ. 경제수학 기본</span>
+                        <span
+                            style="font-size: 0.78rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; background: #2563eb; color: #fff; vertical-align: middle;">Ⅱ.
+                            경제수학 기본</span>
                         <h3>복리 할인율(r)과 경과 년수(n)에 따른 100만 원의 현재가치(PV) 계산</h3>
                     </div>
-                    <p class="card-desc">1차시에서 도출된 My-CPI 상승률($r$)을 복리 할인율로 적용하여 10년, 20년, 30년 뒤 100만 원의 실질 구매력(PV)을 계산합니다.</p>
+                    <p class="card-desc">1차시에서 도출된 My-CPI 상승률($r$)을 복리 할인율로 적용하여 10년, 20년, 30년 뒤 100만 원의 실질 구매력(PV)을
+                        계산합니다.</p>
 
                     <div class="grid-2">
                         <div>
@@ -1256,18 +1480,21 @@
                     </div>
                 </div>
 
-                <!-- [실용통계 유연 선택: 선택 A vs 선택 B 탭 토글] -->
+                <!-- [실용통계 선택: 선택 A vs 선택 B 탭 토글] -->
                 <div class="choice-toggle-container">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:0.75rem;">
+                    <div
+                        style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:0.75rem;">
                         <div>
-                            <span class="hybrid-badge stat-choice">📊 《실용통계》 유연 선택·심화 (학교 여건에 따라 택1)</span>
+                            <span class="hybrid-badge stat-choice">📊 《실용통계》 선택·심화 (학교 여건에 따라 택1)</span>
                             <h3 style="margin-top:0.4rem; color:var(--navy); font-size:1.05rem;">통계적 타당성 검증 트랙 선택</h3>
                         </div>
                         <div class="choice-toggle-nav">
-                            <button type="button" class="choice-toggle-btn active" id="btn-choice-a" data-choice="panel-choice-a">
+                            <button type="button" class="choice-toggle-btn active" id="btn-choice-a"
+                                data-choice="panel-choice-a">
                                 📈 [선택 A] 추세선 착시 비판
                             </button>
-                            <button type="button" class="choice-toggle-btn" id="btn-choice-b" data-choice="panel-choice-b">
+                            <button type="button" class="choice-toggle-btn" id="btn-choice-b"
+                                data-choice="panel-choice-b">
                                 📦 [선택 B] 학급 상자그림 &amp; IQR 검증
                             </button>
                         </div>
@@ -1275,30 +1502,41 @@
 
                     <!-- 선택 A 패널: 1차 선형 추세선 착시 비판적 검토 -->
                     <div class="choice-toggle-panel active" id="panel-choice-a">
-                        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:1.25rem; border-left:4px solid #059669;">
-                            <h4 style="color:#065f46; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem;">
+                        <div
+                            style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:1.25rem; border-left:4px solid #059669;">
+                            <h4
+                                style="color:#065f46; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem;">
                                 <span>📈 [선택 A] 1차 선형 회귀 추세선($y=ax+b$)만 믿을 때의 지수적 감쇄 착시(Linearity Illusion)</span>
                             </h4>
                             <p style="font-size:0.88rem; color:#334155; line-height:1.7; margin-bottom:0.75rem;">
-                                장기 물가 예측 시 엑셀이나 데이터 도구의 <strong>단순 1차 선형 추세선($y = ax + b$)</strong>을 그대로 연장하면, 화폐가치가 실제 복리 할인($PV = \frac{A}{(1+r)^n}$) 곡선보다 훨씬 완만하게 떨어지거나 심지어 음수로 내려가는 <strong>'선형성 착시(Linearity Illusion)'</strong>가 발생합니다.
+                                장기 물가 예측 시 엑셀이나 데이터 도구의 <strong>단순 1차 선형 추세선($y = ax + b$)</strong>을 그대로 연장하면, 화폐가치가 실제
+                                복리 할인($PV = \frac{A}{(1+r)^n}$) 곡선보다 훨씬 완만하게 떨어지거나 심지어 음수로 내려가는 <strong>'선형성
+                                    착시(Linearity Illusion)'</strong>가 발생합니다.
                             </p>
-                            <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:0.85rem; font-size:0.85rem; color:#166534;">
-                                <strong>💡 비판적 통계 발문:</strong> “10년 단기 데이터에서는 1차 직선 추세선과 복리 곡선이 유사해 보이지만, 30년 장기에서는 왜 치명적인 오류가 발생할까? 데이터의 비선형(복리) 본질을 간과했을 때 재무 계획에 어떤 위험이 생기는가?”
+                            <div
+                                style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; padding:0.85rem; font-size:0.85rem; color:#166534;">
+                                <strong>💡 비판적 통계 발문:</strong> “10년 단기 데이터에서는 1차 직선 추세선과 복리 곡선이 유사해 보이지만, 30년 장기에서는 왜
+                                치명적인 오류가 발생할까? 데이터의 비선형(복리) 본질을 간과했을 때 재무 계획에 어떤 위험이 생기는가?”
                             </div>
                         </div>
                     </div>
 
                     <!-- 선택 B 패널: 학급 상자그림 & IQR 이상치 검증 -->
                     <div class="choice-toggle-panel" id="panel-choice-b">
-                        <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:1.25rem; border-left:4px solid #f59e0b;">
-                            <h4 style="color:#92400e; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem;">
+                        <div
+                            style="background:#ffffff; border:1px solid #e2e8f0; border-radius:8px; padding:1.25rem; border-left:4px solid #f59e0b;">
+                            <h4
+                                style="color:#92400e; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem;">
                                 <span>📦 [선택 B] 학급 소비 데이터의 상자그림(Boxplot)과 1.5×IQR 판별식을 통한 중앙값 타당성 확인</span>
                             </h4>
                             <p style="font-size:0.88rem; color:#334155; line-height:1.7; margin-bottom:0.75rem;">
-                                학급 학생들의 소비 지출 데이터에는 고액 지출자 등 극단적 특이값(이상치)이 포함될 수 있습니다. <strong>상자그림(Boxplot)</strong>과 <strong>사분위수범위($IQR = Q_3 - Q_1$)</strong> 기반 판별식 $[Q_1 - 1.5\text{IQR}, Q_3 + 1.5\text{IQR}]$을 적용해 이상치를 판별하고, 평균보다 중앙값이 왜 더 타당한지 검증합니다.
+                                학급 학생들의 소비 지출 데이터에는 고액 지출자 등 극단적 특이값(이상치)이 포함될 수 있습니다. <strong>상자그림(Boxplot)</strong>과
+                                <strong>사분위수범위($IQR = Q_3 - Q_1$)</strong> 기반 판별식 $[Q_1 - 1.5\text{IQR}, Q_3 +
+                                1.5\text{IQR}]$을 적용해 이상치를 판별하고, 평균보다 중앙값이 왜 더 타당한지 검증합니다.
                             </p>
                             <div style="display:flex; justify-content:flex-end;">
-                                <button type="button" class="roadmap-card-nav-btn btn-stat" data-jump-to="class2" style="background:#d97706; padding:0.4rem 0.8rem; font-size:0.82rem;">
+                                <button type="button" class="roadmap-card-nav-btn btn-stat" data-jump-to="class2"
+                                    style="background:#d97706; padding:0.4rem 0.8rem; font-size:0.82rem;">
                                     📊 학급 상자그림 &amp; IQR 실습 도구 열기 ➔
                                 </button>
                             </div>
@@ -1314,10 +1552,13 @@
                     </div>
                     <div class="question-box">
                         <p><strong>[활동지 서술 가이드]:</strong><br>
-                        1. <strong>[경제 수학 필수]</strong> 교과서 p.43~44의 복리 할인 공식($PV = \frac{A}{(1+r)^n}$)을 사용하여 30년 뒤 100만 원의 실질 구매력이 현재 가치로 얼마인지 계산 과정을 제시하시오.<br>
-                        2. <strong>[실용통계 선택 A/B 중 택1]</strong><br>
-                        - <strong>(선택 A)</strong> 1차 선형 추세선($y=ax+b$)만 믿을 때 나타나는 지수적 감쇄 착시(Linearity Illusion)를 그래프를 근거로 비판하시오.<br>
-                        - <strong>(선택 B)</strong> 학급 소비 데이터의 상자그림 및 $1.5\text{IQR}$ 판별 결과를 바탕으로, 대표값으로서 중앙값의 타당성을 논증하시오.</p>
+                            1. <strong>[경제 수학 필수]</strong> 교과서 p.43~44의 복리 할인 공식($PV = \frac{A}{(1+r)^n}$)을 사용하여 30년 뒤
+                            100만 원의 실질 구매력이 현재 가치로 얼마인지 계산 과정을 제시하시오.<br>
+                            2. <strong>[실용통계 선택 A/B 중 택1]</strong><br>
+                            - <strong>(선택 A)</strong> 1차 선형 추세선($y=ax+b$)만 믿을 때 나타나는 지수적 감쇄 착시(Linearity Illusion)를 그래프를
+                            근거로 비판하시오.<br>
+                            - <strong>(선택 B)</strong> 학급 소비 데이터의 상자그림 및 $1.5\text{IQR}$ 판별 결과를 바탕으로, 대표값으로서 중앙값의 타당성을
+                            논증하시오.</p>
                     </div>
                     <!-- Q3(c-q3) 사고 힌트 / 예시 보기 아코디언 토글 -->
                     <details class="q-hint-details">
@@ -1329,23 +1570,27 @@
                             <div class="q-hint-item">
                                 <span class="q-hint-badge">소비자 행동 (대체 효과)</span>
                                 <div class="q-hint-row"><strong>상황:</strong> 사과가 비싸지면 사람들은 귤로 바꿔 소비합니다(대체 효과).</div>
-                                <div class="q-hint-row"><strong>생각:</strong> 소비자가 상황에 맞춰 장바구니 구성을 스스로 바꾸는 적응 능력은, 물가가 고정되었다고 가정하는 우리의 '현재가치(PV)' 계산 결과에 어떤 오차를 만들어 낼까요?</div>
+                                <div class="q-hint-row"><strong>생각:</strong> 소비자가 상황에 맞춰 장바구니 구성을 스스로 바꾸는 적응 능력은, 물가가
+                                    고정되었다고 가정하는 우리의 '현재가치(PV)' 계산 결과에 어떤 오차를 만들어 낼까요?</div>
                             </div>
                             <div class="q-hint-item alt">
                                 <span class="q-hint-badge">통계 품질 (이상치와 선형 예측의 왜곡)</span>
                                 <div class="q-hint-row"><strong>상황:</strong> 계산기는 '매년 3%씩' 일정하게 물가가 오른다고 예측합니다.</div>
-                                <div class="q-hint-row"><strong>생각:</strong> 코로나19나 전쟁처럼 물가가 급등하는 '이상치(Outlier)'가 존재할 때, 평균값에만 의존한 선형 예측은 어떻게 왜곡되며, 우리는 어떤 보조 데이터로 이를 보완해야 할까요?</div>
+                                <div class="q-hint-row"><strong>생각:</strong> 코로나19나 전쟁처럼 물가가 급등하는 '이상치(Outlier)'가 존재할 때,
+                                    평균값에만 의존한 선형 예측은 어떻게 왜곡되며, 우리는 어떤 보조 데이터로 이를 보완해야 할까요?</div>
                             </div>
                         </div>
                     </details>
-                    <textarea id="c-q3-answer" class="answer-box" placeholder="1) 복리 할인 현재가치(PV) 정량 계산식과 수치, 2) 선택 A(추세선 착시) 또는 선택 B(상자그림 중앙값 타당성)에 대한 서술을 작성하세요..." rows="6"></textarea>
+                    <textarea id="c-q3-answer" class="answer-box"
+                        placeholder="1) 복리 할인 현재가치(PV) 정량 계산식과 수치, 2) 선택 A(추세선 착시) 또는 선택 B(상자그림 중앙값 타당성)에 대한 서술을 작성하세요..."
+                        rows="6"></textarea>
                     <div class="char-count"><span id="c-q3-chars">0</span>자 작성됨</div>
                 </div>
 
-                <!-- 3차시 종료: 다음 질문 브리지 -->
+                <!-- 2차시 종료: 다음 질문 브리지 -->
                 <div class="next-question-bridge">
                     <div class="bridge-header">
-                        <span class="bridge-badge">STEP 3 ➔ STEP 4 탐구 다리</span>
+                        <span class="bridge-badge">2차시 ➔ 2-1차시 탐구 다리</span>
                         <span style="font-size:0.8rem; color:#94a3b8;">생각을 넓히는 질문</span>
                     </div>
                     <div class="bridge-context">
@@ -1356,7 +1601,7 @@
                     </div>
                     <div class="bridge-btn-wrap">
                         <button type="button" class="bridge-jump-btn" data-jump-to="class4">
-                            <span>4차시: 변동성과 불확실성 시나리오 탐색하기</span>
+                            <span>2-1차시: 변동성과 불확실성 시나리오 탐색하기</span>
                             <span>➔</span>
                         </button>
                     </div>
@@ -1365,7 +1610,7 @@
             </section>
 
             <!-- ================================================
-             4차시: 불확실성 데이터 기반 My-CPI 최종 타당성 검증
+             2-1차시: 불확실성 데이터 기반 My-CPI 최종 타당성 검증
             ================================================ -->
             <section id="class4" class="tab-content" role="tabpanel" aria-labelledby="tab-class4">
                 <!-- 컴팩트 위치 네비게이터 -->
@@ -1387,7 +1632,7 @@
                         </div>
                     </div>
                     <div class="tracker-mini-info">
-                        <div class="mini-pos-badge stat-badge">4차시 · 변동성 &amp; 시나리오</div>
+                        <div class="mini-pos-badge stat-badge">2-1차시 · 변동성 &amp; 시나리오</div>
                     </div>
                     <div class="tracker-mini-right">
                         <button type="button" class="btn-back-roadmap" data-jump-to="tab-roadmap">🗺️ 전체 로드맵 보기</button>
@@ -1397,7 +1642,7 @@
                 <!-- [독립적 핵심 질문 영역] 따뜻한 톤 & 큰 따옴표 (누적형) -->
                 <div class="session-core-question-hero stat-warm">
                     <div class="question-hero-header">
-                        <span class="question-hero-tag" style="background:#059669;">💡 4차시 핵심 질문</span>
+                        <span class="question-hero-tag" style="background:#059669;">💡 2-1차시 핵심 질문</span>
                         <span class="question-hero-sub" style="color:#065f46;">영역 Ⅱ. 통계 (숫자를 검증한다)</span>
                     </div>
 
@@ -1413,18 +1658,15 @@
                             <span class="trail-badge">2차시</span>
                             <span class="trail-q-text">③ 왜 다를까 &amp; ④ 다른 데이터?</span>
                         </div>
-                        <span class="trail-arrow-sep">➔</span>
-                        <div class="trail-item">
-                            <span class="trail-badge">3차시</span>
-                            <span class="trail-q-text">⑤ 앞으로도 달라진다면?</span>
-                        </div>
                     </div>
                     <div class="question-hero-body">
                         <div class="question-hero-text" style="color:#064e3b;">
-                            <span class="quote-mark" style="color:#059669;">“</span>⑥ 미래의 나는 얼마가 필요할까? (불확실성과 변동성 시나리오)<span class="quote-mark" style="color:#059669;">”</span>
+                            <span class="quote-mark" style="color:#059669;">“</span>⑥ 미래의 나는 얼마가 필요할까? (불확실성과 변동성
+                            시나리오)<span class="quote-mark" style="color:#059669;">”</span>
                         </div>
                         <div class="question-hero-context" style="color:#047857;">
-                            🔍 <strong>탐구 안내:</strong> 단일 예측값 대신 과거 물가 변동성(표준편차 $\sigma$)을 기반으로 $r \pm 1.96\sigma$ 신뢰구간 시나리오(낙관·기준·비관)를 도출하여 미래 필요자금의 범위를 수리적으로 다룹니다.
+                            🔍 <strong>탐구 안내:</strong> 단일 예측값 대신 과거 물가 변동성(표준편차 $\sigma$)을 기반으로 $r \pm 1.96\sigma$ 신뢰구간
+                            시나리오(낙관·기준·비관)를 도출하여 미래 필요자금의 범위를 수리적으로 다룹니다.
                         </div>
                     </div>
                 </div>
@@ -1432,7 +1674,7 @@
                 <div class="section-intro">
                     <img src="/icon2.png" alt="불확실성 관리 아이콘" class="section-intro-img">
                     <div class="section-intro-body">
-                        <h2>[4차시] 불확실성 데이터 기반 My-CPI 최종 타당성 검증</h2>
+                        <h2>[2-1차시] 불확실성 데이터 기반 My-CPI 최종 타당성 검증</h2>
                         <p>"미래를 분석하는 데이터는 단일한 확정값이 아니라, 조건부 가정의 한계와 변동성에 따라 범위를 갖는 시나리오 데이터입니다."</p>
                         <div class="tag-row">
                             <span class="tag">빅데이터와 의사 결정</span>
@@ -1494,7 +1736,9 @@
                 <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--warning);">
                     <div class="concept-header">
                         <span class="concept-badge practice" style="background:#f59e0b;">⚙️ 개별 실습</span>
-                        <span style="font-size: 0.78rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; background: #059669; color: #fff; vertical-align: middle;">Ⅱ. 통계 (숫자를 검증한다)</span>
+                        <span
+                            style="font-size: 0.78rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; background: #059669; color: #fff; vertical-align: middle;">Ⅱ.
+                            통계 (숫자를 검증한다)</span>
                         <h3>시나리오별 미래 구매력 불확실성 검증 <span
                                 style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서
                                 (PPDAC)</span><span
@@ -1579,8 +1823,10 @@
                         <div class="q-hint-body">
                             <div class="q-hint-item">
                                 <span class="q-hint-badge">다이나믹 프라이싱 &amp; 개인화 물가</span>
-                                <div class="q-hint-row"><strong>상황:</strong> 사람마다 다른 가격표가 매겨지는 다이나믹 프라이싱(우버-배터리 잔량, 항공·호텔-검색기록, 이커머스-소비패턴 데이터 등)이 일상화되고 있습니다.</div>
-                                <div class="q-hint-row"><strong>생각:</strong> 모두가 각자 다른 가격표를 마주하는 초개인화 시대가 온다면, 미래 생활비를 대비하기 위해 '전국 평균 물가' 대신 어떤 새로운 기준표를 세워야 할까요?</div>
+                                <div class="q-hint-row"><strong>상황:</strong> 사람마다 다른 가격표가 매겨지는 다이나믹 프라이싱(우버-배터리 잔량,
+                                    항공·호텔-검색기록, 이커머스-소비패턴 데이터 등)이 일상화되고 있습니다.</div>
+                                <div class="q-hint-row"><strong>생각:</strong> 모두가 각자 다른 가격표를 마주하는 초개인화 시대가 온다면, 미래 생활비를
+                                    대비하기 위해 '전국 평균 물가' 대신 어떤 새로운 기준표를 세워야 할까요?</div>
                             </div>
                         </div>
                     </details>
@@ -1588,11 +1834,11 @@
                     <div class="char-count"><span id="c-q4-chars">0</span>자 작성됨</div>
                 </div>
 
-                <!-- 4차시 종료: 연금 확장 브리지 -->
+                <!-- 2-1차시 종료: 연금 확장 브리지 -->
                 <div class="next-question-bridge"
                     style="border: 2px solid #818cf8; background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);">
                     <div class="bridge-header">
-                        <span class="bridge-badge" style="background:#8b5cf6; color:#fff;">STEP 4 ➔ 연금 확장 탐구</span>
+                        <span class="bridge-badge" style="background:#8b5cf6; color:#fff;">2-1차시 ➔ 3차시(연금) 연계 탐구</span>
                         <span style="font-size:0.8rem; color:#a5b4fc;">미래를 준비하는 질문</span>
                     </div>
                     <div class="bridge-context">
@@ -1604,7 +1850,7 @@
                     <div class="bridge-btn-wrap">
                         <button type="button" class="bridge-jump-btn" data-jump-to="class-pension"
                             style="background: linear-gradient(135deg, #7c3aed, #6366f1);">
-                            <span>Ⅲ. 연금: 미래 생활비 및 필요자금 시뮬레이터로 이동하기</span>
+                            <span>3차시 연금: 미래 생활비 및 필요자금 시뮬레이터로 이동하기</span>
                             <span>➔</span>
                         </button>
                     </div>
@@ -1638,31 +1884,71 @@
                         <div class="mini-pos-badge pens-badge">3차시 · 연금 수열과 미래 설계</div>
                     </div>
                     <div class="tracker-mini-right" style="display:flex; gap:0.4rem; align-items:center;">
-                        <button type="button" class="btn-back-roadmap btn-story-modal" style="background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe;">📖 수업 웹툰 보기</button>
+                        <button type="button" class="btn-back-roadmap btn-story-modal"
+                            style="background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe;">📖 수업 웹툰 보기</button>
                         <button type="button" class="btn-back-roadmap" data-jump-to="tab-roadmap">🗺️ 전체 로드맵 보기</button>
                     </div>
                 </div>
 
-                <!-- [독립적 핵심 질문 영역] -->
-                <div class="session-core-question-hero pens-warm">
-                    <div class="question-hero-header">
-                        <span class="question-hero-tag" style="background:#7c3aed;">💡 3차시 핵심 질문</span>
-                        <span class="question-hero-sub" style="color:#6b21a8;">《경제 수학》 등비수열의 합 + 《실용통계》 변동성 시나리오 PPDAC</span>
+                <!-- [3차시 핵심 질문 & 공식 수식 2열 병렬 배치] -->
+                <div class="grid-2" style="margin-bottom: 1.5rem; align-items: stretch;">
+                    <!-- [좌측: 3차시 핵심 질문] -->
+                    <div class="session-core-question-hero pens-warm"
+                        style="margin-bottom:0; display:flex; flex-direction:column; justify-content:space-between;">
+                        <div>
+                            <div class="question-hero-header">
+                                <span class="question-hero-tag" style="background:#7c3aed;">💡 3차시 핵심 질문</span>
+                                <span class="question-hero-sub" style="color:#6b21a8;">《경제 수학》 등비수열의 합 + 《실용통계》 변동성 시나리오
+                                    PPDAC</span>
+                            </div>
+
+                            <!-- 이전 질문 히스토리 -->
+                            <div class="question-trail" style="margin-bottom:0.75rem;">
+                                <span class="trail-header">📜 연계 여정:</span>
+                                <div class="trail-item"><span class="trail-badge">1차시</span><span
+                                        class="trail-q-text">가중평균 My-CPI</span></div>
+                                <span class="trail-arrow-sep">➔</span>
+                                <div class="trail-item"><span class="trail-badge">2차시</span><span
+                                        class="trail-q-text">할인율 &amp; 현재가치(PV)</span></div>
+                            </div>
+                            <div class="question-hero-body" style="padding:0.5rem 0 0;">
+                                <div class="question-hero-text"
+                                    style="color:#581c87; font-size:1.1rem; line-height:1.45;">
+                                    <span class="quote-mark" style="color:#7c3aed;">“</span>미래의 필요 생활비를 충당하기 위해 매달 얼마를
+                                    적립해야 할까? 물가 변동성 속에서 어떤 시나리오로 대비할 것인가?<span class="quote-mark"
+                                        style="color:#7c3aed;">”</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="question-hero-context"
+                            style="margin-top:0.75rem; font-size:0.82rem; background:rgba(255,255,255,0.7); padding:0.5rem 0.75rem; border-radius:6px; color:#6b21a8;">
+                            🔍 <strong>탐구 안내:</strong> 등비수열의 합 공식($S_n = M \frac{(1+i)^n-1}{i}$)으로 미래 준비금을 산출하고, 과거 물가
+                            변동성($\sigma$)을 반영한 3개 시나리오(낙관·기준·비관) 내에서 PPDAC 기반 합리적 의사결정을 완성합니다.
+                        </div>
                     </div>
 
-                    <!-- 이전 질문 히스토리 -->
-                    <div class="question-trail">
-                        <span class="trail-header">📜 연계 여정:</span>
-                        <div class="trail-item"><span class="trail-badge">1차시</span><span class="trail-q-text">가중평균 My-CPI</span></div>
-                        <span class="trail-arrow-sep">➔</span>
-                        <div class="trail-item"><span class="trail-badge">2차시</span><span class="trail-q-text">할인율 &amp; 현재가치(PV)</span></div>
-                    </div>
-                    <div class="question-hero-body">
-                        <div class="question-hero-text" style="color:#581c87;">
-                            <span class="quote-mark" style="color:#7c3aed;">“</span>미래의 필요 생활비를 충당하기 위해 매달 얼마를 적립해야 할까? 물가 변동성 속에서 어떤 시나리오로 대비할 것인가?<span class="quote-mark" style="color:#7c3aed;">”</span>
+                    <!-- [우측: 핵심 수식 카드] -->
+                    <div class="card concept-card"
+                        style="margin-bottom: 0; border-left-color: #7c3aed; display:flex; flex-direction:column; justify-content:space-between;">
+                        <div class="concept-header">
+                            <span class="concept-badge" style="background:#ede9fe; color:#6b21a8;">🧮 핵심 수식</span>
+                            <h3>연금의 원리합계 및 변동성 시나리오 공식 <span
+                                    style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.3rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">경제수학
+                                    필수</span></h3>
                         </div>
-                        <div class="question-hero-context" style="color:#6b21a8;">
-                            🔍 <strong>탐구 안내:</strong> 등비수열의 합 공식($S_n = M \frac{(1+i)^n-1}{i}$)으로 미래 준비금을 산출하고, 과거 물가 변동성($\sigma$)을 반영한 3개 시나리오(낙관·기준·비관) 내에서 PPDAC 기반 합리적 의사결정을 완성합니다.
+                        <div class="concept-body"
+                            style="text-align: center; padding: 0.85rem 1rem; background: var(--slate-50); border-radius: 8px;">
+                            <p
+                                style="font-size: 1.15rem; margin-bottom: 0.4rem; color: var(--navy); font-weight: bold;">
+                                $\text{적립식 연금 원리합계: } S_n = M \times \frac{(1 + i)^n - 1}{i}$
+                            </p>
+                            <p style="font-size: 0.98rem; margin-bottom: 0.4rem; color: #64748b;">
+                                $\text{미래 월 필요 생활비: } FV = PV \times (1 + r)^n$
+                            </p>
+                            <p style="font-size: 0.78rem; color: var(--slate-600); margin:0;">
+                                ($M$: 정기 적립액(월/연), $i$: 기대수익률, $n$: 적립 기간, $r$: 물가상승률 시나리오($r_{\text{base}}, r \pm
+                                1.96\sigma$))
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -1672,10 +1958,11 @@
                     <div class="section-intro-body">
                         <div class="hybrid-badge-banner">
                             <span class="hybrid-badge math-core">📘 《경제 수학》 기본 필수: 등비수열의 합 적립식 연금 원리합계</span>
-                            <span class="hybrid-badge stat-opt">📊 《실용통계》 유연 종합: 물가 변동성(σ) 3개 시나리오 &amp; PPDAC 의사결정</span>
+                            <span class="hybrid-badge stat-opt">📊 《실용통계》 종합: 물가 변동성(σ) 3개 시나리오 &amp; PPDAC 의사결정</span>
                         </div>
                         <h2>[3차시] 연금 수열과 미래 설계 (미래 적용 및 종합 의사결정)</h2>
-                        <p>2차시에서 계산한 미래 필요 생활비를 마련하기 위해 등비수열의 합 공식으로 적립식 연금 준비금을 산출하고, 과거 물가 변동성($\sigma$)을 고려한 시나리오 분석으로 불확실성을 관리합니다.</p>
+                        <p>2차시에서 계산한 미래 필요 생활비를 마련하기 위해 등비수열의 합 공식으로 적립식 연금 준비금을 산출하고, 과거 물가 변동성($\sigma$)을 고려한 시나리오
+                            분석으로 불확실성을 관리합니다.</p>
                         <div class="tag-row">
                             <span class="tag">등비수열의 합</span>
                             <span class="tag">적립식 연금 원리합계</span>
@@ -1685,9 +1972,12 @@
                         </div>
                         <div class="mapping-container"
                             style="margin-top: 0.75rem; padding: 0.6rem 0.8rem; background: rgba(255,255,255,0.85); border-radius: 6px; border: 1px solid rgba(226, 232, 240, 0.8); font-size: 0.82rem; display: flex; flex-direction: column; gap: 0.3rem; line-height: 1.5; text-align: left;">
-                            <div><strong style="color: #0284c7;">📘 &lt;경제 수학&gt; 핵심 내용:</strong> Ⅰ-2. 수열과 금융 (등비수열의 합, 기수불/기말불 적립식 연금 원리합계 공식)</div>
-                            <div><strong style="color: #059669;">📊 &lt;실용통계&gt; 유연 종합:</strong> Ⅰ-1. 통계적 문제해결(PPDAC) 및 물가 표준편차($\sigma$) 기반 시나리오 리스크 분석</div>
-                            <div style="color:#7c3aed; font-size:0.8rem; margin-top:0.2rem;">💡 <strong>핵심 성찰:</strong> 미래는 하나의 확정된 숫자가 아닙니다. 변동성($\sigma$) 범위를 고려한 시나리오 계획이 바로 통계 기반 합리적 의사결정의 핵심입니다.</div>
+                            <div><strong style="color: #0284c7;">📘 &lt;경제 수학&gt; 핵심 내용:</strong> Ⅰ-2. 수열과 금융 (등비수열의 합,
+                                기수불/기말불 적립식 연금 원리합계 공식)</div>
+                            <div><strong style="color: #059669;">📊 &lt;실용통계&gt; 종합:</strong> Ⅰ-1. 통계적 문제해결(PPDAC) 및 물가
+                                표준편차($\sigma$) 기반 시나리오 리스크 분석</div>
+                            <div style="color:#7c3aed; font-size:0.8rem; margin-top:0.2rem;">💡 <strong>핵심 성찰:</strong>
+                                미래는 하나의 확정된 숫자가 아닙니다. 변동성($\sigma$) 범위를 고려한 시나리오 계획이 바로 통계 기반 합리적 의사결정의 핵심입니다.</div>
                         </div>
                     </div>
                 </div>
@@ -1697,7 +1987,8 @@
                     <div class="concept-header">
                         <span class="concept-badge" style="background:#ede9fe; color:#6b21a8;">🧮 핵심 수식</span>
                         <h3>연금의 원리합계 및 변동성 시나리오 공식 <span
-                                style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">경제수학 필수</span></h3>
+                                style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">경제수학
+                                필수</span></h3>
                     </div>
                     <div class="concept-body"
                         style="text-align: center; padding: 1.25rem; background: var(--slate-50); border-radius: 8px;">
@@ -1708,7 +1999,8 @@
                             $$\text{미래 월 필요 생활비: } FV = PV \times (1 + r)^n$$
                         </p>
                         <p style="font-size: 0.85rem; color: var(--slate-600);">
-                            ($M$: 정기 적립액(월/연), $i$: 연평균 기대수익률, $n$: 적립 기간, $r$: 물가상승률 시나리오($r_{\text{base}}, r \pm 1.96\sigma$))
+                            ($M$: 정기 적립액(월/연), $i$: 연평균 기대수익률, $n$: 적립 기간, $r$: 물가상승률 시나리오($r_{\text{base}}, r \pm
+                            1.96\sigma$))
                         </p>
                     </div>
                 </div>
@@ -1726,7 +2018,9 @@
                 <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: #d97706;">
                     <div class="concept-header">
                         <span class="concept-badge practice" style="background:#d97706;">⚙️ 필수 실습</span>
-                        <span style="font-size: 0.78rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; background: #7c3aed; color: #fff; vertical-align: middle;">Ⅲ. 경제수학 기본</span>
+                        <span
+                            style="font-size: 0.78rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; background: #7c3aed; color: #fff; vertical-align: middle;">Ⅲ.
+                            경제수학 기본</span>
                         <h3>물가 시나리오별 미래 월 생활비 및 연금 적립 시뮬레이션</h3>
                     </div>
 
@@ -1759,15 +2053,16 @@
                                 <div class="range-row">
                                     <input type="range" id="pens-ann-rate" min="1.0" max="10.0" step="0.5" value="4.0"
                                         class="slider">
-                                    <input type="number" id="pens-ann-rate-num" min="1.0" max="10.0" step="0.5" value="4.0"
-                                        class="num-input">
+                                    <input type="number" id="pens-ann-rate-num" min="1.0" max="10.0" step="0.5"
+                                        value="4.0" class="num-input">
                                     <span class="unit">%</span>
                                 </div>
                             </div>
 
                             <div
                                 style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:1rem; font-size:0.85rem;">
-                                <strong style="color:var(--navy); display:block; margin-bottom:0.5rem;">🔗 연동된 3개 물가 시나리오 ($r$)</strong>
+                                <strong style="color:var(--navy); display:block; margin-bottom:0.5rem;">🔗 연동된 3개 물가
+                                    시나리오 ($r$)</strong>
                                 <ul style="list-style:none; display:flex; flex-direction:column; gap:0.4rem;">
                                     <li>🟢 <strong>낙관 (물가안정기 $r - \sigma$):</strong> <span id="pens-r-opt">—</span></li>
                                     <li>🔵 <strong>기준 (평균물가 $r$):</strong> <span id="pens-r-base">—</span></li>
@@ -1881,10 +2176,15 @@
                     </div>
                     <div class="question-box">
                         <p><strong>[PPDAC 기반 최종 의사결정 작성 가이드]:</strong><br>
-                        1. <strong>[경제 수학 필수]</strong> 등비수열의 합 공식을 적용하여, 미래 목표 생활비를 충당하기 위한 연금 원리합계($S_n$) 및 월 필요 적립액($M$) 계산 결과를 서술하시오.<br>
-                        2. <strong>[실용통계 유연 종합]</strong> 과거 물가 변동성($\sigma$)을 적용한 3가지 시나리오(낙관·기준·비관)의 편차를 고려할 때, 예상치 못한 고물가(비관 시나리오) 리스크에 대처하기 위한 <strong>나만의 합리적 금융·재정 포트폴리오 의사결정</strong>을 PPDAC(문제-계획-데이터-분석-결론) 관점에서 서술하시오.</p>
+                            1. <strong>[경제 수학 필수]</strong> 등비수열의 합 공식을 적용하여, 미래 목표 생활비를 충당하기 위한 연금 원리합계($S_n$) 및 월 필요
+                            적립액($M$) 계산 결과를 서술하시오.<br>
+                            2. <strong>[실용통계 종합]</strong> 과거 물가 변동성($\sigma$)을 적용한 3가지 시나리오(낙관·기준·비관)의 편차를 고려할 때, 예상치 못한
+                            고물가(비관 시나리오) 리스크에 대처하기 위한 <strong>나만의 합리적 금융·재정 포트폴리오 의사결정</strong>을 PPDAC(문제-계획-데이터-분석-결론)
+                            관점에서 서술하시오.</p>
                     </div>
-                    <textarea id="c-q3-pension-answer" class="answer-box" placeholder="1) 연금 원리합계 수식 계산값, 2) 3가지 시나리오 범위(낙관·기준·비관)를 반영한 PPDAC 최종 합리적 의사결정을 기술하세요..." rows="6"></textarea>
+                    <textarea id="c-q3-pension-answer" class="answer-box"
+                        placeholder="1) 연금 원리합계 수식 계산값, 2) 3가지 시나리오 범위(낙관·기준·비관)를 반영한 PPDAC 최종 합리적 의사결정을 기술하세요..."
+                        rows="6"></textarea>
                     <div class="char-count"><span id="c-q3-pension-chars">0</span>자 작성됨</div>
                 </div>
 
@@ -1937,15 +2237,18 @@
                     </div>
                 </div>
                 <div style="display:flex; align-items:center; gap:0.5rem;">
-                    <a href="/수업흐름.png" target="_blank" rel="noopener noreferrer" class="story-newtab-btn" title="새 탭에서 원본 보기">
+                    <a href="/수업흐름.png" target="_blank" rel="noopener noreferrer" class="story-newtab-btn"
+                        title="새 탭에서 원본 보기">
                         🔍 새 탭에서 크게 보기
                     </a>
                     <button type="button" class="story-modal-close" aria-label="모달 닫기">✕</button>
                 </div>
             </div>
             <div class="story-modal-body">
-                <a href="/수업흐름.png" target="_blank" rel="noopener noreferrer" title="클릭하여 원본 크기로 보기" style="display:inline-block; max-width:100%;">
-                    <img src="/수업흐름.png" alt="내 월급만 빼고 다 오른다 3차시 전체 수업 흐름도" style="width:100%; height:auto; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.08);">
+                <a href="/수업흐름.png" target="_blank" rel="noopener noreferrer" title="클릭하여 원본 크기로 보기"
+                    style="display:inline-block; max-width:100%;">
+                    <img src="/수업흐름.png" alt="내 월급만 빼고 다 오른다 3차시 전체 수업 흐름도"
+                        style="width:100%; height:auto; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.08);">
                 </a>
             </div>
         </div>
