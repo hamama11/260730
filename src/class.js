@@ -23,29 +23,186 @@ let RAW_POCKET_DATA = [
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // 1. Tab Navigation
-  const tabBtns = document.querySelectorAll('.tab-btn');
+  // 1. Tab Navigation & Helper Function
+  const tabBtns = document.querySelectorAll('.tab-btn, .tab-btn-sub');
   const tabContents = document.querySelectorAll('.tab-content');
+  const roadmapCards = document.querySelectorAll('.roadmap-step-card');
+
+  function switchTab(targetTabId) {
+    tabBtns.forEach(btn => {
+      if (btn.getAttribute('data-tab') === targetTabId) {
+        btn.classList.add('active');
+        btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+
+    tabContents.forEach(content => {
+      if (content.id === targetTabId) {
+        content.classList.add('active');
+      } else {
+        content.classList.remove('active');
+      }
+    });
+
+    // Sync Roadmap Cards active state
+    roadmapCards.forEach(card => card.classList.remove('active'));
+    if (targetTabId === 'class0' || targetTabId === 'class1') {
+      document.getElementById('roadmap-card-cpi')?.classList.add('active');
+    } else if (targetTabId === 'class2' || targetTabId === 'class3' || targetTabId === 'class4') {
+      document.getElementById('roadmap-card-stat')?.classList.add('active');
+    } else if (targetTabId === 'class-pension') {
+      document.getElementById('roadmap-card-pens')?.classList.add('active');
+    }
+
+    // Always scroll to top when switching tabs
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Force trigger calculations and chart resizing when entering tabs
+    if (targetTabId === 'class1') {
+      calculateC1();
+      renderC1Chart();
+    }
+    if (targetTabId === 'class2') {
+      calculateC2();
+    }
+    if (targetTabId === 'class3') {
+      calculateC3();
+      renderC3Chart();
+    }
+    if (targetTabId === 'class4') {
+      calculateC4Scenarios();
+    }
+    if (targetTabId === 'class-pension') {
+      calculatePension();
+      renderPensionChart();
+    }
+
+    // Trigger MathJax typeset update when changing tabs
+    if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
+      window.MathJax.typesetPromise();
+    }
+  }
 
   tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const target = btn.getAttribute('data-tab');
-      tabBtns.forEach(b => b.classList.remove('active'));
+      switchTab(target);
+    });
+  });
+
+  // Roadmap card click handler
+  roadmapCards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      // If action button inside card clicked, let button handle or bubble
+      const target = card.getAttribute('data-target-tab');
+      if (target) {
+        switchTab(target);
+      }
+    });
+  });
+
+  // Roadmap card direct action buttons & nav buttons
+  document.querySelectorAll('.roadmap-card-action-btn, .roadmap-card-nav-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const directTarget = btn.getAttribute('data-jump-to');
+      if (directTarget === 'c0-practice-anchor') {
+        switchTab('tab-roadmap');
+        setTimeout(() => {
+          const el = document.getElementById('c0-practice-anchor');
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const acc = document.getElementById('c0-details-accordion');
+            if (acc) acc.open = true;
+          }
+        }, 100);
+        return;
+      }
+      if (directTarget) {
+        switchTab(directTarget);
+        return;
+      }
+      const parentCard = btn.closest('.roadmap-step-card');
+      const target = parentCard?.getAttribute('data-target-tab');
+      if (target) switchTab(target);
+    });
+  });
+
+  // Back to Roadmap buttons inside compact trackers
+  document.querySelectorAll('.btn-back-roadmap').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-jump-to') || 'tab-roadmap';
+      switchTab(target);
+    });
+  });
+
+  // Next Question Bridge jump button handlers
+  document.querySelectorAll('.bridge-jump-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-jump-to');
+      if (target) {
+        switchTab(target);
+      }
+    });
+  });
+
+  // 📖 수업 웹툰 / 흐름도 팝업 모달 열기 & 닫기 제어
+  const storyModal = document.getElementById('story-flow-modal');
+  if (storyModal) {
+    document.querySelectorAll('.btn-story-modal').forEach(btn => {
+      btn.addEventListener('click', () => {
+        storyModal.style.display = 'flex';
+        storyModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    const closeBtn = storyModal.querySelector('.story-modal-close');
+    const closeModal = () => {
+      storyModal.style.display = 'none';
+      storyModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+
+    closeBtn?.addEventListener('click', closeModal);
+    storyModal.addEventListener('click', (e) => {
+      if (e.target === storyModal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && storyModal.style.display === 'flex') closeModal();
+    });
+  }
+
+  // Details accordion toggle handler (icon update & MathJax re-render)
+  document.querySelectorAll('.foldable-inquiry-details').forEach(details => {
+    details.addEventListener('toggle', () => {
+      const icon = details.querySelector('.summary-toggle-icon');
+      if (icon) {
+        icon.textContent = details.open ? '펼침 ▴' : '접힘 ▾';
+      }
+      if (details.open && window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
+        window.MathJax.typesetPromise();
+      }
+    });
+  });
+
+  // Choice A vs Choice B toggle buttons handler (in Session 2)
+  const choiceToggleButtons = document.querySelectorAll('.choice-toggle-btn');
+  choiceToggleButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetPanelId = btn.getAttribute('data-choice');
+      choiceToggleButtons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      tabContents.forEach(content => {
-        if (content.id === target) {
-          content.classList.add('active');
+      document.querySelectorAll('.choice-toggle-panel').forEach(panel => {
+        if (panel.id === targetPanelId) {
+          panel.classList.add('active');
         } else {
-          content.classList.remove('active');
+          panel.classList.remove('active');
         }
       });
-      // Force trigger calculations and chart resizing when entering tabs
-      if (target === 'class1') renderC1Chart();
-      if (target === 'class2') renderC2Chart();
-      if (target === 'class3') renderC3Chart();
-
-      // Trigger MathJax typeset update when changing tabs
       if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
         window.MathJax.typesetPromise();
       }
@@ -62,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 2. Q&A Textareas localStorage binding
-  const qItems = ['c-q1-answer', 'c-q2-answer', 'c-q3-answer', 'c-q4-answer'];
+  const qItems = ['c-q1-answer', 'c-q2-answer', 'c-q3-answer', 'c-q4-answer', 'c-q3-pension-answer'];
   qItems.forEach(id => {
     const el = document.getElementById(id);
     const countEl = document.getElementById(id.replace('answer', 'chars'));
@@ -80,6 +237,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   // [0차시] 소비자물가지수(CPI) 실시간 산출 시뮬레이터
   // ==========================================
+  let isBaseLocked = true; // 기준연도 Lock 기본값
+  let lockedSum0 = 141000;
+
   const c0Inputs = {
     p0Rice: document.getElementById('c0-p0-rice'),
     q0Rice: document.getElementById('c0-q0-rice'),
@@ -96,6 +256,44 @@ document.addEventListener('DOMContentLoaded', () => {
     ptMovie: document.getElementById('c0-pt-movie'),
     ptMovieVal: document.getElementById('c0-pt-movie-val')
   };
+
+  const btnLockBase = document.getElementById('c0-btn-lock-base');
+  const lockIcon = document.getElementById('c0-lock-icon');
+  const lockText = document.getElementById('c0-lock-text');
+  const lockBadge = document.getElementById('c0-lock-badge');
+
+  if (btnLockBase) {
+    btnLockBase.addEventListener('click', () => {
+      isBaseLocked = !isBaseLocked;
+      if (isBaseLocked) {
+        // 현재 1단계 총액으로 다시 Lock 확정
+        const p0R = parseFloat(c0Inputs.p0Rice?.value) || 0;
+        const q0R = parseFloat(c0Inputs.q0Rice?.value) || 0;
+        const p0E = parseFloat(c0Inputs.p0Elec?.value) || 0;
+        const q0E = parseFloat(c0Inputs.q0Elec?.value) || 0;
+        const p0M = parseFloat(c0Inputs.p0Movie?.value) || 0;
+        const q0M = parseFloat(c0Inputs.q0Movie?.value) || 0;
+        lockedSum0 = (p0R * q0R) + (p0E * q0E) + (p0M * q0M);
+
+        btnLockBase.style.background = '#2563eb';
+        if (lockIcon) lockIcon.textContent = '🔒';
+        if (lockText) lockText.textContent = '기준연도 확정 완료 (Lock 풀기)';
+        if (lockBadge) {
+          lockBadge.textContent = '확정(Lock)';
+          lockBadge.style.background = '#4c1d95';
+        }
+      } else {
+        btnLockBase.style.background = '#64748b';
+        if (lockIcon) lockIcon.textContent = '🔓';
+        if (lockText) lockText.textContent = '기준연도 총액 실시간 연동 중 (클릭하여 확정)';
+        if (lockBadge) {
+          lockBadge.textContent = '실시간 연동';
+          lockBadge.style.background = '#0284c7';
+        }
+      }
+      calculateC0();
+    });
+  }
 
   function calculateC0() {
     if (!c0Inputs.p0Rice) return; // safety check
@@ -121,35 +319,67 @@ document.addEventListener('DOMContentLoaded', () => {
     const costRice0  = p0R * q0R;
     const costElec0  = p0E * q0E;
     const costMovie0 = p0M * q0M;
-    const sum0 = costRice0 + costElec0 + costMovie0;
+    const currentSum0 = costRice0 + costElec0 + costMovie0;
+
+    if (!isBaseLocked) {
+      lockedSum0 = currentSum0;
+    }
 
     const costRiceT  = ptR * q0R;
     const costElecT  = ptE * q0E;
     const costMovieT = ptM * q0M;
     const sumT = costRiceT + costElecT + costMovieT;
 
-    const cpi = sum0 > 0 ? (sumT / sum0) * 100 : 0;
+    const divisor = lockedSum0 > 0 ? lockedSum0 : currentSum0;
+    const cpi = divisor > 0 ? (sumT / divisor) * 100 : 0;
 
     // Weights (in per-mil / 1000)
-    const wRice  = sum0 > 0 ? Math.round((costRice0 / sum0) * 1000) : 0;
-    const wElec  = sum0 > 0 ? Math.round((costElec0 / sum0) * 1000) : 0;
-    const wMovie = sum0 > 0 ? (1000 - wRice - wElec) : 0; // ensure total is exactly 1000
+    const wRice  = divisor > 0 ? Math.round((costRice0 / divisor) * 1000) : 0;
+    const wElec  = divisor > 0 ? Math.round((costElec0 / divisor) * 1000) : 0;
+    const wMovie = divisor > 0 ? (1000 - wRice - wElec) : 0; // ensure total is exactly 1000
 
     // Update DOM
     const elSum0  = document.getElementById('c0-calc-sum0');
-    const elSumt  = document.getElementById('c0-calc-sumt');
     const elCpi   = document.getElementById('c0-calc-cpi');
+    const elMathSumT = document.getElementById('c0-math-sumt');
+    const elMathSum0 = document.getElementById('c0-math-sum0');
     const elWRice = document.getElementById('c0-weight-rice-val');
     const elWElec = document.getElementById('c0-weight-elec-val');
     const elWMov  = document.getElementById('c0-weight-movie-val');
 
-    if (elSum0) elSum0.textContent = `${sum0.toLocaleString()} 원`;
-    if (elSumt) elSumt.textContent = `${sumT.toLocaleString()} 원`;
+    if (elSum0) elSum0.textContent = `${divisor.toLocaleString()} 원`;
+    if (elMathSumT) elMathSumT.textContent = sumT.toLocaleString();
+    if (elMathSum0) elMathSum0.textContent = divisor.toLocaleString();
     if (elCpi)  elCpi.textContent = cpi.toFixed(2);
 
     if (elWRice) elWRice.textContent = wRice;
     if (elWElec) elWElec.textContent = wElec;
     if (elWMov)  elWMov.textContent  = wMovie;
+
+    // [5단계 실시간 분석 및 공표 브리핑 업데이트]
+    const elInflationRate = document.getElementById('c0-calc-inflation-rate');
+    const elBriefingHeadline = document.getElementById('c0-briefing-headline');
+    const elBriefingDesc = document.getElementById('c0-briefing-desc');
+
+    if (elInflationRate) {
+      const inflationRate = cpi - 100;
+      const sign = inflationRate >= 0 ? '+' : '';
+      elInflationRate.textContent = `${sign}${inflationRate.toFixed(2)}%`;
+      elInflationRate.style.color = inflationRate >= 0 ? '#dc2626' : '#2563eb';
+
+      if (elBriefingHeadline && elBriefingDesc) {
+        if (Math.abs(inflationRate) < 0.05) {
+          elBriefingHeadline.textContent = `📢 [공표] 기준시점 대비 종합물가지수 100.0선 기록`;
+          elBriefingDesc.textContent = `기준 바스켓의 가격 변동 합계가 0%로 물가 안정세를 나타내고 있습니다.`;
+        } else if (inflationRate > 0) {
+          elBriefingHeadline.textContent = `📢 [속보] 물가지수 ${cpi.toFixed(2)} 기록, 기준시점 대비 ${inflationRate.toFixed(2)}% 상승 공표`;
+          elBriefingDesc.textContent = `기준 바스켓 소비 총액이 ${divisor.toLocaleString()}원에서 ${sumT.toLocaleString()}원으로 늘어나 화폐 실질 가치가 하락했습니다. 가계는 동일한 생활 수준을 유지하기 위해 매달 추가 지출이 필요합니다.`;
+        } else {
+          elBriefingHeadline.textContent = `📢 [발표] 물가지수 ${cpi.toFixed(2)} 기록, 기준시점 대비 ${Math.abs(inflationRate).toFixed(2)}% 하락`;
+          elBriefingDesc.textContent = `주요 소비 품목 가격 하락으로 기준 바스켓 총액이 감소했습니다.`;
+        }
+      }
+    }
   }
 
   // Bind inputs
@@ -259,9 +489,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const simpleAvg = cpiCategories.reduce((s, c) => s + c.inflation, 0) / cpiCategories.length;
 
     // Update labels
-    document.getElementById('c1-official-val').textContent = `${officialCpi.toFixed(2)}%`;
-    document.getElementById('c1-my-val').textContent = `${myCpi.toFixed(2)}%`;
-    document.getElementById('c1-simple-val').textContent = `${simpleAvg.toFixed(2)}%`;
+    const elOff = document.getElementById('c1-official-val');
+    const elMy = document.getElementById('c1-my-val');
+    const elSim = document.getElementById('c1-simple-val');
+    if (elOff) elOff.textContent = `${officialCpi.toFixed(2)}%`;
+    if (elMy) elMy.textContent = `${myCpi.toFixed(2)}%`;
+    if (elSim) elSim.textContent = `${simpleAvg.toFixed(2)}%`;
 
     // Sync to tab 4 summary label
     const t4MyCpiLabel = document.getElementById('c4-my-cpi-val');
@@ -403,11 +636,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const skewness = finalStats.sd > 0 ? (cubedDiffSum / data.length) / Math.pow(finalStats.sd, 3) : 0;
 
     // Update labels
-    document.getElementById('c2-stat-mean').textContent = `${finalStats.mean.toFixed(1)} 만원`;
-    document.getElementById('c2-stat-median').textContent = `${median.toFixed(1)} 만원`;
-    document.getElementById('c2-stat-mode').textContent = `${mode.toFixed(0)} 만원`;
-    document.getElementById('c2-stat-skewness').textContent = skewness.toFixed(3);
-    document.getElementById('c2-stat-count').textContent = `${data.length} / ${n}명`;
+    const elMean = document.getElementById('c2-stat-mean');
+    const elMed = document.getElementById('c2-stat-median');
+    const elMode = document.getElementById('c2-stat-mode');
+    const elSkew = document.getElementById('c2-stat-skewness');
+    const elCount = document.getElementById('c2-stat-count');
+
+    if (elMean) elMean.textContent = `${finalStats.mean.toFixed(1)} 만원`;
+    if (elMed) elMed.textContent = `${median.toFixed(1)} 만원`;
+    if (elMode) elMode.textContent = `${mode.toFixed(0)} 만원`;
+    if (elSkew) elSkew.textContent = skewness.toFixed(3);
+    if (elCount) elCount.textContent = `${data.length} / ${n}명`;
 
     // Sync to tab 4 labels
     const t4SkewLabel = document.getElementById('c4-skewness-val');
@@ -417,6 +656,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderC2Chart(data, mean, median, mode) {
+    if (!data) {
+      calculateC2();
+      return;
+    }
     const ctx = document.getElementById('c2-chart-dist')?.getContext('2d');
     if (!ctx) return;
 
@@ -546,8 +789,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const accumulated = (compound - 1) * 100;
     const realValue = 100 / compound;
 
-    document.getElementById('c3-accumulated-inflation').textContent = `${accumulated.toFixed(1)}%`;
-    document.getElementById('c3-real-purchasing-power').textContent = `${realValue.toFixed(1)} 만원`;
+    const elAcc = document.getElementById('c3-accumulated-inflation');
+    const elReal = document.getElementById('c3-real-purchasing-power');
+    if (elAcc) elAcc.textContent = `${accumulated.toFixed(1)}%`;
+    if (elReal) elReal.textContent = `${realValue.toFixed(1)} 만원`;
+
+    // Calculate and sync 10, 20, 30 years PV of 100만원
+    const pv10 = 100 / Math.pow(1 + r, 10);
+    const pv20 = 100 / Math.pow(1 + r, 20);
+    const pv30 = 100 / Math.pow(1 + r, 30);
+    const elPv10 = document.getElementById('pv-10yr-val');
+    const elPv20 = document.getElementById('pv-20yr-val');
+    const elPv30 = document.getElementById('pv-30yr-val');
+    if (elPv10) elPv10.textContent = `${pv10.toFixed(1)} 만원`;
+    if (elPv20) elPv20.textContent = `${pv20.toFixed(1)} 만원`;
+    if (elPv30) elPv30.textContent = `${pv30.toFixed(1)} 만원`;
 
     // Sync to tab 4 labels
     const t4YearsLabel = document.getElementById('c4-years-val');
@@ -646,7 +902,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function calculateC4Scenarios() {
     // Read My-CPI dynamically calculated from Tab 1
-    const myCpiText = document.getElementById('c1-my-val').textContent || '3.40%';
+    const myCpiText = document.getElementById('c1-my-val')?.textContent || '3.40%';
     const r = parseFloat(myCpiText.replace('%', '')) || 3.4;
     const n = c3Years;
     const sd = c4Sd;
@@ -668,6 +924,241 @@ document.addEventListener('DOMContentLoaded', () => {
     // Sync to summary details card
     const t4YearsValLabel = document.getElementById('c4-years-val');
     if (t4YearsValLabel) t4YearsValLabel.textContent = `${n}년`;
+
+    // Also sync pension calculations if values change
+    calculatePension();
+  }
+
+  // ==========================================
+  // [Ⅲ. 연금 확장 모듈] 미래 생활비 및 필요자금 시뮬레이터
+  // ==========================================
+  let pensChartInstance = null;
+  let pensPv = 200; // default 200만원
+  let pensYears = 20; // default 20년
+
+  const pensPvSlider = document.getElementById('pens-pv-expense');
+  const pensPvNum = document.getElementById('pens-pv-expense-num');
+  const pensYearsSlider = document.getElementById('pens-years');
+  const pensYearsNum = document.getElementById('pens-years-num');
+
+  pensPvSlider?.addEventListener('input', () => {
+    pensPv = parseFloat(pensPvSlider.value) || 200;
+    if (pensPvNum) pensPvNum.value = pensPv;
+    calculatePension();
+    renderPensionChart();
+  });
+
+  pensPvNum?.addEventListener('input', () => {
+    pensPv = Math.max(50, Math.min(1000, parseFloat(pensPvNum.value) || 200));
+    if (pensPvSlider) pensPvSlider.value = pensPv;
+    calculatePension();
+    renderPensionChart();
+  });
+
+  pensYearsSlider?.addEventListener('input', () => {
+    pensYears = parseInt(pensYearsSlider.value) || 20;
+    if (pensYearsNum) pensYearsNum.value = pensYears;
+    calculatePension();
+    renderPensionChart();
+  });
+
+  pensYearsNum?.addEventListener('input', () => {
+    pensYears = Math.max(1, Math.min(50, parseInt(pensYearsNum.value) || 20));
+    if (pensYearsSlider) pensYearsSlider.value = pensYears;
+    calculatePension();
+    renderPensionChart();
+  });
+
+  function getPensionScenarios() {
+    const myCpiText = document.getElementById('c1-my-val')?.textContent || '3.40%';
+    const r = parseFloat(myCpiText.replace('%', '')) || 3.4;
+    const sd = c4Sd || 1.5;
+
+    const rOpt  = Math.max(0, r - 1.96 * sd);
+    const rBase = r;
+    const rPes  = r + 1.96 * sd;
+
+    return { rOpt, rBase, rPes };
+  }
+
+  function calculatePension() {
+    const { rOpt, rBase, rPes } = getPensionScenarios();
+
+    // 1. Update Scenario Rates in labels
+    const rOptEl = document.getElementById('pens-r-opt');
+    const rBaseEl = document.getElementById('pens-r-base');
+    const rPesEl = document.getElementById('pens-r-pes');
+
+    if (rOptEl) rOptEl.textContent = `${rOpt.toFixed(2)}% (My-CPI - 1.96σ)`;
+    if (rBaseEl) rBaseEl.textContent = `${rBase.toFixed(2)}% (My-CPI 기본)`;
+    if (rPesEl) rPesEl.textContent = `${rPes.toFixed(2)}% (My-CPI + 1.96σ)`;
+
+    // 2. Future Expense calculation: FV = PV * (1 + r)^n
+    const n = pensYears;
+    const pv = pensPv;
+
+    const calcFv = (rate, yr) => pv * Math.pow(1 + rate / 100, yr);
+
+    const fvOpt  = calcFv(rOpt, n);
+    const fvBase = calcFv(rBase, n);
+    const fvPes  = calcFv(rPes, n);
+
+    // Update Result Cards
+    const cardOptRate = document.getElementById('pens-card-opt-rate');
+    const cardOptVal  = document.getElementById('pens-card-opt-val');
+    const cardOptMul  = document.getElementById('pens-card-opt-mul');
+
+    const cardBaseRate = document.getElementById('pens-card-base-rate');
+    const cardBaseVal  = document.getElementById('pens-card-base-val');
+    const cardBaseMul  = document.getElementById('pens-card-base-mul');
+
+    const cardPesRate = document.getElementById('pens-card-pes-rate');
+    const cardPesVal  = document.getElementById('pens-card-pes-val');
+    const cardPesMul  = document.getElementById('pens-card-pes-mul');
+
+    if (cardOptRate) cardOptRate.textContent = `물가상승률: ${rOpt.toFixed(2)}%`;
+    if (cardOptVal)  cardOptVal.textContent  = `${Math.round(fvOpt).toLocaleString()} 만원/월`;
+    if (cardOptMul)  cardOptMul.textContent  = `현재 대비 ${(fvOpt / pv).toFixed(2)}배`;
+
+    if (cardBaseRate) cardBaseRate.textContent = `물가상승률: ${rBase.toFixed(2)}%`;
+    if (cardBaseVal)  cardBaseVal.textContent  = `${Math.round(fvBase).toLocaleString()} 만원/월`;
+    if (cardBaseMul)  cardBaseMul.textContent  = `현재 대비 ${(fvBase / pv).toFixed(2)}배`;
+
+    if (cardPesRate) cardPesRate.textContent = `물가상승률: ${rPes.toFixed(2)}%`;
+    if (cardPesVal)  cardPesVal.textContent  = `${Math.round(fvPes).toLocaleString()} 만원/월`;
+    if (cardPesMul)  cardPesMul.textContent  = `현재 대비 ${(fvPes / pv).toFixed(2)}배`;
+
+    // 3. Annuity Compound Sum Calculation (등비수열의 합): Sn = M * ((1+i)^n - 1) / i
+    const annRateEl = document.getElementById('pens-ann-rate');
+    const annRate = (annRateEl ? parseFloat(annRateEl.value) : 4.0) / 100;
+    const sampleMonthlyM = 30; // 월 30만원 납입 가정
+    const sampleAnnualM = sampleMonthlyM * 12; // 연 360만원
+    
+    // Sn for sampleAnnualM with rate annRate over n years
+    const snAccum = annRate > 0 ? sampleAnnualM * ((Math.pow(1 + annRate, n) - 1) / annRate) : (sampleAnnualM * n);
+
+    // Required annual deposit to generate annual target fund (assuming 20 years of retirement life)
+    const annualTargetExpense = fvBase * 12; // 1년치 필요 생활비
+    const totalTargetFund = annualTargetExpense * 20; // 20년치 목표 자금
+    const requiredAnnualM = annRate > 0 ? (totalTargetFund * annRate) / (Math.pow(1 + annRate, n) - 1) : (totalTargetFund / n);
+    const requiredMonthlyM = requiredAnnualM / 12;
+
+    const elTargetMonthly = document.getElementById('ann-target-monthly');
+    const elTotalAccum = document.getElementById('ann-total-accum');
+    const elRequiredMonthly = document.getElementById('ann-required-monthly');
+
+    if (elTargetMonthly) elTargetMonthly.textContent = `${Math.round(fvBase).toLocaleString()} 만원/월`;
+    if (elTotalAccum) elTotalAccum.textContent = `${Math.round(snAccum).toLocaleString()} 만원`;
+    if (elRequiredMonthly) elRequiredMonthly.textContent = `${Math.round(requiredMonthlyM).toLocaleString()} 만원/월`;
+
+    // Update comparison table (0, 10, 20, 30 years)
+    const setCell = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = `${Math.round(val).toLocaleString()} 만원`;
+    };
+
+    setCell('tbl-opt-0', pv);
+    setCell('tbl-opt-10', calcFv(rOpt, 10));
+    setCell('tbl-opt-20', calcFv(rOpt, 20));
+    setCell('tbl-opt-30', calcFv(rOpt, 30));
+
+    setCell('tbl-base-0', pv);
+    setCell('tbl-base-10', calcFv(rBase, 10));
+    setCell('tbl-base-20', calcFv(rBase, 20));
+    setCell('tbl-base-30', calcFv(rBase, 30));
+
+    setCell('tbl-pes-0', pv);
+    setCell('tbl-pes-10', calcFv(rPes, 10));
+    setCell('tbl-pes-20', calcFv(rPes, 20));
+    setCell('tbl-pes-30', calcFv(rPes, 30));
+  }
+
+  // Bind Annuity Rate Slider
+  const annRateSlider = document.getElementById('pens-ann-rate');
+  const annRateNum = document.getElementById('pens-ann-rate-num');
+  annRateSlider?.addEventListener('input', () => {
+    if (annRateNum) annRateNum.value = annRateSlider.value;
+    calculatePension();
+  });
+  annRateNum?.addEventListener('input', () => {
+    if (annRateSlider) annRateSlider.value = annRateNum.value;
+    calculatePension();
+  });
+
+
+
+  function renderPensionChart() {
+    const ctx = document.getElementById('pens-chart-expense')?.getContext('2d');
+    if (!ctx) return;
+
+    const { rOpt, rBase, rPes } = getPensionScenarios();
+    const pv = pensPv;
+    const n = Math.max(10, pensYears);
+
+    const labels = [];
+    const dataOpt = [];
+    const dataBase = [];
+    const dataPes = [];
+
+    for (let yr = 0; yr <= n; yr += (n > 20 ? 5 : 2)) {
+      labels.push(`${yr}년`);
+      dataOpt.push(Math.round(pv * Math.pow(1 + rOpt / 100, yr)));
+      dataBase.push(Math.round(pv * Math.pow(1 + rBase / 100, yr)));
+      dataPes.push(Math.round(pv * Math.pow(1 + rPes / 100, yr)));
+    }
+
+    if (pensChartInstance) pensChartInstance.destroy();
+
+    pensChartInstance = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: '🔴 비관 시나리오 (고물가 지속)',
+            data: dataPes,
+            borderColor: 'rgb(239, 68, 68)',
+            backgroundColor: 'rgba(239, 68, 68, 0.05)',
+            borderWidth: 2.5,
+            tension: 0.2
+          },
+          {
+            label: '🔵 기준 시나리오 (평균 물가)',
+            data: dataBase,
+            borderColor: 'rgb(59, 130, 246)',
+            backgroundColor: 'rgba(59, 130, 246, 0.05)',
+            borderWidth: 2.5,
+            tension: 0.2
+          },
+          {
+            label: '🟢 낙관 시나리오 (물가 안정기)',
+            data: dataOpt,
+            borderColor: 'rgb(16, 185, 129)',
+            backgroundColor: 'rgba(16, 185, 129, 0.05)',
+            borderWidth: 2.5,
+            tension: 0.2
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: { font: { size: 11 } }
+          }
+        },
+        scales: {
+          x: { grid: { display: false } },
+          y: {
+            ticks: {
+              callback: (v) => `${v}만`
+            }
+          }
+        }
+      }
+    });
   }
 
   // Initial Triggers
@@ -676,6 +1167,7 @@ document.addEventListener('DOMContentLoaded', () => {
   calculateC3();
   calculateC4Scenarios();
   renderC1Chart();
+  calculatePension();
 
   // First typesetting on initial load
   if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
