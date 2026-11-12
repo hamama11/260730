@@ -189,11 +189,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Choice A vs Choice B toggle buttons handler (in Session 2)
-  const choiceBtns = document.querySelectorAll('.choice-toggle-btn');
-  choiceBtns.forEach(btn => {
+  const choiceToggleButtons = document.querySelectorAll('.choice-toggle-btn');
+  choiceToggleButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       const targetPanelId = btn.getAttribute('data-choice');
-      choiceBtns.forEach(b => b.classList.remove('active'));
+      choiceToggleButtons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
       document.querySelectorAll('.choice-toggle-panel').forEach(panel => {
@@ -203,6 +203,9 @@ document.addEventListener('DOMContentLoaded', () => {
           panel.classList.remove('active');
         }
       });
+      if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
+        window.MathJax.typesetPromise();
+      }
     });
   });
 
@@ -370,7 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
           elBriefingDesc.textContent = `기준 바스켓의 가격 변동 합계가 0%로 물가 안정세를 나타내고 있습니다.`;
         } else if (inflationRate > 0) {
           elBriefingHeadline.textContent = `📢 [속보] 물가지수 ${cpi.toFixed(2)} 기록, 기준시점 대비 ${inflationRate.toFixed(2)}% 상승 공표`;
-          elBriefingDesc.textContent = `기준 바스켓 소비 총액이 ${sum0.toLocaleString()}원에서 ${sumT.toLocaleString()}원으로 늘어나 화폐 실질 가치가 하락했습니다. 가계는 동일한 생활 수준을 유지하기 위해 매달 추가 지출이 필요합니다.`;
+          elBriefingDesc.textContent = `기준 바스켓 소비 총액이 ${divisor.toLocaleString()}원에서 ${sumT.toLocaleString()}원으로 늘어나 화폐 실질 가치가 하락했습니다. 가계는 동일한 생활 수준을 유지하기 위해 매달 추가 지출이 필요합니다.`;
         } else {
           elBriefingHeadline.textContent = `📢 [발표] 물가지수 ${cpi.toFixed(2)} 기록, 기준시점 대비 ${Math.abs(inflationRate).toFixed(2)}% 하락`;
           elBriefingDesc.textContent = `주요 소비 품목 가격 하락으로 기준 바스켓 총액이 감소했습니다.`;
@@ -1082,23 +1085,7 @@ document.addEventListener('DOMContentLoaded', () => {
     calculatePension();
   });
 
-  // 2차시 [선택 A] / [선택 B] 탭 토글 바인딩
-  const choiceBtns = document.querySelectorAll('.choice-toggle-btn');
-  choiceBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const targetPanelId = btn.getAttribute('data-choice');
-      choiceBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
 
-      document.querySelectorAll('.choice-toggle-panel').forEach(panel => {
-        panel.classList.toggle('active', panel.id === targetPanelId);
-      });
-
-      if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
-        window.MathJax.typesetPromise();
-      }
-    });
-  });
 
   function renderPensionChart() {
     const ctx = document.getElementById('pens-chart-expense')?.getContext('2d');

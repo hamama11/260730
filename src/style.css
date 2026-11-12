@@ -567,8 +567,36 @@ body {
   margin-bottom: 1rem;
 }
 
+/* 비대칭 병렬 레이아웃 (7:3, 6:4, 6.5:3.5) */
+.grid-7-3 {
+  display: grid;
+  grid-template-columns: 7fr 3fr;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+  align-items: stretch;
+}
+
+.grid-6-4 {
+  display: grid;
+  grid-template-columns: 6fr 4fr;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+  align-items: stretch;
+}
+
+.grid-65-35 {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+  align-items: stretch;
+}
+
 @media (max-width: 900px) {
-  .grid-2 {
+  .grid-2,
+  .grid-7-3,
+  .grid-6-4,
+  .grid-65-35 {
     grid-template-columns: 1fr;
   }
 }

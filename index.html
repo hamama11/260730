@@ -819,8 +819,32 @@
                     </div>
                 </div>
 
-                <!-- [1차시 핵심 질문 & 공식 수식 2열 병렬 배치] -->
-                <div class="grid-2" style="margin-bottom: 1.5rem; align-items: stretch;">
+                <div class="section-intro">
+                    <img src="/icon1.png" alt="가중 구조 CPI 아이콘" class="section-intro-img">
+                    <div class="section-intro-body">
+                        <div class="hybrid-badge-banner">
+                            <span class="hybrid-badge math-core">📘 《경제 수학》 기본 필수: 100만 원 예산 배분 &amp; 가중평균 수식</span>
+                            <span class="hybrid-badge stat-opt">📊 《실용통계》 토론: 평균의 함정과 소비 변이성</span>
+                        </div>
+                        <h2>[1차시] 가중평균과 나만의 물가지수(My-CPI)</h2>
+                        <p>100만 원 가상 예산 배분 실습을 바탕으로 개인 지출 가중치($w_i$)를 구하고, <strong>가중평균 수식($\bar{x}_w = \frac{\sum w_i x_i}{\sum w_i}$)</strong>을 적용해 나만의 물가지수 My-CPI를 산출합니다.</p>
+                        <div class="tag-row">
+                            <span class="tag">예산 100만 원 배분</span>
+                            <span class="tag">가중평균 공식</span>
+                            <span class="tag">My-CPI 산출</span>
+                            <span class="tag">평균의 함정</span>
+                            <span class="tag">소비 변이성</span>
+                        </div>
+                        <div class="mapping-container"
+                            style="margin-top: 0.75rem; padding: 0.6rem 0.8rem; background: rgba(255,255,255,0.85); border-radius: 6px; border: 1px solid rgba(226, 232, 240, 0.8); font-size: 0.82rem; display: flex; flex-direction: column; gap: 0.3rem; line-height: 1.5; text-align: left;">
+                            <div><strong style="color: #0284c7;">📘 &lt;경제 수학&gt; 핵심 내용:</strong> Ⅰ-1. 비율과 비례, 가중평균의 수학적 정의와 연산 공식 ($\bar{x}_w$)</div>
+                            <div><strong style="color: #059669;">📊 &lt;실용통계&gt; 토론:</strong> Ⅰ-1. 통계적 문제해결 과정, 개별 가계 지출의 변이성(Variability)과 평균 지표의 한계</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- [1차시 핵심 질문 & 공식 수식 2열 병렬 배치 (6:4)] -->
+                <div class="grid-6-4">
                     <!-- [좌측: 1차시 핵심 질문] -->
                     <div class="session-core-question-hero cpi-warm"
                         style="margin-bottom:0; display:flex; flex-direction:column; justify-content:space-between;">
@@ -1042,38 +1066,6 @@
                     </div>
                 </div>
 
-                <!-- [독립적 핵심 질문 영역] 따뜻한 톤 & 큰 따옴표 (누적형) -->
-                <div class="session-core-question-hero stat-warm">
-                    <div class="question-hero-header">
-                        <span class="question-hero-tag" style="background:#059669;">💡 1-1차시 핵심 질문</span>
-                        <span class="question-hero-sub" style="color:#065f46;">영역 Ⅱ. 통계 (숫자를 검증한다)</span>
-                    </div>
-
-                    <!-- 이전 질문 히스토리 (sub 누적: 가로 칩 형태) -->
-                    <div class="question-trail">
-                        <span class="trail-header">📜 이전 질문:</span>
-                        <div class="trail-item">
-                            <span class="trail-badge">0차시</span>
-                            <span class="trail-q-text">① 물가는 어떻게 하나의 숫자가 될까?</span>
-                        </div>
-                        <span class="trail-arrow-sep">➔</span>
-                        <div class="trail-item">
-                            <span class="trail-badge">1차시</span>
-                            <span class="trail-q-text">② 그 숫자가 나에게도 같을까?</span>
-                        </div>
-                    </div>
-                    <div class="question-hero-body">
-                        <div class="question-hero-text" style="color:#064e3b;">
-                            <span class="quote-mark" style="color:#059669;">“</span>③ 왜 사람마다 다르고, ④ 다른 데이터는 잘못된 걸까?<span
-                                class="quote-mark" style="color:#059669;">”</span>
-                        </div>
-                        <div class="question-hero-context" style="color:#047857;">
-                            🔍 <strong>탐구 안내:</strong> 소비구조와 분포에 따른 대푯값(중앙값)을 탐구하고, 튀는 데이터(이상치)를 기계적으로 삭제하는 대신 데이터의 변동성과
-                            맥락을 비판적으로 해석합니다.
-                        </div>
-                    </div>
-                </div>
-
                 <div class="section-intro">
                     <img src="/icon2.png" alt="데이터 왜곡도 아이콘" class="section-intro-img">
                     <div class="section-intro-body">
@@ -1101,30 +1093,68 @@
                     </div>
                 </div>
 
-                <!-- 수식 카드 (LaTeX 적용) -->
-                <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--info);">
-                    <div class="concept-header">
-                        <span class="concept-badge" style="background:#e0f2fe; color:#0369a1;">🧮 핵심 수식</span>
-                        <h3>이상치 판별식 및 왜곡도 공식 <span
-                                style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서
-                                (이상치)</span><span
-                                style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.25rem; background: #f3e8ff; color: #6b21a8; vertical-align: middle;">교과서
-                                외 (왜곡도)</span></h3>
+                <!-- [1-1차시 핵심 질문 & 핵심 수식 2열 병렬 배치 (6:4)] -->
+                <div class="grid-6-4">
+                    <!-- [좌측: 1-1차시 핵심 질문] -->
+                    <div class="session-core-question-hero stat-warm"
+                        style="margin-bottom:0; display:flex; flex-direction:column; justify-content:space-between;">
+                        <div>
+                            <div class="question-hero-header">
+                                <span class="question-hero-tag" style="background:#059669;">💡 1-1차시 핵심 질문</span>
+                                <span class="question-hero-sub" style="color:#065f46;">영역 Ⅱ. 통계 (숫자를 검증한다)</span>
+                            </div>
+
+                            <!-- 이전 질문 히스토리 (sub 누적: 가로 칩 형태) -->
+                            <div class="question-trail" style="margin-bottom:0.75rem;">
+                                <span class="trail-header">📜 이전 질문:</span>
+                                <div class="trail-item">
+                                    <span class="trail-badge">0차시</span>
+                                    <span class="trail-q-text">① 물가는 어떻게 하나의 숫자가 될까?</span>
+                                </div>
+                                <span class="trail-arrow-sep">➔</span>
+                                <div class="trail-item">
+                                    <span class="trail-badge">1차시</span>
+                                    <span class="trail-q-text">② 그 숫자가 나에게도 같을까?</span>
+                                </div>
+                            </div>
+                            <div class="question-hero-body" style="padding:0.5rem 0 0;">
+                                <div class="question-hero-text" style="color:#064e3b; font-size:1.1rem; line-height:1.45;">
+                                    <span class="quote-mark" style="color:#059669;">“</span>③ 왜 사람마다 다르고, ④ 다른 데이터는 잘못된 걸까?<span
+                                        class="quote-mark" style="color:#059669;">”</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="question-hero-context"
+                            style="margin-top:0.75rem; font-size:0.82rem; background:rgba(255,255,255,0.7); padding:0.5rem 0.75rem; border-radius:6px; color:#047857;">
+                            🔍 <strong>탐구 안내:</strong> 소비구조와 분포에 따른 대푯값(중앙값)을 탐구하고, 튀는 데이터(이상치)를 기계적으로 삭제하는 대신 데이터의 변동성과
+                            맥락을 비판적으로 해석합니다.
+                        </div>
                     </div>
-                    <div class="concept-body"
-                        style="text-align: center; padding: 1.25rem; background: var(--slate-50); border-radius: 8px;">
-                        <p style="font-size: 1.15rem; margin-bottom: 0.6rem; color: var(--navy);">
-                            $$\text{사분위수범위: } IQR = Q_3 - Q_1$$
-                        </p>
-                        <p style="font-size: 1.15rem; margin-bottom: 0.6rem; color: var(--navy);">
-                            $$\text{이상치 판별 한계선: } [Q_1 - 1.5 \times IQR \quad , \quad Q_3 + 1.5 \times IQR]$$
-                        </p>
-                        <p style="font-size: 1.15rem; margin-bottom: 0.6rem; color: var(--navy);">
-                            $$\text{왜곡도(Skewness): } g_1 = \frac{\frac{1}{N} \sum_{i=1}^{N} (x_i - \bar{x})^3}{s^3}$$
-                        </p>
-                        <p style="font-size: 0.85rem; color: var(--slate-600);">
-                            ($Q_1$, $Q_3$는 제1, 제3사분위수, $\bar{x}$는 평균, $s$는 표준편차, $g_1 > 0$이면 오른쪽으로 꼬리가 긴 분포)
-                        </p>
+
+                    <!-- [우측: 핵심 수식 LaTeX] -->
+                    <div class="card concept-card"
+                        style="margin-bottom: 0; border-left-color: var(--info); display:flex; flex-direction:column; justify-content:space-between;">
+                        <div class="concept-header">
+                            <span class="concept-badge" style="background:#e0f2fe; color:#0369a1;">🧮 핵심 수식</span>
+                            <h3>이상치 판별식 &amp; 왜곡도 <span
+                                    style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.3rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">교과서
+                                    (IQR)</span></h3>
+                        </div>
+                        <div class="concept-body"
+                            style="text-align: center; padding: 0.75rem 0.9rem; background: var(--slate-50); border-radius: 8px;">
+                            <p style="font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--navy); font-weight: bold;">
+                                $$IQR = Q_3 - Q_1$$
+                            </p>
+                            <p style="font-size: 0.92rem; margin-bottom: 0.35rem; color: #059669; font-weight: 700;">
+                                $$\text{이상치 기준: } [Q_1 - 1.5\text{IQR}, \; Q_3 + 1.5\text{IQR}]$$
+                            </p>
+                            <p style="font-size: 0.88rem; margin-bottom: 0.35rem; color: #64748b;">
+                                $$\text{왜곡도: } g_1 = \frac{\frac{1}{N}\sum(x_i - \bar{x})^3}{s^3}$$
+                            </p>
+                            <p style="font-size: 0.76rem; color: var(--slate-600); margin:0;">
+                                ($Q_1, Q_3$: 사분위수, $g_1 > 0$: 오른쪽 긴 꼬리 분포)
+                            </p>
+                        </div>
                     </div>
                 </div>
 
@@ -1283,8 +1313,35 @@
                     </div>
                 </div>
 
-                <!-- [2차시 핵심 질문 & 공식 수식 2열 병렬 배치] -->
-                <div class="grid-2" style="margin-bottom: 1.5rem; align-items: stretch;">
+                <div class="section-intro">
+                    <img src="/icon3.png" alt="비선형 시계열 아이콘" class="section-intro-img">
+                    <div class="section-intro-body">
+                        <div class="hybrid-badge-banner">
+                            <span class="hybrid-badge math-core">📘 《경제 수학》 기본 필수: 복리 할인 및 현재가치 ($PV$)</span>
+                            <span class="hybrid-badge stat-choice">📊 《실용통계》 선택(택1): [A] 추세선 착시 vs [B] 학급 상자그림</span>
+                        </div>
+                        <h2>[2차시] 할인율과 현재가치 (화폐가치 하락 검증)</h2>
+                        <p>물가상승률($r$)을 할인율로 적용하여 30년 뒤 미래 화폐의 <strong>현재가치($PV = \frac{A}{(1+r)^n}$)</strong>를 계산하고, 단순
+                            1차 추세선의 지수적 감쇄 착시를 비판적으로 검토합니다.</p>
+                        <div class="tag-row">
+                            <span class="tag">복리 할인</span>
+                            <span class="tag">현재가치 (PV)</span>
+                            <span class="tag">실질 구매력 하락</span>
+                            <span class="tag">1차 선형 추세선 착시</span>
+                            <span class="tag">상자그림 (1.5 IQR)</span>
+                        </div>
+                        <div class="mapping-container"
+                            style="margin-top: 0.75rem; padding: 0.6rem 0.8rem; background: rgba(255,255,255,0.85); border-radius: 6px; border: 1px solid rgba(226, 232, 240, 0.8); font-size: 0.82rem; display: flex; flex-direction: column; gap: 0.3rem; line-height: 1.5; text-align: left;">
+                            <div><strong style="color: #0284c7;">📘 &lt;경제 수학&gt; 핵심 내용:</strong> p.43~44 수열과 금융 (할인율,
+                                복리 할인, 현재가치 공식)</div>
+                            <div><strong style="color: #059669;">📊 &lt;실용통계&gt; 선택:</strong> [선택 A] Ⅱ-2. 추세선
+                                착시(Linearity Illusion) 비판 | [선택 B] Ⅱ-1. 학급 상자그림(Boxplot)과 $1.5\text{IQR}$ 이상치 검증</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- [2차시 핵심 질문 & 공식 수식 2열 병렬 배치 (6:4)] -->
+                <div class="grid-6-4">
                     <!-- [좌측: 2차시 핵심 질문] -->
                     <div class="session-core-question-hero stat-warm"
                         style="margin-bottom:0; display:flex; flex-direction:column; justify-content:space-between;">
@@ -1330,69 +1387,16 @@
                         </div>
                         <div class="concept-body"
                             style="text-align: center; padding: 0.85rem 1rem; background: var(--slate-50); border-radius: 8px;">
-                            <p
-                                style="font-size: 1.15rem; margin-bottom: 0.4rem; color: var(--navy); font-weight: bold;">
-                                $PV = \frac{A}{(1 + r)^n} = A \times (1 + r)^{-n}$
+                            <p style="font-size: 1.15rem; margin-bottom: 0.4rem; color: var(--navy); font-weight: bold;">
+                                $$PV = \frac{A}{(1 + r)^n} = A \times (1 + r)^{-n}$$
                             </p>
                             <p style="font-size: 0.95rem; margin-bottom: 0.4rem; color: #64748b;">
-                                $\text{1차 선형 감쇄: } PV_{\text{linear}} = A(1 - rn) \;\text{vs}\; \text{단리: }
-                                \frac{A}{1+rn}$
+                                $$\text{1차 선형 감쇄: } PV_{\text{linear}} = A(1 - rn) \quad\text{vs}\quad \text{단리: } \frac{A}{1+rn}$$
                             </p>
                             <p style="font-size: 0.78rem; color: var(--slate-600); margin:0;">
                                 ($A$: $n$년 뒤 명목금액, $r$: 할인율/물가상승률, $n$: 경과 년수. 기간이 길어질수록 1차 직선과 복리 곡선 간 괴리 발생)
                             </p>
                         </div>
-                    </div>
-                </div>
-
-                <div class="section-intro">
-                    <img src="/icon3.png" alt="비선형 시계열 아이콘" class="section-intro-img">
-                    <div class="section-intro-body">
-                        <div class="hybrid-badge-banner">
-                            <span class="hybrid-badge math-core">📘 《경제 수학》 기본 필수: 복리 할인 및 현재가치 ($PV$)</span>
-                            <span class="hybrid-badge stat-choice">📊 《실용통계》 선택(택1): [A] 추세선 착시 vs [B] 학급 상자그림</span>
-                        </div>
-                        <h2>[2차시] 할인율과 현재가치 (화폐가치 하락 검증)</h2>
-                        <p>물가상승률($r$)을 할인율로 적용하여 30년 뒤 미래 화폐의 <strong>현재가치($PV = \frac{A}{(1+r)^n}$)</strong>를 계산하고, 단순
-                            1차 추세선의 지수적 감쇄 착시를 비판적으로 검토합니다.</p>
-                        <div class="tag-row">
-                            <span class="tag">복리 할인</span>
-                            <span class="tag">현재가치 (PV)</span>
-                            <span class="tag">실질 구매력 하락</span>
-                            <span class="tag">1차 선형 추세선 착시</span>
-                            <span class="tag">상자그림 (1.5 IQR)</span>
-                        </div>
-                        <div class="mapping-container"
-                            style="margin-top: 0.75rem; padding: 0.6rem 0.8rem; background: rgba(255,255,255,0.85); border-radius: 6px; border: 1px solid rgba(226, 232, 240, 0.8); font-size: 0.82rem; display: flex; flex-direction: column; gap: 0.3rem; line-height: 1.5; text-align: left;">
-                            <div><strong style="color: #0284c7;">📘 &lt;경제 수학&gt; 핵심 내용:</strong> p.43~44 수열과 금융 (할인율,
-                                복리 할인, 현재가치 공식)</div>
-                            <div><strong style="color: #059669;">📊 &lt;실용통계&gt; 선택:</strong> [선택 A] Ⅱ-2. 추세선
-                                착시(Linearity Illusion) 비판 | [선택 B] Ⅱ-1. 학급 상자그림(Boxplot)과 $1.5\text{IQR}$ 이상치 검증</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 수식 카드 (LaTeX 적용) -->
-                <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--info);">
-                    <div class="concept-header">
-                        <span class="concept-badge" style="background:#e0f2fe; color:#0369a1;">🧮 핵심 수식</span>
-                        <h3>복리 할인 및 현재가치 공식 <span
-                                style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #dbeafe; color: #1e40af; vertical-align: middle;">경제수학
-                                교과서 p.43~44</span></h3>
-                    </div>
-                    <div class="concept-body"
-                        style="text-align: center; padding: 1.25rem; background: var(--slate-50); border-radius: 8px;">
-                        <p style="font-size: 1.25rem; margin-bottom: 0.6rem; color: var(--navy); font-weight: bold;">
-                            $$PV = \frac{A}{(1 + r)^n} = A \times (1 + r)^{-n}$$
-                        </p>
-                        <p style="font-size: 1.05rem; margin-bottom: 0.6rem; color: #64748b;">
-                            $$\text{단순 1차 선형 감쇄 모델: } PV_{\text{linear}} = A \times (1 - r \times n) \quad \text{vs}
-                            \quad \text{단리 모델: } \frac{A}{1 + r \times n}$$
-                        </p>
-                        <p style="font-size: 0.85rem; color: var(--slate-600);">
-                            ($A$: $n$년 뒤 명목 금액(100만 원), $r$: 연평균 물가상승률(할인율), $n$: 경과 년수. 기간이 길어질수록 1차 직선과 실제 복리 곡선의
-                            괴리(착시)가 발생함)
-                        </p>
                     </div>
                 </div>
 
@@ -1639,38 +1643,6 @@
                     </div>
                 </div>
 
-                <!-- [독립적 핵심 질문 영역] 따뜻한 톤 & 큰 따옴표 (누적형) -->
-                <div class="session-core-question-hero stat-warm">
-                    <div class="question-hero-header">
-                        <span class="question-hero-tag" style="background:#059669;">💡 2-1차시 핵심 질문</span>
-                        <span class="question-hero-sub" style="color:#065f46;">영역 Ⅱ. 통계 (숫자를 검증한다)</span>
-                    </div>
-
-                    <!-- 이전 질문 히스토리 (sub 누적: 가로 칩 형태) -->
-                    <div class="question-trail">
-                        <span class="trail-header">📜 이전 질문:</span>
-                        <div class="trail-item">
-                            <span class="trail-badge">1차시</span>
-                            <span class="trail-q-text">① 하나의 숫자 &amp; ② 체감 편차</span>
-                        </div>
-                        <span class="trail-arrow-sep">➔</span>
-                        <div class="trail-item">
-                            <span class="trail-badge">2차시</span>
-                            <span class="trail-q-text">③ 왜 다를까 &amp; ④ 다른 데이터?</span>
-                        </div>
-                    </div>
-                    <div class="question-hero-body">
-                        <div class="question-hero-text" style="color:#064e3b;">
-                            <span class="quote-mark" style="color:#059669;">“</span>⑥ 미래의 나는 얼마가 필요할까? (불확실성과 변동성
-                            시나리오)<span class="quote-mark" style="color:#059669;">”</span>
-                        </div>
-                        <div class="question-hero-context" style="color:#047857;">
-                            🔍 <strong>탐구 안내:</strong> 단일 예측값 대신 과거 물가 변동성(표준편차 $\sigma$)을 기반으로 $r \pm 1.96\sigma$ 신뢰구간
-                            시나리오(낙관·기준·비관)를 도출하여 미래 필요자금의 범위를 수리적으로 다룹니다.
-                        </div>
-                    </div>
-                </div>
-
                 <div class="section-intro">
                     <img src="/icon2.png" alt="불확실성 관리 아이콘" class="section-intro-img">
                     <div class="section-intro-body">
@@ -1697,29 +1669,68 @@
                     </div>
                 </div>
 
-                <!-- 수식 카드 (통계적 엄밀성 반영) -->
-                <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: var(--info);">
-                    <div class="concept-header">
-                        <span class="concept-badge" style="background:#e0f2fe; color:#0369a1;">🧮 핵심 수식</span>
-                        <h3>과거 변동성을 이용한 불확실성 시나리오 모델 식 <span
-                                style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #f3e8ff; color: #6b21a8; vertical-align: middle;">교과서
-                                외 심화</span></h3>
+                <!-- [2-1차시 핵심 질문 & 핵심 수식 2열 병렬 배치 (6:4)] -->
+                <div class="grid-6-4">
+                    <!-- [좌측: 2-1차시 핵심 질문] -->
+                    <div class="session-core-question-hero stat-warm"
+                        style="margin-bottom:0; display:flex; flex-direction:column; justify-content:space-between;">
+                        <div>
+                            <div class="question-hero-header">
+                                <span class="question-hero-tag" style="background:#059669;">💡 2-1차시 핵심 질문</span>
+                                <span class="question-hero-sub" style="color:#065f46;">영역 Ⅱ. 통계 (숫자를 검증한다)</span>
+                            </div>
+
+                            <!-- 이전 질문 히스토리 (sub 누적: 가로 칩 형태) -->
+                            <div class="question-trail" style="margin-bottom:0.75rem;">
+                                <span class="trail-header">📜 이전 질문:</span>
+                                <div class="trail-item">
+                                    <span class="trail-badge">1차시</span>
+                                    <span class="trail-q-text">① 하나의 숫자 &amp; ② 체감 편차</span>
+                                </div>
+                                <span class="trail-arrow-sep">➔</span>
+                                <div class="trail-item">
+                                    <span class="trail-badge">2차시</span>
+                                    <span class="trail-q-text">③ 왜 다를까 &amp; ④ 다른 데이터?</span>
+                                </div>
+                            </div>
+                            <div class="question-hero-body" style="padding:0.5rem 0 0;">
+                                <div class="question-hero-text" style="color:#064e3b; font-size:1.1rem; line-height:1.45;">
+                                    <span class="quote-mark" style="color:#059669;">“</span>⑥ 미래의 나는 얼마가 필요할까? (불확실성과 변동성
+                                    시나리오)<span class="quote-mark" style="color:#059669;">”</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="question-hero-context"
+                            style="margin-top:0.75rem; font-size:0.82rem; background:rgba(255,255,255,0.7); padding:0.5rem 0.75rem; border-radius:6px; color:#047857;">
+                            🔍 <strong>탐구 안내:</strong> 단일 예측값 대신 과거 물가 변동성(표준편차 $\sigma$)을 기반으로 $r \pm 1.96\sigma$ 신뢰구간
+                            시나리오(낙관·기준·비관)를 도출하여 미래 필요자금의 범위를 수리적으로 다룹니다.
+                        </div>
                     </div>
-                    <div class="concept-body"
-                        style="text-align: center; padding: 1.25rem; background: var(--slate-50); border-radius: 8px;">
-                        <p style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--danger);">
-                            $$\text{비관적(높은 물가) 시나리오: } r_{\text{pes}} = r + 1.96 \times \sigma$$
-                        </p>
-                        <p style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--navy);">
-                            $$\text{기본 예상(기준 물가) 시나리오: } r_{\text{exp}} = r$$
-                        </p>
-                        <p style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--success);">
-                            $$\text{낙관적(낮은 물가) 시나리오: } r_{\text{opt}} = r - 1.96 \times \sigma$$
-                        </p>
-                        <p style="font-size: 0.82rem; color: var(--slate-600); margin-top:0.4rem;">
-                            (※ $r \pm 1.96\sigma$ 범위를 기계적인 '95% 신뢰구간'으로 단정하지 않고, <strong>과거 변동성을 바탕으로 가능한 미래 위험과 상황을
-                                탐색하는 불확실성 시나리오 모델</strong>로 해석합니다.)
-                        </p>
+
+                    <!-- [우측: 핵심 수식 카드] -->
+                    <div class="card concept-card"
+                        style="margin-bottom: 0; border-left-color: var(--info); display:flex; flex-direction:column; justify-content:space-between;">
+                        <div class="concept-header">
+                            <span class="concept-badge" style="background:#e0f2fe; color:#0369a1;">🧮 핵심 수식</span>
+                            <h3>불확실성 시나리오 공식 <span
+                                    style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.3rem; background: #f3e8ff; color: #6b21a8; vertical-align: middle;">교과서
+                                    외 심화</span></h3>
+                        </div>
+                        <div class="concept-body"
+                            style="text-align: center; padding: 0.75rem 0.9rem; background: var(--slate-50); border-radius: 8px;">
+                            <p style="font-size: 0.96rem; margin-bottom: 0.35rem; color: var(--danger); font-weight: 700;">
+                                $$\text{비관(고물가): } r_{\text{pes}} = r + 1.96\sigma$$
+                            </p>
+                            <p style="font-size: 0.96rem; margin-bottom: 0.35rem; color: var(--navy); font-weight: 700;">
+                                $$\text{기준(평균물가): } r_{\text{exp}} = r$$
+                            </p>
+                            <p style="font-size: 0.96rem; margin-bottom: 0.35rem; color: var(--success); font-weight: 700;">
+                                $$\text{낙관(저물가): } r_{\text{opt}} = r - 1.96\sigma$$
+                            </p>
+                            <p style="font-size: 0.75rem; color: var(--slate-600); margin:0;">
+                                (※ 과거 변동성($\sigma$) 기반 불확실성 시나리오 탐색 모델)
+                            </p>
+                        </div>
                     </div>
                 </div>
 
@@ -1890,8 +1901,37 @@
                     </div>
                 </div>
 
-                <!-- [3차시 핵심 질문 & 공식 수식 2열 병렬 배치] -->
-                <div class="grid-2" style="margin-bottom: 1.5rem; align-items: stretch;">
+                <div class="section-intro">
+                    <img src="/hero.png" alt="연금 시뮬레이터 아이콘" class="section-intro-img">
+                    <div class="section-intro-body">
+                        <div class="hybrid-badge-banner">
+                            <span class="hybrid-badge math-core">📘 《경제 수학》 기본 필수: 등비수열의 합 적립식 연금 원리합계</span>
+                            <span class="hybrid-badge stat-opt">📊 《실용통계》 종합: 물가 변동성(σ) 3개 시나리오 &amp; PPDAC 의사결정</span>
+                        </div>
+                        <h2>[3차시] 연금 수열과 미래 설계 (미래 적용 및 종합 의사결정)</h2>
+                        <p>2차시에서 계산한 미래 필요 생활비를 마련하기 위해 등비수열의 합 공식으로 적립식 연금 준비금을 산출하고, 과거 물가 변동성($\sigma$)을 고려한 시나리오
+                            분석으로 불확실성을 관리합니다.</p>
+                        <div class="tag-row">
+                            <span class="tag">등비수열의 합</span>
+                            <span class="tag">적립식 연금 원리합계</span>
+                            <span class="tag">물가 변동성(σ)</span>
+                            <span class="tag">낙관·기준·비관 시나리오</span>
+                            <span class="tag">PPDAC 합리적 의사결정</span>
+                        </div>
+                        <div class="mapping-container"
+                            style="margin-top: 0.75rem; padding: 0.6rem 0.8rem; background: rgba(255,255,255,0.85); border-radius: 6px; border: 1px solid rgba(226, 232, 240, 0.8); font-size: 0.82rem; display: flex; flex-direction: column; gap: 0.3rem; line-height: 1.5; text-align: left;">
+                            <div><strong style="color: #0284c7;">📘 &lt;경제 수학&gt; 핵심 내용:</strong> Ⅰ-2. 수열과 금융 (등비수열의 합,
+                                기수불/기말불 적립식 연금 원리합계 공식)</div>
+                            <div><strong style="color: #059669;">📊 &lt;실용통계&gt; 종합:</strong> Ⅰ-1. 통계적 문제해결(PPDAC) 및 물가
+                                표준편차($\sigma$) 기반 시나리오 리스크 분석</div>
+                            <div style="color:#7c3aed; font-size:0.8rem; margin-top:0.2rem;">💡 <strong>핵심 성찰:</strong>
+                                미래는 하나의 확정된 숫자가 아닙니다. 변동성($\sigma$) 범위를 고려한 시나리오 계획이 바로 통계 기반 합리적 의사결정의 핵심입니다.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- [3차시 핵심 질문 & 공식 수식 2열 병렬 배치 (6:4)] -->
+                <div class="grid-6-4">
                     <!-- [좌측: 3차시 핵심 질문] -->
                     <div class="session-core-question-hero pens-warm"
                         style="margin-bottom:0; display:flex; flex-direction:column; justify-content:space-between;">
@@ -1938,70 +1978,17 @@
                         </div>
                         <div class="concept-body"
                             style="text-align: center; padding: 0.85rem 1rem; background: var(--slate-50); border-radius: 8px;">
-                            <p
-                                style="font-size: 1.15rem; margin-bottom: 0.4rem; color: var(--navy); font-weight: bold;">
-                                $\text{적립식 연금 원리합계: } S_n = M \times \frac{(1 + i)^n - 1}{i}$
+                            <p style="font-size: 1.15rem; margin-bottom: 0.4rem; color: var(--navy); font-weight: bold;">
+                                $$\text{적립식 연금 원리합계: } S_n = M \times \frac{(1 + i)^n - 1}{i}$$
                             </p>
-                            <p style="font-size: 0.98rem; margin-bottom: 0.4rem; color: #64748b;">
-                                $\text{미래 월 필요 생활비: } FV = PV \times (1 + r)^n$
+                            <p style="font-size: 1.02rem; margin-bottom: 0.4rem; color: #64748b;">
+                                $$\text{미래 월 필요 생활비: } FV = PV \times (1 + r)^n$$
                             </p>
                             <p style="font-size: 0.78rem; color: var(--slate-600); margin:0;">
                                 ($M$: 정기 적립액(월/연), $i$: 기대수익률, $n$: 적립 기간, $r$: 물가상승률 시나리오($r_{\text{base}}, r \pm
                                 1.96\sigma$))
                             </p>
                         </div>
-                    </div>
-                </div>
-
-                <div class="section-intro">
-                    <img src="/hero.png" alt="연금 시뮬레이터 아이콘" class="section-intro-img">
-                    <div class="section-intro-body">
-                        <div class="hybrid-badge-banner">
-                            <span class="hybrid-badge math-core">📘 《경제 수학》 기본 필수: 등비수열의 합 적립식 연금 원리합계</span>
-                            <span class="hybrid-badge stat-opt">📊 《실용통계》 종합: 물가 변동성(σ) 3개 시나리오 &amp; PPDAC 의사결정</span>
-                        </div>
-                        <h2>[3차시] 연금 수열과 미래 설계 (미래 적용 및 종합 의사결정)</h2>
-                        <p>2차시에서 계산한 미래 필요 생활비를 마련하기 위해 등비수열의 합 공식으로 적립식 연금 준비금을 산출하고, 과거 물가 변동성($\sigma$)을 고려한 시나리오
-                            분석으로 불확실성을 관리합니다.</p>
-                        <div class="tag-row">
-                            <span class="tag">등비수열의 합</span>
-                            <span class="tag">적립식 연금 원리합계</span>
-                            <span class="tag">물가 변동성(σ)</span>
-                            <span class="tag">낙관·기준·비관 시나리오</span>
-                            <span class="tag">PPDAC 합리적 의사결정</span>
-                        </div>
-                        <div class="mapping-container"
-                            style="margin-top: 0.75rem; padding: 0.6rem 0.8rem; background: rgba(255,255,255,0.85); border-radius: 6px; border: 1px solid rgba(226, 232, 240, 0.8); font-size: 0.82rem; display: flex; flex-direction: column; gap: 0.3rem; line-height: 1.5; text-align: left;">
-                            <div><strong style="color: #0284c7;">📘 &lt;경제 수학&gt; 핵심 내용:</strong> Ⅰ-2. 수열과 금융 (등비수열의 합,
-                                기수불/기말불 적립식 연금 원리합계 공식)</div>
-                            <div><strong style="color: #059669;">📊 &lt;실용통계&gt; 종합:</strong> Ⅰ-1. 통계적 문제해결(PPDAC) 및 물가
-                                표준편차($\sigma$) 기반 시나리오 리스크 분석</div>
-                            <div style="color:#7c3aed; font-size:0.8rem; margin-top:0.2rem;">💡 <strong>핵심 성찰:</strong>
-                                미래는 하나의 확정된 숫자가 아닙니다. 변동성($\sigma$) 범위를 고려한 시나리오 계획이 바로 통계 기반 합리적 의사결정의 핵심입니다.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 수식 카드 (LaTeX 적용) -->
-                <div class="card concept-card" style="margin-bottom: 1.5rem; border-left-color: #7c3aed;">
-                    <div class="concept-header">
-                        <span class="concept-badge" style="background:#ede9fe; color:#6b21a8;">🧮 핵심 수식</span>
-                        <h3>연금의 원리합계 및 변동성 시나리오 공식 <span
-                                style="font-size: 0.75rem; font-weight: normal; padding: 2px 6px; border-radius: 4px; margin-left: 0.5rem; background: #e0f2fe; color: #0369a1; vertical-align: middle;">경제수학
-                                필수</span></h3>
-                    </div>
-                    <div class="concept-body"
-                        style="text-align: center; padding: 1.25rem; background: var(--slate-50); border-radius: 8px;">
-                        <p style="font-size: 1.25rem; margin-bottom: 0.6rem; color: var(--navy); font-weight: bold;">
-                            $$\text{적립식 연금 원리합계: } S_n = M \times \frac{(1 + i)^n - 1}{i}$$
-                        </p>
-                        <p style="font-size: 1.05rem; margin-bottom: 0.6rem; color: #64748b;">
-                            $$\text{미래 월 필요 생활비: } FV = PV \times (1 + r)^n$$
-                        </p>
-                        <p style="font-size: 0.85rem; color: var(--slate-600);">
-                            ($M$: 정기 적립액(월/연), $i$: 연평균 기대수익률, $n$: 적립 기간, $r$: 물가상승률 시나리오($r_{\text{base}}, r \pm
-                            1.96\sigma$))
-                        </p>
                     </div>
                 </div>
 
